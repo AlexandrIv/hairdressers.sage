@@ -1,0 +1,209 @@
+section {
+	width: 100%;
+	height: auto;
+	.front-page-category {
+		width: 100%;
+		height: auto;
+		padding: 170px 0;
+		background-color: #101214;
+		.section-title {
+			margin-bottom: 117px;
+			h3 {
+				color: #ffffff;
+				font-family: Didot;
+				font-size: 33px;
+				font-weight: 400;
+				line-height: 28px;
+				text-align: center;
+			}
+		}
+		.category-cart {
+			height: 350px;
+			width: 100%;
+			position: relative;
+			perspective: 1000px;
+			.front, .back {
+				height: 100%;
+				width: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				transition: 1s;
+				backface-visibility: hidden;
+				background-size: cover;
+				background-position: center;
+				background-repeat: no-repeat;
+			}
+			.front {
+				.bg-opacity-front {
+					height: 100%;
+					width: 100%;
+					position: absolute;
+					top: 0;
+					left: 0;
+					z-index: 5;
+					background-color: rgba(#000, 0.4);
+				}
+				.cat-info-front {
+					width: 100%;
+					height: 100%;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					position: relative;
+					z-index: 10;
+					h4 {
+						color: #ffffff;
+						font-family: Montserrat;
+						font-size: 25px;
+						font-weight: 400;
+						line-height: 28px;
+					}
+				}
+			}
+			.back {
+				transform: rotateY(180deg);
+				padding: 6%;
+				.cat-info-back {
+					width: 100%;
+					height: 100%;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					h4 {
+						color: #ffffff;
+						font-family: Montserrat;
+						font-size: 25px;
+						font-weight: 400;
+						line-height: 28px;
+					}
+					.desc {
+						color: #ffffff;
+						font-family: Montserrat;
+						font-size: 13px;
+						font-weight: 300;
+						line-height: 19px;
+						text-align: center;
+					}
+				}
+				.top-bottom, .left-right {
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					left: 0;
+					right: 0;
+					width: 100%;
+					height: 100%;
+					overflow: hidden;
+					z-index: 5;
+				}
+				.top-bottom {
+					&:before {
+						content: '';
+						position: absolute;
+						top: 5%;
+						right: 5%;
+						bottom: 5%;
+						left: 5%;
+						border-top: solid 1px lightgray;
+						opacity: 0;
+						transition: 0.4s;
+						transition-delay: 1.4s;
+						transform: translateX(-700px);
+					}
+					&:after {
+						content: '';
+						position: absolute;
+						top: 5%;
+						right: 5%;
+						bottom: 5%;
+						left: 5%;
+						border-bottom: solid 1px lightgray;
+						opacity: 0;
+						transition: 0.4s;
+						transition-delay: 1.2s;
+						transform: translateX(700px);
+					}
+				}
+				.left-right {
+					&:before {
+						content: '';
+						position: absolute;
+						top: 5%;
+						right: 5%;
+						bottom: 5%;
+						left: 5%;
+						border-right: solid 1px lightgray;
+						opacity: 0;
+						transition: 0.4s;
+						transition-delay: 1.1s;
+						transform: translateY(-500px);
+					}
+					&:after {
+						content: '';
+						position: absolute;
+						top: 5%;
+						right: 5%;
+						bottom: 5%;
+						left: 5%;
+						border-left: solid 1px lightgray;
+						opacity: 0;
+						transition: 0.4s;
+						transition-delay: 1.3s;
+						transform: translateY(500px);
+					}
+				}
+				.bg-opacity-back {
+					height: 100%;
+					width: 100%;
+					position: absolute;
+					top: 0;
+					left: 0;
+					transition: 0.8s;
+					z-index: 5;
+				}
+			}
+			&:hover {
+				.front {
+					transform: rotateY(180deg);
+				}
+				.back {
+					transform: rotateY(360deg);
+					.top-bottom {
+						&:before {
+							transition: 0.4s;
+							transition-delay: 1.4s;
+							opacity: 0.8;
+							transform: translate(0);
+						}
+						&:after {
+							transition: 0.4s;
+							transition-delay: 1.2s;
+							opacity: 0.8;
+							transform: translate(0);
+						}
+					}
+					.left-right {
+						&:before {
+							transition: 0.4s;
+							transition-delay: 1.1s;
+							opacity: 0.8;
+							transform: translate(0);
+						}
+						&:after {
+							transition: 0.4s;
+							transition-delay: 1.3s;
+							opacity: 0.8;
+							transform: translate(0);
+						}
+					}
+					.bg-opacity-back {
+						transition: 0.8s;
+						background-color: rgba(#a26a0a, 0.4);
+					}
+				}
+			}
+		}
+	}
+}
