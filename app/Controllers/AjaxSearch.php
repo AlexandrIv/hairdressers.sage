@@ -24,7 +24,17 @@ class AjaxSearch extends Controller
 		self::results_search( $post_type, $name, $address, $type );
 		wp_die();
 	}
-
+	private function sort_by_plan($posts) {
+		$posts = array_map(function($post){
+			$post->plan = get_post_meta($post->ID, 'plan_type', true);
+			return $post;
+		}, $posts);
+		function cmp($a, $b) {
+			return strcmp($b->plan, $a->plan);
+		}
+		usort($posts, "cmp");
+		return $posts;
+	}
 	public function results_search( $post_type, $name, $address, $type ) {
 		if( $type ) {
 			$taxArray = array(
@@ -43,18 +53,17 @@ class AjaxSearch extends Controller
 			)
 		);
 		$posts = $query->posts;
-		if( $address ) {
-			$posts = (array)self::filterPostsByAdress( $posts, $address );
-			$postCount = count( $posts );
-		}else {
-			$posts = $posts;
-		}
-		/*$posts = self::filterPostsByAdress( $posts, $address );*/
+
+		$posts = (array)self::filterPostsByAdress( $posts, $address );
+
+		$posts = self::sort_by_plan((array)$posts);
 
 		$post_array = [];
 		foreach ($posts as $key => $value) {
 			$post_array[$key] = $value;
-			
+			$post_array[$key]->post_thumbnail_url = get_the_post_thumbnail_url( $value );
+			$post_array[$key]->post_permalink = get_the_permalink( $value );
+			$post_array[$key]->link_path = get_stylesheet_directory_uri();
 		}
 		echo \App\template('partials.content-search-result', compact('post_array'));
 	}
@@ -63,21 +72,27 @@ class AjaxSearch extends Controller
 		$dataArray = [];
 		foreach ($posts as $key => $value) {
 			$postCoordinate = get_post_meta( $value->ID, 'address', true);
-			$url = self::prepareSearchInputForGoogle($address);
-			$remote_get = wp_remote_get( $url );
-			$searchLat = json_decode($remote_get['body'])->results[0]->geometry->location->lat;
-			$searchLng = json_decode($remote_get['body'])->results[0]->geometry->location->lng;
+			if( $address ) {
+				$url = self::prepareSearchInputForGoogle($address);
+				$remote_get = wp_remote_get( $url );
+				$searchLat = json_decode($remote_get['body'])->results[0]->geometry->location->lat;
+				$searchLng = json_decode($remote_get['body'])->results[0]->geometry->location->lng;
+			}
 			$value->lat = $postCoordinate['lat'];
 			$value->lng = $postCoordinate['lng'];
 			$value->address = $postCoordinate['address'];
 			$dataArray[] = $value;
 		}
-		$searchLocation = [
-			'lat' => $searchLat, 
-			'lng' => $searchLng,
-		];
-		$newPosts = self::filterPoints( $searchLocation, $dataArray, 50 );
-		return $newPosts;
+		if( !$address ) {
+			return $dataArray;
+		} else {
+			$searchLocation = [
+				'lat' => $searchLat, 
+				'lng' => $searchLng,
+			];
+			$newPosts = self::filterPoints( $searchLocation, $dataArray, 50 );
+			return $newPosts;
+		}
 	}
 	private function prepareSearchInputForGoogle( $address ) {
 		$googleApi = self::$redux_demo['google-api-key'];

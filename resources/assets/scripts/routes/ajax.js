@@ -38,21 +38,47 @@ jQuery(document).ready(function($){
 	function scroll_result_search(){
 		var top = $('.search-result').offset().top;
 		$('body,html').animate({scrollTop: top}, 1000);
-	}
+	}	
+
 	function initMap() {
-	var positionArray = JSON.parse(window.coordinateArray);
-      $.each(positionArray, function( index, value ) {
-      	console.log(value.lat);
-      	console.log(value.lng);
-      /*var marker = new google.maps.Marker({
-	      	position: {
-	      		lat: value,
-	      		lng: value
-	      	},
-	      	map: map
-      	});*/
-      });
-      var map = new google.maps.Map(
-      document.getElementById('map'), {zoom: 12, center: {lat: }});
-    }
+		var postsArray = JSON.parse(window.postArray);
+		if ( postsArray ) {
+			var map = new google.maps.Map(
+				document.getElementById('map'), {
+					zoom: 12,
+					center: {
+						lat: parseFloat(postsArray[0].lat),
+						lng: parseFloat(postsArray[0].lng),
+					},
+				});
+			$.each(postsArray, function( index, value ) {
+				var iconDefault = '/wp-content/themes/hairdres/dist/images/marker-icon.png';
+				var marker = new google.maps.Marker({
+					position: {
+						lat: parseFloat(value.lat),
+						lng: parseFloat(value.lng),
+					},
+					icon: iconDefault,
+					map: map,
+					title: 'Uluru (Ayers Rock)',
+				});
+				var contentString = '<div id="content">'+
+				'<div id="siteNotice">'+
+				'<img src="'+value.post_thumbnail_url+'" alt="" />'+
+				'</div>'+
+				'<h3 id="firstHeading" class="firstHeading"><a href="'+value.post_permalink+'">'+value.post_title+'</a></h3>'+
+				'<div id="bodyContent">'+
+				'<p></p>'+
+				'</div>'+
+				'</div>';
+
+				var infowindow = new google.maps.InfoWindow({
+					content: contentString,
+				});
+				marker.addListener('click', function() {
+					infowindow.open(map, marker);
+				});
+			})
+		}
+	}
 });

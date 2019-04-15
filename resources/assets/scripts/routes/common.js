@@ -3,21 +3,21 @@ export default {
     $('.single-item').slick({
     	arrows: false,
       dots: true,
-            responsive: [
-            {
-                breakpoint: 768,
-                settings: {
-                    arrows: false,
-                },
-            },
-        ],
+      responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          arrows: false,
+        },
+      },
+      ],
     });
     $('.menu-btn').on('click', function(e) {
       e.preventDefault;
       $(this).toggleClass('menu-btn_active');
       $('.header-navbar').slideToggle();
     });
-   
+
     $(".current_option").click(function() {
       var customOptionsBlock = $("#custom_options");
       if (customOptionsBlock.is(":hidden")) {
@@ -47,8 +47,16 @@ export default {
       $('.current_option').attr("data-value", $(this).val());
       $(".current_option span .input-select").text($('.select:selected').text());
     });
+
+    
+
   },
   finalize() {
-    // JavaScript to be fired on all pages, after page specific JS is fired
-  },
+
+
+   
+
+  
+
+},
 };
