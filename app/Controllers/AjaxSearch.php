@@ -7,7 +7,10 @@ use WP_Query;
 
 class AjaxSearch extends Controller
 {
+	private static $redux_demo;
 	public function __construct() {
+		global $redux_demo;
+		self::$redux_demo = $redux_demo;
 		add_action('wp_ajax_get_order_services_db', array($this, 'get_order_services_db'));
 		add_action( 'wp_ajax_nopriv_get_order_services_db', array($this, 'get_order_services_db'));
 	}
@@ -41,42 +44,48 @@ class AjaxSearch extends Controller
 		);
 		$posts = $query->posts;
 		if( $address ) {
-			//$posts = (array)self::filterPostsByAdress($posts, $address);
-			/*$postCount = count( $posts );*/
+			$posts = (array)self::filterPostsByAdress( $posts, $address );
+			$postCount = count( $posts );
 		}else {
 			$posts = $posts;
 		}
-		/*$post_array = $posts;*/
+		/*$posts = self::filterPostsByAdress( $posts, $address );*/
+
 		$post_array = [];
 		foreach ($posts as $key => $value) {
 			$post_array[$key] = $value;
-			$post_array[$key]['address'] = get_post_meta( $value->ID, 'address', true );
+			
 		}
-
 		echo \App\template('partials.content-search-result', compact('post_array'));
 	}
 
-	/*private function filterPostsByAdress($posts, $address){
+	private function filterPostsByAdress( $posts, $address ){
 		$dataArray = [];
-		foreach ($posts as $key => $value) {		
-			$postLat = get_post_meta( $value->ID, 'address');
-			$url = prepareSearchInputForGoogle($address);
+		foreach ($posts as $key => $value) {
+			$postCoordinate = get_post_meta( $value->ID, 'address', true);
+			$url = self::prepareSearchInputForGoogle($address);
 			$remote_get = wp_remote_get( $url );
 			$searchLat = json_decode($remote_get['body'])->results[0]->geometry->location->lat;
 			$searchLng = json_decode($remote_get['body'])->results[0]->geometry->location->lng;
-			$value->lat = $postLat[0];
-			$value->lng = $postLng[0];
+			$value->lat = $postCoordinate['lat'];
+			$value->lng = $postCoordinate['lng'];
+			$value->address = $postCoordinate['address'];
 			$dataArray[] = $value;
 		}
 		$searchLocation = [
 			'lat' => $searchLat, 
 			'lng' => $searchLng,
 		];
-		$newPosts = self::filterPoints( $searchLocation, $dataArray,  50 );
-		return $searchLocation;
-	}*/
-
-	/*private function filterPoints( $location, $points, $distance = 50 ){
+		$newPosts = self::filterPoints( $searchLocation, $dataArray, 50 );
+		return $newPosts;
+	}
+	private function prepareSearchInputForGoogle( $address ) {
+		$googleApi = self::$redux_demo['google-api-key'];
+		$addressReplace = str_replace(" ", "+", $address);
+		$url = 'https://maps.googleapis.com/maps/api/geocode/json?address="'.$addressReplace.'"&key='.$googleApi;
+		return $url;
+	}
+	private function filterPoints( $location, $points, $distance = 50 ){
 		foreach ( $points as $key => $point ){
 			$points[$key]->distance = self::calcDistance(
 				$location['lat'],
@@ -86,7 +95,7 @@ class AjaxSearch extends Controller
 				"K"
 			);
 		}
-		$points  = array_filter( $points, function ( $elem ) use ( $distance ) {
+		$points = array_filter( $points, function ( $elem ) use ( $distance ) {
 			return $elem->distance < $distance;
 		} );
 		usort( $points, function ( $a, $b ) {
@@ -94,7 +103,6 @@ class AjaxSearch extends Controller
 		} );
 		return $points;
 	}
-
 	private function calcDistance( $lat1, $lon1, $lat2, $lon2, $unit = 'K' ) {
 		$theta = $lon1 - $lon2;
 		$dist  = sin( deg2rad( $lat1 ) ) * sin( deg2rad( $lat2 ) ) + cos( deg2rad( $lat1 ) ) * cos( deg2rad( $lat2 ) ) * cos( deg2rad( $theta ) );
@@ -110,6 +118,6 @@ class AjaxSearch extends Controller
 		} else {
 			return $miles;
 		}
-	}*/
+	}
 
 }

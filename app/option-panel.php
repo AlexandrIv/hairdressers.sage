@@ -384,8 +384,20 @@ Redux::setArgs( $opt_name, $args );
                 ),
             )
         ) );
-
-
+        Redux::setSection( $opt_name, array(
+            'title'            => __( 'Map setting', 'redux-framework-demo' ),
+            'id'               => 'map-setting',
+            'subsection'       => true,
+            'customizer_width' => '450px',
+            'desc'             => __( 'Map settings: ', 'redux-framework-demo' ),
+            'fields'           => array(
+                array(
+                    'id'       => 'google-api-key',
+                    'type'     => 'text',
+                    'title'    => __( 'Google API key', 'redux-framework-demo' ),
+                ),
+            )
+        ) );
         Redux::setSection( $opt_name, array(
             'title'            => __( 'Footer setting', 'redux-framework-demo' ),
             'id'               => 'footer-setting',

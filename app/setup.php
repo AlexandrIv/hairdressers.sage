@@ -6,13 +6,15 @@ use Roots\Sage\Container;
 use Roots\Sage\Assets\JsonManifest;
 use Roots\Sage\Template\Blade;
 use Roots\Sage\Template\BladeProvider;
-
+global $redux_demo;
 /**
  * Theme assets
  */
 add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('sage/main.css', asset_path('styles/main.css'), false, null);
     wp_enqueue_script('sage/main.js', asset_path('scripts/main.js'), ['jquery'], null, true);
+
+    wp_enqueue_script('my-google-maps', 'https://maps.googleapis.com/maps/api/js?key='.$redux_demo['google-api-key'].'&amp;callback=initMap' );
 
     if (is_single() && comments_open() && get_option('thread_comments')) {
         wp_enqueue_script('comment-reply');

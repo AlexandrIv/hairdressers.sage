@@ -47,7 +47,6 @@ export default {
       $('.current_option').attr("data-value", $(this).val());
       $(".current_option span .input-select").text($('.select:selected').text());
     });
-    
   },
   finalize() {
     // JavaScript to be fired on all pages, after page specific JS is fired

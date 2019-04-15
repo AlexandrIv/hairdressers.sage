@@ -105,7 +105,8 @@ function customHeaderJson(){
 }
 
 function my_acf_google_map_api( $api ){
-    $api['key'] = 'AIzaSyC0DMmQuaNeRGrORn97G1JzvbC4dThyuL0';
+    global $redux_demo;
+    $api['key'] = $redux_demo['google-api-key'];
     return $api;
 }
 

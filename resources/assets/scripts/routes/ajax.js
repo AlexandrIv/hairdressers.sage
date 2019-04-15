@@ -18,6 +18,7 @@ jQuery(document).ready(function($){
 					setTimeout(show_result, 1400);
 					function show_result() {
 						$('.search-result').html(jsonData);
+						initMap();
 					}
 				}
 			},
@@ -38,5 +39,20 @@ jQuery(document).ready(function($){
 		var top = $('.search-result').offset().top;
 		$('body,html').animate({scrollTop: top}, 1000);
 	}
-
+	function initMap() {
+	var positionArray = JSON.parse(window.coordinateArray);
+      $.each(positionArray, function( index, value ) {
+      	console.log(value.lat);
+      	console.log(value.lng);
+      /*var marker = new google.maps.Marker({
+	      	position: {
+	      		lat: value,
+	      		lng: value
+	      	},
+	      	map: map
+      	});*/
+      });
+      var map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 12, center: {lat: }});
+    }
 });
