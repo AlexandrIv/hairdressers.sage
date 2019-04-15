@@ -89,3 +89,41 @@ add_filter('comments_template', function ($comments_template) {
 
     return $comments_template;
 }, 100);
+
+add_filter('get_search_form', function () {
+  return \App\template( 'partials.searchform' );
+});
+
+
+
+
+/*function custom_cpt_search( $query ) {
+    if( !empty( $_GET['tag'] ) ) {
+        $query->set('tax_query', array(
+            array(
+                'taxonomy' => 'categories_salon',
+                'field' => 'id',
+                'terms' => $_POST['tag'],
+                ),
+            )
+        );
+    }
+};
+add_action( 'pre_get_posts', 'custom_cpt_search');*/
+
+
+/*function search_filter($query) {
+  if ( !is_admin() && $query->is_main_query() ) {
+    if ($query->is_search) {
+      $query->set('tax_query', array(
+            array(
+                'taxonomy' => 'categories_salon',
+                'field' => 'id',
+                'terms' => $_POST['tag'],
+                ),
+            )
+        );
+    }
+  }
+}
+add_action('pre_get_posts','search_filter');*/

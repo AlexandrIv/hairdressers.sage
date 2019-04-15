@@ -46,6 +46,15 @@ add_action('after_setup_theme', function () {
     register_nav_menus([
         'primary_navigation' => __('Primary Navigation', 'sage')
     ]);
+    register_nav_menus([
+        'header_navigation' => __('Header Navigation', 'sage')
+    ]);
+    register_nav_menus([
+        'footer_left_menu' => __('Footer left menu', 'sage')
+    ]);
+    register_nav_menus([
+        'footer_right_menu' => __('Footer right menu', 'sage')
+    ]);
 
     /**
      * Enable post thumbnails
@@ -130,3 +139,42 @@ add_action('after_setup_theme', function () {
         return "<?= " . __NAMESPACE__ . "\\asset_path({$asset}); ?>";
     });
 });
+
+
+
+/*add_action('wp_enqueue_scripts', 'load_dashicons_front_end');
+function load_dashicons_front_end() {
+    wp_enqueue_style('dashicons');
+}*/
+
+
+
+/*add_action( 'pre_get_posts', 'search_by_cat' );
+function search_by_cat()
+{
+    if ( is_search() )
+    {
+        $cat = empty( $_GET['cat'] ) ? '' : (int) $_GET['cat'];
+        add_query_arg( 'cat', $cat );
+    }
+}*/
+
+
+
+/*
+function hwl_home_pagesize( $query ) {
+    return $query;
+    if ( is_admin() || ! $query->is_main_query() )
+        return;
+    if ( is_home() ) {
+        // Display only 1 post for the original blog archive
+        $query->set( 'posts_per_page', 1 );
+        return;
+    }
+    if ( is_post_type_archive( 'movie' ) ) {
+        // Display 50 posts for a custom post type called 'movie'
+        $query->set( 'posts_per_page', 50 );
+        return;
+    }
+}
+add_action( 'pre_get_posts', 'hwl_home_pagesize', 1 );*/

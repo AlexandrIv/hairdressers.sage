@@ -1,2 +1,1 @@
 @extends('layouts.front-page')
-

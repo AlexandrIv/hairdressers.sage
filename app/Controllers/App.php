@@ -6,6 +6,14 @@ use Sober\Controller\Controller;
 
 class App extends Controller
 {
+    use \App\Controllers\Partials\Header;
+    use \App\Controllers\Partials\Footer;
+    private static $redux_demo;
+    public function __construct() {
+        global $redux_demo;
+        self::$redux_demo = $redux_demo;
+    }
+
     public function siteName()
     {
         return get_bloginfo('name');
@@ -30,4 +38,5 @@ class App extends Controller
         }
         return get_the_title();
     }
+
 }

@@ -7,6 +7,8 @@
 use Roots\Sage\Config;
 use Roots\Sage\Container;
 
+require_once ABSPATH .'wp-admin/includes/template.php';
+
 /**
  * Helper function for prettying up errors
  * @param string $message
@@ -83,13 +85,29 @@ array_map(
     array_fill(0, 4, 'dirname')
 );
 Container::getInstance()
-    ->bindIf('config', function () {
-        return new Config([
-            'assets' => require dirname(__DIR__).'/config/assets.php',
-            'theme' => require dirname(__DIR__).'/config/theme.php',
-            'view' => require dirname(__DIR__).'/config/view.php',
-        ]);
-    }, true);
+->bindIf('config', function () {
+    return new Config([
+        'assets' => require dirname(__DIR__).'/config/assets.php',
+        'theme' => require dirname(__DIR__).'/config/theme.php',
+        'view' => require dirname(__DIR__).'/config/view.php',
+    ]);
+}, true);
 
 
 show_admin_bar(false);
+
+
+function customHeaderJson(){
+    return json_encode(array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'ajax_nonce' => wp_create_nonce('my_nonce'),)
+    );
+}
+
+function my_acf_google_map_api( $api ){
+    $api['key'] = 'AIzaSyC0DMmQuaNeRGrORn97G1JzvbC4dThyuL0';
+    return $api;
+}
+
+add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');
+

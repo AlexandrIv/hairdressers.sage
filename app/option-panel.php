@@ -293,6 +293,14 @@ Redux::setArgs( $opt_name, $args );
             'desc'             => __( 'Header settings: ', 'redux-framework-demo' ),
             'fields'           => array(
                 array(
+                    'id'       => 'opt-header-type-switch',
+                    'type'     => 'switch', 
+                    'title'    => __('Switch header position type', 'redux-framework-demo'),
+                    'default'  => true,
+                    'on'       => 'static',
+                    'off'      => 'fixed',
+                ),
+                array(
                     'id'       => 'opt-header-background',
                     'type'     => 'color',
                     'output'   => array( '.site-title' ),
@@ -344,6 +352,7 @@ Redux::setArgs( $opt_name, $args );
                 array(
                     'id'       => 'opt-logo-text',
                     'type'     => 'text',
+                    'hidden'   => 1,
                     'title'    => __( 'Logo text', 'redux-framework-demo' ),
                     'default'  => 'Logo',
                 ),
@@ -375,6 +384,26 @@ Redux::setArgs( $opt_name, $args );
                 ),
             )
         ) );
+
+
+        Redux::setSection( $opt_name, array(
+            'title'            => __( 'Footer setting', 'redux-framework-demo' ),
+            'id'               => 'footer-setting',
+            'subsection'       => true,
+            'customizer_width' => '450px',
+            'desc'             => __( 'Footer settings: ', 'redux-framework-demo' ),
+            'fields'           => array(
+                array(
+                    'id'       => 'opt-footer-background',
+                    'type'     => 'color',
+                    'output'   => array( '.site-title' ),
+                    'title'    => __( 'Footer background', 'redux-framework-demo' ),
+                    'subtitle' => __( 'Pick a footer background for the theme (default: #090808).', 'redux-framework-demo' ),
+                    'default'  => '#030a10',
+                ),
+            )
+        ) );
+
         Redux::setSection( $opt_name, array(
             'title'            => __( 'Radio', 'redux-framework-demo' ),
             'id'               => 'basic-Radio',

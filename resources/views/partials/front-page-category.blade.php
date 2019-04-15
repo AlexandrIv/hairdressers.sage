@@ -1,61 +1,45 @@
 <section>
 	<div class="front-page-category">
 		<div class="container">
-			<div class="row">
+			<div class="row search-result">
 				<div class="col-12">
 					<div class="section-title">
-						<h3>Nos professionnels</h3>
+						<h3>{!! $categories_section_title !!}</h3>
 					</div>
 				</div>
-				<div class="col-6 pb-4">
-					<div class="category-cart">
-						<div class="front" style="background-image: url(@asset('images/img-1.png'));">
-							<div class="cat-info-front">
-								<h4>Coiffeur</h4>
+				@foreach( $inferred_categories as $category )
+					<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+						<a href="{{ get_category_link($category['ID']) }}">
+							<div class="category-cart" id="cat-{{ $category['ID'] }}">
+								<div class="front" style="background: linear-gradient( {{ $category['before_bacground'] }}, {{ $category['before_bacground'] }}), url({{ $category['images'] }}) round;">
+									<div class="cat-info-front">
+										<h4 style="color: {{ $category['text_color'] }};">{{ $category['name'] }}</h4>
+									</div>
+								</div>
+								<div class="back" style="background: linear-gradient( {{ $category['after_bacground'] }}, {{ $category['after_bacground'] }}), url({{ $category['images'] }}) round;">
+									<div class="cat-info-back">
+										<h4 style="color: {{ $category['text_color'] }};">{{ $category['name'] }}</h4>
+										<span style="color: {{ $category['text_color'] }};" class="desc">{{ $category['description'] }}</span>
+									</div>	
+									<span class="top-bottom"></span>
+									<span class="left-right"></span>
+								</div>
 							</div>
-							<span class="bg-opacity-front"></span>
-						</div>
-						<div class="back" style="background-image: url(@asset('images/img-1.png'));">
-							<div class="cat-info-back">
-								<h4>Coiffeur</h4>
-								<span class="desc">Quelles sont les salons de coiffures les plus proches de chez vous ?
-									Quels sont les meilleurs établissements de la ville ?
-									Quelles sont les coiffures à la mode pour cette nouvelle saison ?
-									O’clock Hair répond à toutes les questions auxquelles vous vous
-									posez, désormais visitez tous les établissements de la ville et
-								comparez-les sans à avoir à vous déplacer.</span>
-							</div>	
-							<span class="top-bottom"></span>
-							<span class="left-right"></span>
-							<span class="bg-opacity-back"></span>
-						</div>
+						</a>
 					</div>
-				</div>
-				<div class="col-6 pb-4">
-					<div class="category-cart">
-						<div class="front" style="background-image: url(@asset('images/img-2.png'));">
-							<div class="cat-info-front">
-								<h4>Barbier</h4>
-							</div>
-							<span class="bg-opacity-front"></span>
-						</div>
-						<div class="back" style="background-image: url(@asset('images/img-2.png'));">
-							<div class="cat-info-back">
-								<h4>Barbier</h4>
-								<span class="desc">Quelles sont les salons de coiffures les plus proches de chez vous ?
-									Quels sont les meilleurs établissements de la ville ?
-									Quelles sont les coiffures à la mode pour cette nouvelle saison ?
-									O’clock Hair répond à toutes les questions auxquelles vous vous
-									posez, désormais visitez tous les établissements de la ville et
-								comparez-les sans à avoir à vous déplacer.</span>
-							</div>
-							<span class="top-bottom"></span>
-							<span class="left-right"></span>
-							<span class="bg-opacity-back"></span>
-						</div>
-					</div>
-				</div>
+				@endforeach
 			</div>
 		</div>
 	</div>
 </section>
+
+
+
+
+
+
+
+
+
+
+

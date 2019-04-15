@@ -18,7 +18,7 @@ export default {
       $('.header-navbar').slideToggle();
     });
    
-    $("#current_option").click(function() {
+    $(".current_option").click(function() {
       var customOptionsBlock = $("#custom_options");
       if (customOptionsBlock.is(":hidden")) {
         $("#custom_options").show();
@@ -37,16 +37,17 @@ export default {
     $("#custom_options li").click(function() {
       var choosenValue = $(this).attr("data-value");
       var textName = $(this).text();
-      $("#current_option span .input-select").val(textName);
-      $("#current_option").attr("data-value", choosenValue);
+      $(".current_option span .input-select").val(choosenValue);
+      $(".current_option span .input-select").text(textName);
+      $(".current_option").attr("data-value", choosenValue);
+      $(".current_option span .input-select").attr("value", choosenValue);
     });
 
     $('.input-select').change(function() {
-      $('#current_option').attr("data-value", $(this).val());
-      $("#current_option span .input-select").text($('.select:selected').text());
+      $('.current_option').attr("data-value", $(this).val());
+      $(".current_option span .input-select").text($('.select:selected').text());
     });
-
-
+    
   },
   finalize() {
     // JavaScript to be fired on all pages, after page specific JS is fired
