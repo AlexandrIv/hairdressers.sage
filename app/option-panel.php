@@ -373,7 +373,7 @@ Redux::setArgs( $opt_name, $args );
                 array(
                     'id'          => 'opt-home-page-slidshow',
                     'type'        => 'slides',
-                    'title'       => __( 'Slides Options', 'redux-framework-demo' ),
+                    'title'       => __( 'Front page slideshow', 'redux-framework-demo' ),
                     'subtitle'    => __( 'Unlimited slides with drag and drop sortings.', 'redux-framework-demo' ),
                     'desc'        => __( 'This field will store all slides values into a multidimensional array to use into a foreach loop.', 'redux-framework-demo' ),
                     'placeholder' => array(
@@ -384,6 +384,7 @@ Redux::setArgs( $opt_name, $args );
                 ),
             )
         ) );
+
         Redux::setSection( $opt_name, array(
             'title'            => __( 'Map setting', 'redux-framework-demo' ),
             'id'               => 'map-setting',
@@ -577,6 +578,56 @@ Redux::setArgs( $opt_name, $args );
                 )
             )
         ) );
+
+
+        // -> START Editors
+        Redux::setSection( $opt_name, array(
+            'title'            => __( 'Notification messages', 'redux-framework-demo' ),
+            'id'               => 'message',
+            'customizer_width' => '500px',
+            'icon'             => 'el el-info-circle',
+        ) );
+
+        Redux::setSection( $opt_name, array(
+            'title'      => __( 'Register partner message', 'redux-framework-demo' ),
+            'id'         => 'register-partner-wp-message',
+            'subsection' => true,
+            'fields'     => array(
+                array(
+                    'id'               => 'success-register-partner-text',
+                    'type'             => 'editor',
+                    'title'            => __('Successful Registration Text', 'redux-framework-demo'), 
+                    'subtitle'         => __('Subtitle text would go here.', 'redux-framework-demo'),
+                    'default'          => 'Thank you for registering!',
+                    'args'   => array(
+                        'teeny'            => true,
+                        'textarea_rows'    => 10
+                    ),
+                ),
+            ),
+        ) );
+
+        /*Redux::setSection( $opt_name, array(
+            'title'      => __( 'Register partner message', 'redux-framework-demo' ),
+            'id'         => 'register-partner-wp-message',
+            'subsection' => true,
+            'fields'     => array(
+                array(
+                    'id'               => 'editor-text',
+                    'type'             => 'editor',
+                    'title'            => __('Editor Text', 'redux-framework-demo'), 
+                    'subtitle'         => __('Subtitle text would go here.', 'redux-framework-demo'),
+                    'default'          => 'Powered by Redux.',
+                    'args'   => array(
+                        'teeny'            => true,
+                        'textarea_rows'    => 10
+                    ),
+                ),
+            ),
+        ) );*/
+
+
+
 
     // -> START Editors
         Redux::setSection( $opt_name, array(

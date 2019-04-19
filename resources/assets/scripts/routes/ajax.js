@@ -1,5 +1,4 @@
 jQuery(document).ready(function($){
-
 	$('#search-form').on('submit', function(e){
 		e.preventDefault();
 		setTimeout(body_bg_on, 300);
@@ -27,9 +26,9 @@ jQuery(document).ready(function($){
 	$(".body_bg").dblclick(function() {
 		body_bg_off();
 	});
-	$('<div class="body_bg"><img src="/wp-content/themes/hairdres/dist/images/preloader.gif" alt="" /></div>').prependTo('body');
+	$('<div class="body_bg"><img src="/wp-content/themes/hairdres/dist/images/preloader.gif" alt="" /></div>').prependTo('.home');
 	function body_bg_on() {
-		$('.body_bg').css({'overflow':'visible', 'opacity':'0.5', 'transition':'0.4s', 'background-color':'#000', 'z-index':'100'});
+		$('.body_bg').css({'overflow':'visible', 'opacity':'0.7', 'transition':'0.4s', 'background-color':'#000', 'z-index':'100'});
 		scroll_result_search();
 	}
 	function body_bg_off() {
@@ -37,7 +36,7 @@ jQuery(document).ready(function($){
 	}
 	function scroll_result_search(){
 		var top = $('.search-result').offset().top;
-		$('body,html').animate({scrollTop: top}, 1000);
+		$('.home,html').animate({scrollTop: top}, 1000);
 	}	
 
 	function initMap() {
@@ -81,4 +80,39 @@ jQuery(document).ready(function($){
 			})
 		}
 	}
+
+
+
+	$('#register-partner-form').on('submit', function(e) {
+		e.preventDefault();
+		var formData = $(this).serialize();
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: formData,
+			dataType: "html",
+			type: 'POST',
+			success: function(jsonDataForm) {
+				var result = $.parseJSON(jsonDataForm);
+				if( result.succes ){
+					console.log(result.succes);
+					$('.pricing-plans').hide();
+					$('.succes-register').show();
+					$('.succes-register').before('<p>'+result.succes+'</p>');
+				}
+			},
+		});
+
+	});
+
+
+
+
+
+
+
+
+
+
+
+
 });

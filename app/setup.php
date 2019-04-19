@@ -180,3 +180,22 @@ function hwl_home_pagesize( $query ) {
     }
 }
 add_action( 'pre_get_posts', 'hwl_home_pagesize', 1 );*/
+
+
+add_filter('body_class', function($classes) {
+  // Add page slug if it doesn't exist
+  if (is_single() || is_page() && !is_front_page()) {
+    if (!in_array(basename(get_permalink()), $classes)) {
+      $classes[] = basename(get_permalink());
+    }
+  }
+  // Add class if sidebar is active
+    if( is_front_page() ) {
+       $classes[] = 'front-page'; 
+    }else if( is_page() && !is_front_page() && !is_page('login') ) {
+        $classes[] = 'normal-page';
+    }else if( is_page('login') ) {
+        $classes[] = 'login-page';
+    }
+  return $classes;
+});

@@ -1,0 +1,260 @@
+.content-register-partner {
+	.page-image {
+		width: 100%;
+		height: 700px;
+		background-size: cover;
+		background-position: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		.page-title {
+			color: #ffffff;
+			font-family: Didot;
+			font-size: 41px;
+			font-weight: 400;
+			line-height: 55px;
+			z-index: 50;
+			text-align: center;
+		}
+		.bg-opacity {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			background-color: #000;
+			opacity: 0.7;
+			z-index: 10;
+		}
+	}
+	.register-partner-form-block {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: flex-end;
+		z-index: 50;
+		position: relative;
+		.register-partner-block-row {
+			padding: 48px;
+			@media only screen and (max-width : 992px) {
+				padding: 0;
+			}
+		}
+		.register-partner-form {
+			margin-top: -250px;
+			margin-bottom: 150px;
+			padding: 100px;
+			color: #fff;
+			background-color: #101214;
+			@media only screen and (max-width : 992px) {
+				padding: 50px;
+			}
+			.pricing-plans {
+				.plans-title {
+					color: #fff;
+					text-align: center;
+					padding: 15px 10px;
+					line-height: 42px;
+					position: relative;
+					margin-bottom: 30px;
+					&:before {
+						content: "";
+						position: absolute;
+						width: 30%;
+						height: 2px;
+						background-color: #fff;
+						margin: 0 auto;
+						bottom: 0;
+						left: 0;
+						right: 0;
+					}
+				}
+				.plan {
+					.plan-title {
+						width: 100%;
+						display: inline-block;
+						height: auto;
+						text-align: center;
+						font-size: 28px;
+						color: #fff;
+						margin-bottom: 15px;
+						padding: 25px 0;
+						position: relative;
+						&:before {
+							content: "";
+							position: absolute;
+							width: 30%;
+							height: 1px;
+							background-color: #fff;
+							margin: 0 auto;
+							bottom: 0;
+							left: 0;
+							right: 0;
+						}
+					}
+				}
+				.buttons {
+					width: 100%;
+					height: auto;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					a {
+						width: auto;
+						height: auto;
+						display: inline-block;
+						padding: 10px 25px;
+						color: #fff;
+						border: 1px solid #fff;
+						transition: 0.5s;
+						text-decoration: none;
+						margin: 0 5px;
+						&:hover {
+							color: #B88A46;
+							transition: 0.5s;
+						}
+					}
+					.active {
+						color: #B88A46;
+					}
+				}
+				.form-block {
+					display: none;
+					padding: 30px 0;
+					form {
+						display: flex;
+						flex-direction: column;
+						.box {
+							display: flex;
+							flex-direction: row;
+							justify-content: space-between;
+							margin: 20px 0;
+							@media only screen and (max-width : 768px) {
+								margin: 0;
+								flex-direction: column;
+							}
+							label {
+								width: 48%;
+								height: auto;
+								display: flex;
+								flex-direction: column;
+								color: #808080;
+								position: relative;
+								@media only screen and (max-width : 768px) {
+									width: 100%;
+									margin: 30px 0;
+								}
+								input {
+									border: none;
+									border-bottom: 1px solid #808080;
+									outline: none;
+									background-color: transparent;
+									color: #808080;
+									padding: 5px 10px;
+									margin-top: 5px;
+								}
+								.input-select-type {
+									cursor: pointer;
+								}
+								.link-list {
+									display: none;
+									list-style-type: none;
+									margin: 0;
+									padding: 0;
+									z-index: 50;
+									position: absolute;
+									width: 100%;
+									bottom: -103px;
+									border: 1px solid #808080;
+									background-color: #101214;
+									li {
+										padding: 5px 10px;
+										a {
+											text-decoration: none;
+											display: inline-block;
+											width: 100%;
+											color: #808080;
+											&:hover {
+												color: #fff;
+											}
+										}
+										
+									}
+								}
+							}
+						}
+						.textarea-box {
+							label {
+								width: 100%;
+								textarea {
+									outline: none;
+									background: transparent;
+									color: #707070;
+									padding: 13px;
+									display: block;
+									font-size: 13px;
+									width: 100%;
+									position: relative;
+									border: 1px solid #cccccc;
+									position: relative;
+								}
+							}
+						}
+						.partner-save-form {
+							text-align: right;
+							@media only screen and (max-width : 768px) {
+								text-align: center;
+							}
+							.button-form {
+								width: auto;
+								height: auto;
+								display: inline-block;
+								padding: 10px 25px;
+								color: #fff;
+								border: 1px solid #fff;
+								transition: 0.5s;
+								text-decoration: none;
+								&:hover {
+									color: #B88A46;
+									transition: 0.5s;
+								}
+							}
+						}
+					}
+				}
+			}
+			.succes-register {
+				display: none;
+				p {
+					color: #fff;
+				}
+				.buttons-before {
+					width: 100%;
+					height: auto;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					a {
+						width: auto;
+						height: auto;
+						display: inline-block;
+						padding: 10px 25px;
+						color: #fff;
+						border: 1px solid #fff;
+						transition: 0.5s;
+						text-decoration: none;
+						margin: 0 5px;
+						&:hover {
+							color: #B88A46;
+							transition: 0.5s;
+						}
+					}
+				}
+			}
+		}
+	}
+}

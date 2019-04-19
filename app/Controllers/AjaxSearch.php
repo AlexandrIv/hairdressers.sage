@@ -47,9 +47,12 @@ class AjaxSearch extends Controller
 		}
 		$query = new WP_Query(
 			array(
-				's' 		=> $name,
-				'post_type' => $post_type,
-				'tax_query' => array( $taxArray ),
+				's' 				=> $name,
+				'post_type' 		=> $post_type,
+				'tax_query' 		=> array( $taxArray ),
+				'posts_per_page' 	=> 4,
+				'paged'				=> 1,
+				'post_status'		=> 'publish'
 			)
 		);
 		$posts = $query->posts;
@@ -67,6 +70,10 @@ class AjaxSearch extends Controller
 		}
 		echo \App\template('partials.content-search-result', compact('post_array'));
 	}
+
+	/*public function ajax_pagination() {
+
+	}*/
 
 	private function filterPostsByAdress( $posts, $address ){
 		$dataArray = [];

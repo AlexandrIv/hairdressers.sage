@@ -40,7 +40,7 @@ export default {
       $(".current_option span .input-select").val(choosenValue);
       $(".current_option span .input-select").text(textName);
       $(".current_option").attr("data-value", choosenValue);
-      $(".current_option span .input-select").attr("value", choosenValue);
+      $(".current_option span .input-select").attr("value", textName);
     });
 
     $('.input-select').change(function() {
@@ -52,11 +52,38 @@ export default {
 
   },
   finalize() {
+    $('.buttons a:last').on('click', function(e){
+      e.preventDefault();
+      $('.form-block').slideToggle(400);
+      $(this).parent().fadeToggle();
+    });
 
 
-   
 
-  
+    $('.input-select-type').toggle(
+      function(e){
+        $('.link-list').show({"display": "block"}, 700);
+        $('.register-partner-form').css('margin-bottom', '')
+      },
+      function(e){
+        $('.link-list').fadeOut( 700, function() {
+          $('.register-partner-form').css('')
+        });
+      }
+    );
+    $('.link-list li a').on('click', function(e){
+      e.preventDefault();
+      var selectVal = $(this).data('type');
+      var selectText = $(this).text();
+      $('.input-select-type').attr('data-value', selectVal);
+      $('.input-select-type').val(selectText);
+      if( selectVal ){
+        $('.link-list').fadeOut( 700);
+      }
+    });
 
-},
+
+
+
+  },
 };

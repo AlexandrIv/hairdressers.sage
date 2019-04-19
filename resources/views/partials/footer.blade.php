@@ -1,4 +1,4 @@
-<footer style="{!! $footer_setting !!}">
+<footer style="{!! $footer_setting !!}" class="footer">
 	<div class="container h-100 w-100">
 		<div class="row h-100 justify-content-center align-items-center">
 			<div class="col-9">

@@ -8,6 +8,7 @@ class App extends Controller
 {
     use \App\Controllers\Partials\Header;
     use \App\Controllers\Partials\Footer;
+    use \App\Controllers\Partials\PagePartials;
     private static $redux_demo;
     public function __construct() {
         global $redux_demo;
