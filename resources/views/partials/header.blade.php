@@ -9,9 +9,8 @@
 				<div class="collapse navbar-collapse justify-content-end" id="navbarText">
 					<div class="nav-primary">
 						<ul class="navbar-nav mr-auto">
-							@if (has_nav_menu('header_navigation'))
-							{!! wp_nav_menu(['theme_location' => 'header_navigation', 'menu_class' => 'desknav']) !!}
-							@endif
+							<li><a href="{!! $login_button['button_link'] !!}" class="login-button">{{ $login_button['button_text'] }}</a></li>
+							<li><a href="{!! $register_button['button_link'] !!}">{{ $register_button['button_text'] }}</a></li>
 						</ul>
 					</div>
 				</div>

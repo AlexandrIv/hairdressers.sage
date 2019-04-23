@@ -80,9 +80,6 @@ jQuery(document).ready(function($){
 			})
 		}
 	}
-
-
-
 	$('#register-partner-form').on('submit', function(e) {
 		e.preventDefault();
 		var formData = $(this).serialize();
@@ -94,7 +91,7 @@ jQuery(document).ready(function($){
 			success: function(jsonDataForm) {
 				var result = $.parseJSON(jsonDataForm);
 				if( result.succes ){
-					console.log(result.succes);
+					console.log(result.user_pass);
 					$('.pricing-plans').hide();
 					$('.succes-register').show();
 					$('.succes-register').before('<p>'+result.succes+'</p>');
@@ -103,14 +100,23 @@ jQuery(document).ready(function($){
 		});
 
 	});
+	$('#login-form').on('submit', function(e) {
+		e.preventDefault();
+		var formData = $('#login-form').serialize();
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: formData,
+			dataType: "html",
+			type: 'POST',
+			success: function(jsonDataLoginForm) {
+				var result = $.parseJSON(jsonDataLoginForm);
+				window.location.assign(result.redirect_url);
+			},
+		});
+	});
 
 
-
-
-
-
-
-
+	
 
 
 

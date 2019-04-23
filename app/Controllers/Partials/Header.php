@@ -23,5 +23,28 @@ trait Header
 		$headerbackground = 'background-color: '.$hbcg.'; opacity: '.$hop.';';
 		return $headerbackground;
 	}
-	
+
+	public function login_button() {
+		if( is_user_logged_in() ) {	
+			$buttonText = 'Logout';
+			$buttonLink = wp_logout_url('login-page');
+		} else {
+			$buttonText = 'Login';
+			$buttonLink = site_url().'/login-page';
+		}
+		$linkArray = array(
+			'button_text' => $buttonText,
+			'button_link' => $buttonLink,
+		);
+		return $linkArray;
+	}
+
+	public function register_button() {
+		$registerArray = array(
+			'button_text' => 'Register Partner',
+			'button_link' => get_home_url('/').'/register-partner',
+		);
+		return $registerArray;
+	}
+
 }

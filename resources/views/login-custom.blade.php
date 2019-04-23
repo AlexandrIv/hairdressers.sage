@@ -1,9 +1,11 @@
 {{--
   Template Name: Login Template
---}}
+  --}}
 
-@extends('layouts.page')
+  @extends('layouts.page')
 
-@section('content')
-    @include('partials.login-form')
-@endsection
+  @section('content')
+	  @while(have_posts()) @php the_post() @endphp
+	  	@include('partials.login-form-part')
+	  @endwhile
+  @endsection

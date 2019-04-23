@@ -27,9 +27,13 @@ class RegisterPartner extends Controller
 				'type' => $_POST["type"],
 				'succes' => $succesRegister,
 			);
-			$userId = self::register_user( $result );
-			self::create_user_pages( $result['salonname'], $userId );
-			echo json_encode( $result );
+			$userDataArray = self::register_user( $result );
+			self::create_user_pages( $result['salonname'], $userDataArray['ID'] );
+			$resultArray = array(
+				'succes' => $succesRegister,
+				'user_pass' => $userDataArray['user_pass'],
+			);
+			echo json_encode( $resultArray );
 			wp_die();
 		}
 	}
@@ -57,7 +61,11 @@ class RegisterPartner extends Controller
 			'role'          =>  'provider'
 		);
 		$userId = wp_insert_user( $userArgs );
-		return $userId;
+		$userDataArray = array(
+			'ID' 		=> $userId,
+			'user_pass' => $userPass,
+		);
+		return $userDataArray;
 	}
 
 	private function add_user_role() {

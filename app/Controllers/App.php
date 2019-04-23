@@ -9,10 +9,20 @@ class App extends Controller
     use \App\Controllers\Partials\Header;
     use \App\Controllers\Partials\Footer;
     use \App\Controllers\Partials\PagePartials;
+    use \App\Controllers\Partials\LoginForm;
     private static $redux_demo;
     public function __construct() {
         global $redux_demo;
         self::$redux_demo = $redux_demo;
+
+        add_action('wp_ajax_login_form', array($this, 'login_form'));
+        add_action( 'wp_ajax_nopriv_login_form', array($this, 'login_form'));
+
+        add_action('wp_ajax_link_type', array($this, 'link_type'));
+        add_action( 'wp_ajax_nopriv_link_type', array($this, 'link_type'));
+
+        add_action('wp_ajax_logout_ajax', array($this, 'logout_ajax'));
+        add_action( 'wp_ajax_nopriv_logout_ajax', array($this, 'logout_ajax'));
     }
 
     public function siteName()
