@@ -192,10 +192,12 @@ add_filter('body_class', function($classes) {
   // Add class if sidebar is active
     if( is_front_page() ) {
        $classes[] = 'front-page'; 
-    }else if( is_page() && !is_front_page() && !is_page('login') ) {
+    }else if( is_page() && !is_front_page() && !is_page('login') && !is_page('partner-page') ) {
         $classes[] = 'normal-page';
     }else if( is_page('login') ) {
         $classes[] = 'login-page';
+    }else if( is_page('partner-page') ) {
+        $classes[] = 'static-header';
     }
   return $classes;
 });

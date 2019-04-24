@@ -118,7 +118,42 @@ jQuery(document).ready(function($){
 
 	
 
+	$('#salon-form').on('submit', function(e) {
+		e.preventDefault();
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: new FormData(this),
+			contentType: false,
+			cache: false,
+			processData: false,
+			type: 'POST',
+			success: function(jsonDataForm) {
+				var result = $.parseJSON(jsonDataForm);
+				console.log(result);
+			},
+		});
+	});
 
+	$('.salon-info-tab').on('click', function() {
+		var postId = $(this).data('post-id');
+		ajax_get_upload_images( postId );
+	});
+
+	function ajax_get_upload_images( postId ) {
+		console.log(postId);
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "get_upload_images",
+				"post_id": postId,
+			},
+			type: 'POST',
+			success: function(imageData) {
+				$('.upload-images').html(imageData);
+			},
+		});
+	}
+	
 
 
 });

@@ -47,4 +47,5 @@ trait Header
 		return $registerArray;
 	}
 
+	
 }

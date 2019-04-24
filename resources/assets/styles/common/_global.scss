@@ -7,6 +7,14 @@ html {
 }
 body {
 	height: 100%;
+	input, textarea {
+		border: 1px solid #cccccc;
+		outline: none;
+		padding: 10px 15px;
+		color: #707070;
+		font-size: 13px;
+		position: relative;
+	}
 }
 .home {
 	height: auto!important;
@@ -63,9 +71,18 @@ body {
 		background-color: #101214;
 	}
 
-.login-page {
-	.header {
-		position: static;
-		opacity: 1!important;
-	}	
-}
+	.login-page {
+		.header {
+			position: static;
+			opacity: 1!important;
+		}	
+	}
+
+	.static-header {
+		.header {
+			position: static;
+			opacity: 1!important;
+		}	
+	}
+
+
