@@ -17,6 +17,7 @@
 		</div>
 		<div class="form-box select-box">
 			<div id="current_option type" class="current_option" data-value="">
+				<input type="hidden" class="current_option_type" name="data-type" value="">
 				<span>
 					<input type="text" name="type" placeholder="Que souhaitez-vous réserver ?" autocomplete="off" class="input-select search-select-input">
 				</span>

@@ -22,9 +22,11 @@
 				<div class="row">
 					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
 						<div class="image-box">
-							<a href="{!! the_permalink( $element ) !!}">
-								{!! get_the_post_thumbnail($element->ID) !!}
-							</a>
+							<div class="slider single-post-item">
+								@foreach ($element->post_gallery as $gallery)
+								<img src="{!! $gallery['url'] !!}" alt="">
+								@endforeach
+							</div>	
 						</div>
 					</div>
 					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">

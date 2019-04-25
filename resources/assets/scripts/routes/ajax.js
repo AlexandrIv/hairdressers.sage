@@ -17,12 +17,30 @@ jQuery(document).ready(function($){
 					setTimeout(show_result, 1400);
 					function show_result() {
 						$('.search-result').html(jsonData);
+						slick_search_post();
 						initMap();
 					}
 				}
 			},
 		});
 	});
+
+	function slick_search_post() {
+		$('.single-post-item').slick({
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			arrows: true,
+			responsive: [
+			{
+				breakpoint: 768,
+				settings: {
+					arrows: false,
+				},
+			},
+			],
+		});
+	}
+	
 	$(".body_bg").dblclick(function() {
 		body_bg_off();
 	});
@@ -63,7 +81,7 @@ jQuery(document).ready(function($){
 				});
 				var contentString = '<div id="content">'+
 				'<div id="siteNotice">'+
-				'<img src="'+value.post_thumbnail_url+'" alt="" />'+
+				'<img src="'+value.post_image+'" alt="" />'+
 				'</div>'+
 				'<h3 id="firstHeading" class="firstHeading"><a href="'+value.post_permalink+'">'+value.post_title+'</a></h3>'+
 				'<div id="bodyContent">'+
@@ -116,10 +134,21 @@ jQuery(document).ready(function($){
 	});
 
 
-	
+	function on_preloader_tab() {
+		$("body").css("cursor", "wait");
+		$('.tab-content').prepend('<div class="preloader_tab"></div>');
+		$(".preloader_tab").css({'opacity':'0.3', 'transition':'0.5s', 'background-color':'#fff'});
+	}
 
+	function off_preloader_tab() {
+		$("body").css("cursor", "default");
+		$(".preloader_tab").css({'opacity':'0', 'transition':'0.5s'});
+		$(".tab-content .preloader_tab").remove();
+	}
+	
 	$('#salon-form').on('submit', function(e) {
 		e.preventDefault();
+		on_preloader_tab();
 		$.ajax({
 			url: ajax['ajax_url'],
 			data: new FormData(this),
@@ -130,17 +159,21 @@ jQuery(document).ready(function($){
 			success: function(jsonDataForm) {
 				var result = $.parseJSON(jsonDataForm);
 				console.log(result);
+				ajax_get_upload_images();
+				$(".images").val("");
+				off_preloader_tab();
 			},
 		});
 	});
 
-	$('.salon-info-tab').on('click', function() {
-		var postId = $(this).data('post-id');
-		ajax_get_upload_images( postId );
+	$(document).ready(function(){
+		if( $('.personal-provider-section').html() !== undefined){
+			ajax_get_upload_images();
+		}
 	});
 
-	function ajax_get_upload_images( postId ) {
-		console.log(postId);
+	function ajax_get_upload_images() {
+		var postId = $('.salon-info-tab').data('post-id');
 		$.ajax({
 			url: ajax['ajax_url'],
 			data: {
@@ -153,7 +186,30 @@ jQuery(document).ready(function($){
 			},
 		});
 	}
-	
+
+	jQuery(document).on('click', '.upload-images .img-box .del-img', function () {
+		var deleteImgId = $(this).data('delete-img-id');
+		ajax_remove_gallery_image( deleteImgId );
+	});
+
+	function ajax_remove_gallery_image( deleteImgId ) {
+		on_preloader_tab();
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "delete_gallery_image",
+				"image_id": deleteImgId,
+			},
+			type: 'POST',
+			success: function(imageData) {
+				ajax_get_upload_images();
+				off_preloader_tab();
+			},
+		});
+	}
+
+
+
 
 
 });

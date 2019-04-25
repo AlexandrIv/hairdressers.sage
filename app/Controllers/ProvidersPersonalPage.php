@@ -19,6 +19,9 @@ class ProvidersPersonalPage extends Controller
 
 		add_action('wp_ajax_get_upload_images', array($this, 'get_upload_images'));
 		add_action( 'wp_ajax_nopriv_get_upload_images', array($this, 'get_upload_images'));
+
+		add_action('wp_ajax_delete_gallery_image', array($this, 'delete_gallery_image'));
+		add_action( 'wp_ajax_nopriv_delete_gallery_image', array($this, 'delete_gallery_image'));
 	}
 	public function current_user() {
 		$user = wp_get_current_user();

@@ -64,7 +64,8 @@ class AjaxSearch extends Controller
 		$post_array = [];
 		foreach ($posts as $key => $value) {
 			$post_array[$key] = $value;
-			$post_array[$key]->post_thumbnail_url = get_the_post_thumbnail_url( $value );
+			$post_array[$key]->post_gallery = get_field( 'images_gallery', $value->ID );
+			$post_array[$key]->post_image = get_field( 'images_gallery', $value->ID )[0]['url'];
 			$post_array[$key]->post_permalink = get_the_permalink( $value );
 			$post_array[$key]->link_path = get_stylesheet_directory_uri();
 		}
