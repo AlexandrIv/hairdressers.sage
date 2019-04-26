@@ -40,6 +40,40 @@ jQuery(document).ready(function($){
 			],
 		});
 	}
+
+
+jQuery(function($){
+	$(window).scroll(function(){
+		var bottomOffset = 2000;
+		var data = {
+			'action': 'ajax_loadmore_post',
+			'true_posts': window.true_posts,
+			'current_page': window.current_page,
+		};
+		if( $(document).scrollTop() > ($(document).height() - bottomOffset) && !$('body').hasClass('loading')){
+			$.ajax({
+				url: ajax['ajax_url'],
+				data: data,
+				type:'POST',
+				beforeSend: function( xhr ){
+					$('body').addClass('loading');
+				},
+				success:function(data) {
+					if( data ) { 
+						$('#true_loadmore').before(data);
+						$('body').removeClass('loading');
+						window.current_page++;
+					}
+				}
+			});
+		}
+
+	});
+});
+
+
+
+
 	
 	$(".body_bg").dblclick(function() {
 		body_bg_off();
@@ -98,6 +132,27 @@ jQuery(document).ready(function($){
 			})
 		}
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	$('#register-partner-form').on('submit', function(e) {
 		e.preventDefault();
 		var formData = $(this).serialize();
@@ -149,6 +204,7 @@ jQuery(document).ready(function($){
 	$('#salon-form').on('submit', function(e) {
 		e.preventDefault();
 		on_preloader_tab();
+		ajax_set_workers_days();
 		$.ajax({
 			url: ajax['ajax_url'],
 			data: new FormData(this),
@@ -158,13 +214,37 @@ jQuery(document).ready(function($){
 			type: 'POST',
 			success: function(jsonDataForm) {
 				var result = $.parseJSON(jsonDataForm);
-				console.log(result);
+				//console.log(result);
 				ajax_get_upload_images();
 				$(".images").val("");
 				off_preloader_tab();
 			},
 		});
 	});
+
+
+	function ajax_set_workers_days(){
+		var postId = $('.salon-info-tab').data('post-id');
+		var daysArray = {};
+		$( ".day label input" ).each(function( id ){
+			dayname = $(this).data('day')
+			daysArray[dayname] = $(this).val();
+		});
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "workers_days",
+				"days_array": daysArray,
+				"post_id": postId,
+			},
+			type: 'POST',
+			success: function(data) {
+				console.log(data);
+			},
+		});
+	}
+
+
 
 	$(document).ready(function(){
 		if( $('.personal-provider-section').html() !== undefined){

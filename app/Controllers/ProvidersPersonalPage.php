@@ -22,6 +22,9 @@ class ProvidersPersonalPage extends Controller
 
 		add_action('wp_ajax_delete_gallery_image', array($this, 'delete_gallery_image'));
 		add_action( 'wp_ajax_nopriv_delete_gallery_image', array($this, 'delete_gallery_image'));
+
+		add_action('wp_ajax_workers_days', array($this, 'workers_days'));
+		add_action( 'wp_ajax_nopriv_workers_days', array($this, 'workers_days'));
 	}
 	public function current_user() {
 		$user = wp_get_current_user();

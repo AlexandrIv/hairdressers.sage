@@ -15,9 +15,18 @@ trait SalonInfoTab
 				'description' 		=> $_POST['description'],
 				'upload_attachment' => $files,
 			);
+		
 			self::update_post( $saloFormData, $postId );
 			self::upload_gallery_images( $files, $postId );
+
 			echo json_encode( $saloFormData );
+			wp_die();
+		}
+
+	}
+	public function workers_days() {
+		if( isset($_POST['days_array']) && isset($_POST['post_id']) ) {
+			update_post_meta( $_POST['post_id'], 'workers_days', $_POST['days_array'] );
 			wp_die();
 		}
 	}
@@ -129,94 +138,43 @@ trait SalonInfoTab
 		}
 	}
 
-
-	/*public function working_day() {
-		$workingDaysArray = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
-		$startArray = [];
-		foreach ($workingDaysArray as $key => $value) {
-			$day = '<label for="'.lcfirst($value).'_start"><span>'.$value.'_start</span><select name="'.lcfirst($value).'_start" id="'.lcfirst($value).'">'.self::get_times().'</select></label>';
-			$startArray[$key] = $day;
-		}
-		$endArray = [];
-		foreach ($workingDaysArray as $key => $value) {
-			$day = '<label for="'.lcfirst($value).'_end"><span>'.$value.'_end</span><select name="'.lcfirst($value).'_end" id="'.lcfirst($value).'_end">'.self::get_times().'</select></label>';
-			$endArray[$key] = $day;
-		}
-
-		$returnArray['start'] = $startArray;
-		$returnArray['end'] = $endArray;
-		return $returnArray;
-	}
-
-
-
-	private function get_times( $default = '19:00', $interval = '+30 minutes' ) {
-		$output = '';
-		$current = strtotime( '00:00' );
-		$end = strtotime( '23:59' );
-		while( $current <= $end ) {
-			$time = date( 'H:i', $current );
-			$sel = ( $time == $default ) ? ' selected' : '';
-			$output .= "<option value=\"{$time}\"{$sel}>" . date( 'h:i A', $current ) .'</option>';
-			$current = strtotime( $interval, $current );
-		}
-		return $output;
-	}*/
-
-
-
-
-
-
-
-
-
-
 	public function working_day() {
 		$workingDaysArray = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
-		$startArray = [];
 		foreach ($workingDaysArray as $key => $value) {
 			$days = '
-			<div class="day">
-				<label for="input-'.lcfirst($value).'"><span>'.$value.' start</span>
-					<input type="text" data-day="'.lcfirst($value).'_start" class="open-list" id="input-'.lcfirst($value).'_start" placeholder="08:00 AM">
-				</label>
-				<ul class="time-list" id="'.lcfirst($value).'_start">'.self::get_times().'</ul>
-			</div>';
-			$startArray[$key] = $days;
+				<div class="day">
+					<label for="input-'.lcfirst($value).'_start"><span>'.$value.' start</span>
+						<input type="text" name="'.lcfirst($value).'_start" data-day="'.lcfirst($value).'_start" class="open-list-start" id="input-'.lcfirst($value).'_start" placeholder="08:00 AM" autocomplete="off">
+						<ul class="time-list-start" id="'.lcfirst($value).'_start">'.self::get_times().'</ul>
+					</label>
+					<label for="input-'.lcfirst($value).'_end"><span>'.$value.' end</span>
+						<input type="text" name="'.lcfirst($value).'_end" data-day="'.lcfirst($value).'_end" class="open-list-end" id="input-'.lcfirst($value).'_end" placeholder="08:00 AM" autocomplete="off">
+						<ul class="time-list-end" id="'.lcfirst($value).'_end">'.self::get_times().'</ul>
+					</label>
+				</div>';
+			$dayArray[$key] = $days;
 		}
-		$endArray = [];
-		foreach ($workingDaysArray as $key => $value) {
-			$days = '
-			<div class="day">
-				<label for="input-'.lcfirst($value).'"><span>'.$value.' end</span>
-					<input type="text" data-day="'.lcfirst($value).'_end" class="open-list" id="input-'.lcfirst($value).'_end" placeholder="08:00 AM">
-				</label>
-				<ul class="time-list" id="'.lcfirst($value).'_end">'.self::get_times().'</ul>
-			</div>';
-			$endArray[$key] = $days;
-		}
-		$returnArray['start'] = $startArray;
-		$returnArray['end'] = $endArray;
-		return $returnArray;
+		return $dayArray;
 	}
-
-
-
-
 
 	private function get_times( $default = '19:00', $interval = '+30 minutes' ) {
 		$output = '';
 		$current = strtotime( '00:00' );
 		$end = strtotime( '23:59' );
 		while( $current <= $end ) {
-			$time = date( 'H:i A', $current );
+			$time = date( 'H:i_A', $current );
 			$sel = ( $time == $default ) ? ' selected' : '';
 			$output .= "<li data-value=\"{$time}\"{$sel}>" . date( 'h:i A', $current ) .'</li>';
 			$current = strtotime( $interval, $current );
 		}
 		return $output;
 	}
+
+
+
+
+
+
 
 
 

@@ -1,6 +1,7 @@
 <div class="col-sm-12 col-md-12 col-lg-7 col-xl-7">
 	<div class="row article-row">
 		@if ( $post_array )
+		<input type="hidden" name="paged" id="paged" value="{!! $post_array['paged'] !!}">
 		@php
 		$coordinateArray = [];
 		$postArray = [];
@@ -38,11 +39,24 @@
 						</div>
 					</div>
 				</div>
-			</article>	
+			</article>
 		</div>
 		@endforeach
 		@else
 		<h3>Салонов не найдено!!!</h3>
+		@endif
+
+		{{-- <pre style="color: #fff;">
+			@php
+				var_dump();
+			@endphp
+		</pre> --}}
+
+		@if ( (int)$post_array['wp_query']->max_num_pages > 1 )
+			<script id="true_loadmore">
+				window.true_posts = '{!! serialize($post_array['wp_query']->query_vars) !!}'; 
+				window.current_page = '{!! ( $post_array['wp_query']->query_vars['paged'] ) ? $post_array['wp_query']->query_vars['paged'] : 1; !!}';
+			</script>
 		@endif
 	</div>
 </div>

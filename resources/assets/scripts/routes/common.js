@@ -91,17 +91,40 @@ export default {
 
 
 
-    $('.open-list').on('click', function(){
+    $('.open-list-start').on('click', function(){
       var day = $(this).data('day');
       $('#'+day).toggleClass('show');
     });
 
-    $('.time-list li').on('click', function(){
+    $('.time-list-start li').on('click', function(){
       var day = $(this).parent().attr('id');
       var time = $(this).data('value');
       $('#input-'+day).val(time);
       $('#input-'+day).attr('placeholder', time);
-      $('#'+day).removeClass('show');
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $('.open-list-end').on('click', function(){
+      var day = $(this).data('day');
+      $('#'+day).toggleClass('show');
+    });
+
+    $('.time-list-end li').on('click', function(){
+      var day = $(this).parent().attr('id');
+      var time = $(this).data('value');
+      $('#input-'+day).val(time);
+      $('#input-'+day).attr('placeholder', time);
     });
 
 

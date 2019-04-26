@@ -126,11 +126,14 @@
 								margin-bottom: 20px;
 								position: relative;
 								width: 100%;
+								display: flex;
+								justify-content: space-between;
+								align-items: center;
 								label {
 									position: relative;
 									margin: 0;
 									padding: 0;
-									width: 100%;
+									width: 48%;
 									input {
 										width: 100%;
 										cursor: pointer;

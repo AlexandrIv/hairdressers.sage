@@ -57,15 +57,10 @@
                     </label>
                     <label><span>Select working days:</span></label>
                     <div class="row working-days">
-                      <div class="col-6">
-                        @foreach ($working_day['start'] as $element)
+                      <div class="col-12">
+                        @foreach ($working_day as $element)
                          {!! $element !!}
                         @endforeach
-                      </div>
-                      <div class="col-6">
-                          @foreach ($working_day['end'] as $element)
-                           {!! $element !!}
-                          @endforeach
                       </div>
                     </div>
                     <label class="box" for="images"><span>Upload images of your salon:</span>
@@ -80,6 +75,9 @@
                   
 
                   
+                  <div id="status"></div>
+
+
 
                 </div>
               </div>
