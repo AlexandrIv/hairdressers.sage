@@ -44,11 +44,13 @@ jQuery(document).ready(function($){
 
 jQuery(function($){
 	$(window).scroll(function(){
+		var form_data = $('#search-form').serializeArray();
 		var bottomOffset = 2000;
 		var data = {
-			'action': 'ajax_loadmore_post',
+			'action': 'loadmore_post',
 			'true_posts': window.true_posts,
 			'current_page': window.current_page,
+			'form_data': form_data,
 		};
 		if( $(document).scrollTop() > ($(document).height() - bottomOffset) && !$('body').hasClass('loading')){
 			$.ajax({
@@ -63,6 +65,7 @@ jQuery(function($){
 						$('#true_loadmore').before(data);
 						$('body').removeClass('loading');
 						window.current_page++;
+						initMap();
 					}
 				}
 			});
@@ -93,6 +96,7 @@ jQuery(function($){
 
 	function initMap() {
 		var postsArray = JSON.parse(window.postArray);
+		console.log(postsArray);
 		if ( postsArray ) {
 			var map = new google.maps.Map(
 				document.getElementById('map'), {
