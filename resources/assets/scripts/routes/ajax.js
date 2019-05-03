@@ -6,24 +6,52 @@ jQuery(document).ready(function($){
 		$.ajax({
 			url: ajax['ajax_url'],
 			data: {
-				"action": "get_order_services_db",
+				"action": "get_search_results",
 				"form_data": form_data,
 			},
 			dataType: "html",
 			type: 'POST',
-			success: function(jsonData) {
-				if( jsonData ) {
+			success: function(postData) {
+				if( postData ) {
 					setTimeout(body_bg_off, 1300);
-					setTimeout(show_result, 1400);
-					function show_result() {
-						$('.search-result').html(jsonData);
-						slick_search_post();
-						initMap();
-					}
+					$('.search-result').html(postData);
 				}
 			},
 		});
 	});
+
+	jQuery(document).on('click', '.loadmore', function (e) {
+		e.preventDefault();
+		var form_data = $('#search-form').serializeArray();
+		var query = window.query;
+		var paged = window.paged;
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "get_search_results_loadmore",
+				"form_data": form_data,
+				"query": query,
+				"paged": paged
+			},
+			dataType: "html",
+			type: 'POST',
+			success: function(postData) {
+				if( postData ) {
+					$('#true_loadmore').html(postData);
+					paged++;
+								//slick_search_post();
+								//initMap();
+							}
+						},
+					});
+	});
+
+
+	
+
+
+
+
 
 	function slick_search_post() {
 		$('.single-post-item').slick({
@@ -42,42 +70,12 @@ jQuery(document).ready(function($){
 	}
 
 
-jQuery(function($){
-	$(window).scroll(function(){
-		var form_data = $('#search-form').serializeArray();
-		var bottomOffset = 2000;
-		var data = {
-			'action': 'loadmore_post',
-			'true_posts': window.true_posts,
-			'current_page': window.current_page,
-			'form_data': form_data,
-		};
-		if( $(document).scrollTop() > ($(document).height() - bottomOffset) && !$('body').hasClass('loading')){
-			$.ajax({
-				url: ajax['ajax_url'],
-				data: data,
-				type:'POST',
-				beforeSend: function( xhr ){
-					$('body').addClass('loading');
-				},
-				success:function(data) {
-					if( data ) { 
-						$('#true_loadmore').before(data);
-						$('body').removeClass('loading');
-						window.current_page++;
-						initMap();
-					}
-				}
-			});
-		}
-
-	});
-});
 
 
 
 
-	
+
+
 	$(".body_bg").dblclick(function() {
 		body_bg_off();
 	});
@@ -204,7 +202,7 @@ jQuery(function($){
 		$(".preloader_tab").css({'opacity':'0', 'transition':'0.5s'});
 		$(".tab-content .preloader_tab").remove();
 	}
-	
+
 	$('#salon-form').on('submit', function(e) {
 		e.preventDefault();
 		on_preloader_tab();

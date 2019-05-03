@@ -11,23 +11,42 @@ class AjaxSearch extends Controller
 	public function __construct() {
 		global $redux_demo;
 		self::$redux_demo = $redux_demo;
-		add_action('wp_ajax_get_order_services_db', array($this, 'get_order_services_db'));
-		add_action( 'wp_ajax_nopriv_get_order_services_db', array($this, 'get_order_services_db'));
+		add_action('wp_ajax_get_search_results', array($this, 'get_search_results'));
+		add_action( 'wp_ajax_nopriv_get_search_results', array($this, 'get_search_results'));
 
-		add_action('wp_ajax_loadmore_post', array($this, 'get_order_services_db'));
-		add_action( 'wp_ajax_nopriv_loadmore_post', array($this, 'get_order_services_db'));
+		add_action('wp_ajax_get_search_results_loadmore', array($this, 'get_search_results_loadmore'));
+		add_action( 'wp_ajax_nopriv_get_search_results_loadmore', array($this, 'get_search_results_loadmore'));
 	}
-	public function get_order_services_db() {
+
+	public function get_search_results() {
 		$form_data = $_POST['form_data'];
-		$post_type = $form_data[0]['value'];
-		$name = $form_data[1]['value'];
-		$address = $form_data[2]['value'];
-		$type = $form_data[3]['value'];
+		$dataArray = array(
+			'form_data'	=> $form_data,
+			'post_type' => $form_data[0]['value'],
+			'name'		=> $form_data[1]['value'],
+			'address'	=> $form_data[2]['value'],
+			'type'		=> $form_data[3]['value']
+		);
+		self::search_query( $dataArray );
 
-		$query = $_POST['true_posts'];
-		$paged = $_POST['current_page'];
+		//self::results_search( $post_type, $name, $address, $type, $paged, $query );
+		wp_die();
+	}
 
-		self::results_search( $post_type, $name, $address, $type, $paged, $query );
+	public function get_search_results_loadmore() {
+		$form_data = $_POST['form_data'];
+		$query = $_POST['query'];
+		$paged = $_POST['paged'];
+		$dataArray = array(
+			'form_data'	=> $form_data,
+			'post_type' => $form_data[0]['value'],
+			'name'		=> $form_data[1]['value'],
+			'address'	=> $form_data[2]['value'],
+			'type'		=> $form_data[3]['value'],
+			'query' 	=> $query,
+			'paged' 	=> $paged,
+		);
+		self::search_query( $dataArray );
 		wp_die();
 	}
 
@@ -55,6 +74,64 @@ class AjaxSearch extends Controller
 		}
 	}*/
 
+	private function search_query( $dataArray ) {
+		if( $dataArray['type'] ) {
+			$taxArray = array(
+				'taxonomy' => 'categories-salon',
+				'field'    => 'id',
+				'terms'    => $dataArray['type'],
+			);
+		}else {
+			$taxArray = '';
+		}
+		if( $dataArray['query'] && $dataArray['paged'] ) {
+			$args = $dataArray['query'];
+			/*$args = array(
+				's' 				=> $dataArray['name'],
+				'post_type' 		=> $dataArray['post_type'],
+				'tax_query' 		=> array( $taxArray ),
+				'posts_per_page' 	=> 4,
+				'post_status'		=> 'publish',
+				'paged'				=> $dataArray['paged']+1,
+			);*/
+			$args = $dataArray['query'];
+			$args['tax_query'] = array( $taxArray );
+			$args['paged'] = $dataArray['paged']+1;
+			$query = new WP_Query( $args );
+		}else {
+			$query = new WP_Query(
+				array(
+					's' 				=> $name,
+					'post_type' 		=> $dataArray['post_type'],
+					'tax_query' 		=> array( $taxArray ),
+					'posts_per_page' 	=> 4,
+					'paged'				=> 1,
+					'post_status'		=> 'publish'
+				)
+			);
+		}
+		echo \App\template('partials.content-search-result', compact('query'));
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	private function sort_by_plan($posts) {
 		$posts = array_map(function($post){
 			$post->plan = get_post_meta($post->ID, 'plan_type', true);
@@ -67,49 +144,17 @@ class AjaxSearch extends Controller
 		return $posts;
 	}
 	public function results_search( $post_type, $name, $address, $type, $paged, $query ) {
-		if( $type ) {
-			$taxArray = array(
-				'taxonomy' => 'categories-salon',
-				'field'    => 'id',
-				'terms'    => $type,
-			);
-		}else {
-			$taxArray = '';
-		}
-		if( $query ) {
-			$args = array(
-				's' 				=> $name,
-				'post_type' 		=> $post_type,
-				'tax_query' 		=> array( $taxArray ),
-				'posts_per_page' 	=> 4,
-				'post_status'		=> 'publish',
-				'paged'				=> $paged+1,
-			);
-			$query = new WP_Query( $args );
-		}else {
-			$query = new WP_Query(
-				array(
-					's' 				=> $name,
-					'post_type' 		=> $post_type,
-					'tax_query' 		=> array( $taxArray ),
-					'posts_per_page' 	=> 4,
-					'paged'				=> 1,
-					'post_status'		=> 'publish'
-				)
-			);
-		}
+		$query = self::search_query();
 		
-		$posts = $query->posts;
+		/*$posts = $query->posts;
 
 		$posts = (array)self::filterPostsByAdress( $posts, $address );
 
 		$posts = self::sort_by_plan((array)$posts);
 
-		$countPost = $query->found_posts;
+		$countPost = $query->found_posts;*/
 
-		/*$pagination = self::ajax_pagination( $countPost );*/
-
-		$post_array = [];
+		/*$post_array = [];
 		$post_array['paged'] = $query->query['paged'];
 		$post_array['max_num_pages'] = $query->max_num_pages;
 		$post_array['query_vars'] = $query->query_vars;
@@ -120,20 +165,12 @@ class AjaxSearch extends Controller
 			$post_array['posts'][$key]->post_image = get_field( 'images_gallery', $value->ID )[0]['url'];
 			$post_array['posts'][$key]->post_permalink = get_the_permalink( $value );
 			$post_array['posts'][$key]->link_path = get_stylesheet_directory_uri();
-		}
-		echo \App\template('partials.content-search-result', compact('post_array'));
-	}
+		}*/
 
-	/*private function ajax_pagination( $countPost ) {
-		$page = intval($countPost);
-		$total = ceil( $page / 4 );
-		$pgArgs = array(
-			'total' 	=> $total, 
-			'current' 	=> 1,
-			'prev_next'	=> false,
-		);		
-		return paginate_links( $pgArgs );
-	}*/
+		//$post_array = 'Hello';
+
+		//echo \App\template('partials.content-search-result', compact('post_array'));
+	}
 
 	private function filterPostsByAdress( $posts, $address ){
 		$dataArray = [];
