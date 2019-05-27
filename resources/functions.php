@@ -101,7 +101,7 @@ function customHeaderJson(){
     return json_encode(array(
         'ajax_url' => admin_url('admin-ajax.php'),
         'ajax_nonce' => wp_create_nonce('my_nonce'),)
-    );
+);
 }
 
 function my_acf_google_map_api( $api ){
@@ -114,3 +114,10 @@ add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');
 
 
 
+
+function get_post_term_by_id( $taxonomy = 'categories-salon' ) {
+    $termini = get_the_terms( get_the_ID(), $taxonomy );
+    foreach( $termini as $termin ){
+        echo '<a href="' . get_term_link( $termin ) . '">' . $termin->name . '</a>';
+    }
+}

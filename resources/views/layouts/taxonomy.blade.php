@@ -7,10 +7,8 @@
   <div class="wrapper" role="document">
     <div class="content">
       <div class="container">
-        <div class="row">
-         <main class="main">
+        <div class="row pt-5 pb-5">
           @yield('content')
-        </main>
       </div>
     </div>
   </div>

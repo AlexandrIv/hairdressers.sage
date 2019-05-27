@@ -1,32 +1,16 @@
-{{-- <pre style="color: #fff;">
-	@php
-	var_dump($query->query_vars);
-	@endphp
-</pre>
-@php
-die;
-@endphp --}}
-
-<div class="col-sm-12 col-md-12 col-lg-7 col-xl-7">
-	<div class="row article-row-results">
-		@foreach ($query->posts as $element)
-		<pre>
-			@php
-				var_dump($element->post_title);
-			@endphp
-		</pre>
-		{{-- <article class="article-post-result" id="article-post-result" data-article-id="{!! $element->ID !!}">
-			<div class="row">
+<div class="row">
+	<div class="search-article col-sm-12 col-md-12 col-lg-7 col-xl-7">
+		@php $postArray = [] @endphp
+		@foreach ($posts['posts'] as $element)
+		@php $postArray[] = $element @endphp
+		<article class="article-test" id="post-id-{!! $element->ID !!}">
+			<div class="row h-100">
 				<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-					<div class="image-box">
-						<div class="slider single-post-item">
-							@foreach ($element->post_gallery as $gallery)
-							<img src="{!! $gallery['url'] !!}" alt="">
-							@endforeach
-						</div>	
-					</div>
+					<a href="{!! get_the_permalink( $element ) !!}" class="box-img">
+						<img src="{!! $element->post_gallery[0]['url'] !!}" alt="">
+					</a>	
 				</div>
-				<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+				<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pt-sm-3 pb-sm-3">
 					<div class="article-info">
 						<a href="{!! get_the_permalink( $element ) !!}" class="title">{{ $element->post_title }}</a>
 						<span class="address">{!! $element->address !!}</span>
@@ -35,73 +19,83 @@ die;
 					</div>
 				</div>
 			</div>
-		</article> --}}
+		</article>
 		@endforeach
-		@if ( (int)$query->max_num_pages > 1 )
-		<a href="#" class="loadmore">Loadmore</a>
-		<script id="true_loadmore">
-			window.query = '{!! serialize($query->query_vars) !!}'; 
-			window.paged = '{!! ( $query->query_vars['paged'] ) ? $query->query_vars['paged'] : 1; !!}';
+		<script type="text/javascript">
+			window.postJson = '{!! json_encode($postArray) !!}';
 		</script>
+		@if ( (int)$query->max_num_pages > 1 )
+		<script type="text/javascript">
+			window.query_vars = '{!! serialize($query->query_vars) !!}'; 
+			window.paged = '{!! ( $query->query_vars['paged'] ) ? $query->query_vars['paged'] : 1; !!}';
+			window.max_pages = '{!! $query->max_num_pages !!}';
+		</script>
+		<div class="loadmore-btn-block">
+			<span class="true_loadmore">
+				<i class="fa fa-spinner"></i> Loading
+			</span>
+		</div>
+		<div class="loadmore-block" style="display: none;"></div>
 		@endif
-
-
-
-
-
-
-
-
-
-
-
-			{{-- @if ( $post_array['posts'] )
-				<input type="hidden" name="paged" id="paged" value="{!! $post_array['paged'] !!}">
-			@php
-			$coordinateArray = [];
-			$postArray = [];
-			@endphp
-			@foreach ($post_array['posts'] as $key => $element)
-			@if ( $element->lat && $element->lng )
-			@php
-			$coordinateArray[$key]['lat'] = $element->lat;
-			$coordinateArray[$key]['lng'] = $element->lng;
-			$postArray[$key] = $element;
-			@endphp
-			<script type="text/javascript">
-				window.coordinateArray = '{!! json_encode($coordinateArray) !!}';
-				window.postArray = '{!! json_encode($postArray) !!}';
-			</script>
-			@endif
-			
-			@endforeach
-			@if ( (int)$post_array['max_num_pages'] > 1 )
-			<script id="true_loadmore">
-				window.query = '{!! serialize($post_array['query_vars']) !!}'; 
-				window.paged = '{!! ( $post_array['query_vars_paged'] ) ? $post_array['query_vars_paged'] : 1; !!}';
-			</script>
-			@endif
-			@else
-			<h3>Салонов не найдено!!!</h3>
-			@endif --}}
+	</div>
+	<div class="col-sm-12 col-md-12 col-lg-5 col-xl-5">
+		<div class="maps" id="maps">
+			<div id="mapHome" style="width: 100%; height: 500px;"></div>
 		</div>
 	</div>
+</div>
 
 
-	{{-- @if ( (int)$post_array['max_num_pages'] > 1 )
-	<script id="true_loadmore">
-		window.query = '{!! serialize($post_array['query_vars']) !!}'; 
-		window.paged = '{!! ( $post_array['query_vars_paged'] ) ? $post_array['query_vars_paged'] : 1; !!}';
-	</script>
-	@endif --}}
-
-	
-
-	{{-- @if ( $post_array['posts'] )
+{{-- <div class="row">
+	@if ( $posts['posts'] )
+	<div class="col-sm-12 col-md-12 col-lg-7 col-xl-7">
+		<div class="article-row-results">
+			@php
+			$postArray = [];
+			@endphp
+			@foreach ($posts['posts'] as $key => $element)
+			@if ( $element->lat && $element->lng )
+			@php
+			$postArray[] = $element;
+			@endphp
+			@endif
+			<article class="article-post-result" id="article-post-result" data-article-id="{!! $element->ID !!}">
+				<div class="row">
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+						<div class="image-box">
+							<div class="slider single-post-item">
+								@foreach ($element->post_gallery as $gallery)
+								<img src="{!! $gallery['url'] !!}" alt="">
+								@endforeach
+							</div>	
+						</div>
+					</div>
+					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+						<div class="article-info">
+							<a href="{!! get_the_permalink( $element ) !!}" class="title">{{ $element->post_title }}</a>
+							<span class="address">{!! $element->address !!}</span>
+							<span class="stars"></span>
+							<a href="{!! get_the_permalink( $element ) !!}" class="link-post">Prendre rdv</a>
+						</div>
+					</div>
+				</div>
+			</article>
+			@endforeach
+			@if ( (int)$query->max_num_pages > 1 )
+			<script>
+				window.query_vars = '{!! serialize($query->query_vars) !!}'; 
+				window.paged = '{!! ( $query->query_vars['paged'] ) ? $query->query_vars['paged'] : 1; !!}';
+				window.max_pages = '{!! $query->max_num_pages !!}';
+				window.postJson = '{!! json_encode($postArray) !!}';
+			</script>
+			<div class="true_loadmore">Loadmore</div>
+			@endif
+		</div>
+	</div>
 	<div class="col-sm-12 col-md-12 col-lg-5 col-xl-5">
-		<div class="map-results"></div>
 		<div class="maps" id="maps">
 			<div id="map" style="width: 100%; height: 500px;"></div>
 		</div>
 	</div>
-	@endif --}}
+	@endif
+</div> --}}

@@ -1,6 +1,7 @@
 jQuery(document).ready(function($){
 	$('#search-form').on('submit', function(e){
 		e.preventDefault();
+		$('.search-result').fadeOut();
 		setTimeout(body_bg_on, 300);
 		var form_data = $('#search-form').serializeArray();
 		$.ajax({
@@ -13,69 +14,15 @@ jQuery(document).ready(function($){
 			type: 'POST',
 			success: function(postData) {
 				if( postData ) {
-					setTimeout(body_bg_off, 1300);
-					$('.search-result').html(postData);
+					setTimeout(function(){
+						$('.search-result').html(postData).fadeIn(800);
+						initMapHome();
+						body_bg_off();
+					}, 1500);
 				}
 			},
 		});
 	});
-
-	jQuery(document).on('click', '.loadmore', function (e) {
-		e.preventDefault();
-		var form_data = $('#search-form').serializeArray();
-		var query = window.query;
-		var paged = window.paged;
-		$.ajax({
-			url: ajax['ajax_url'],
-			data: {
-				"action": "get_search_results_loadmore",
-				"form_data": form_data,
-				"query": query,
-				"paged": paged
-			},
-			dataType: "html",
-			type: 'POST',
-			success: function(postData) {
-				if( postData ) {
-					$('#true_loadmore').html(postData);
-					paged++;
-								//slick_search_post();
-								//initMap();
-							}
-						},
-					});
-	});
-
-
-	
-
-
-
-
-
-	function slick_search_post() {
-		$('.single-post-item').slick({
-			slidesToShow: 1,
-			slidesToScroll: 1,
-			arrows: true,
-			responsive: [
-			{
-				breakpoint: 768,
-				settings: {
-					arrows: false,
-				},
-			},
-			],
-		});
-	}
-
-
-
-
-
-
-
-
 	$(".body_bg").dblclick(function() {
 		body_bg_off();
 	});
@@ -90,14 +37,68 @@ jQuery(document).ready(function($){
 	function scroll_result_search(){
 		var top = $('.search-result').offset().top;
 		$('.home,html').animate({scrollTop: top}, 1000);
-	}	
+	}
 
-	function initMap() {
-		var postsArray = JSON.parse(window.postArray);
-		console.log(postsArray);
+
+	jQuery(document).on('click', '.true_loadmore', function () {
+		$('.fa-spinner', this).addClass('fa-spin');
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "get_search_results_loadmore",
+				"query_vars": window.query_vars,
+				"paged": window.paged
+			},
+			dataType: "html",
+			type: 'POST',
+			success: function(postData) {
+				if( postData ) {
+					$('.loadmore-block').html(postData).fadeIn(500);
+					initMapHome();
+					window.paged+1;
+					if (window.paged == window.max_pages) $(".true_loadmore").remove();
+				} else {
+					$('.true_loadmore').remove();
+				}
+			},
+		});
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	function initMapHome() {
+		var postsArray = JSON.parse(window.postJson);
+
+		if( window.postJsonAjax != undefined && window.postJsonAjax ) {
+			var postAjaxArray = JSON.parse(window.postJsonAjax);
+			Array.prototype.push.apply(postsArray, postAjaxArray);
+		}else {
+			var postsArray = postsArray;
+		}
+		//console.log(postsArray);
 		if ( postsArray ) {
 			var map = new google.maps.Map(
-				document.getElementById('map'), {
+				document.getElementById('mapHome'), {
 					zoom: 12,
 					center: {
 						lat: parseFloat(postsArray[0].lat),
@@ -133,6 +134,7 @@ jQuery(document).ready(function($){
 				});
 			})
 		}
+
 	}
 
 
