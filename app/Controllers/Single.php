@@ -20,4 +20,8 @@ class Single extends Controller
 		$returnArray['image_url'] = get_field( 'images_gallery' )[0]['url'];
 		return $returnArray;
 	}
+	public function get_opening_times() {
+		$day_time_array = get_post_meta( get_the_ID(), 'workers_days', true );
+		return $day_time_array;
+	}
 }

@@ -95,25 +95,12 @@ export default {
       var day = $(this).data('day');
       $('#'+day).toggleClass('show');
     });
-
     $('.time-list-start li').on('click', function(){
       var day = $(this).parent().attr('id');
       var time = $(this).data('value');
       $('#input-'+day).val(time);
       $('#input-'+day).attr('placeholder', time);
     });
-
-
-
-
-
-
-
-
-
-
-
-
 
     $('.open-list-end').on('click', function(){
       var day = $(this).data('day');
@@ -147,6 +134,39 @@ export default {
       moreLink: '<a class="loadmore" href="#">LIRE LA SUITE</a>',
       lessLink: true
     });
+
+
+
+
+
+
+
+    $('.open-service-category').on('click', function(){
+      $('.open-category-list').toggleClass('show');
+    });
+    $('.open-category-list li').on('click', function(){
+      var cat_id = $(this).data('category-id');
+      var cat_name = $(this).text();
+      $('.open-service-category').val(cat_name);
+      $('.open-service-category').attr('category-id', cat_id);
+    });
+
+    /*$('.time-list-start li').on('click', function(){
+      var day = $(this).parent().attr('id');
+      var time = $(this).data('value');
+      $('#input-'+day).val(time);
+      $('#input-'+day).attr('placeholder', time);
+    });*/
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -212,7 +232,7 @@ export default {
       console.log(postsArray);
       if ( postsArray ) {
         var map = new google.maps.Map(
-          document.getElementById('map-category'), {
+          document.getElementById('mapCategory'), {
             zoom: 12,
             center: {
               lat: parseFloat(postsArray[0].lat),
@@ -249,7 +269,6 @@ export default {
         })
       }
     }
-
 
     if(window.postJsonCategory != undefined) {
       initMap();

@@ -30,6 +30,6 @@
 </div>
 <div class="col-sm-12 col-md-12 col-lg-5 col-xl-5">
 	<div class="maps" id="maps">
-		<div id="map-category" style="width: 100%; height: 500px;"></div>
+		<div id="mapCategory" style="width: 100%; height: 500px;"></div>
 	</div>
 </div>

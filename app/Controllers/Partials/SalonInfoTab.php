@@ -15,7 +15,7 @@ trait SalonInfoTab
 				'description' 		=> $_POST['description'],
 				'upload_attachment' => $files,
 			);
-		
+
 			self::update_post( $saloFormData, $postId );
 			self::upload_gallery_images( $files, $postId );
 
@@ -26,7 +26,16 @@ trait SalonInfoTab
 	}
 	public function workers_days() {
 		if( isset($_POST['days_array']) && isset($_POST['post_id']) ) {
-			update_post_meta( $_POST['post_id'], 'workers_days', $_POST['days_array'] );
+			$days = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
+			$uploadArray = [];
+			foreach ($_POST['days_array'] as $key => $value) {
+				foreach ($days as $day) {
+					$start = $_POST['days_array'][$day.'_start'];
+					$end = $_POST['days_array'][$day.'_end'];
+					$uploadArray[$day] = array( 'start' => $start, 'end' => $end );
+				}
+			}
+			update_post_meta( $_POST['post_id'], 'workers_days', $uploadArray );
 			wp_die();
 		}
 	}
@@ -138,20 +147,28 @@ trait SalonInfoTab
 		}
 	}
 
+	public function get_workers_days() {
+		if( isset($_POST['post_id']) ) {
+			$work_day_time = get_post_meta( $_POST['post_id'], 'workers_days', true );
+			echo json_encode( $work_day_time );
+			wp_die();
+		}
+	}
+
 	public function working_day() {
 		$workingDaysArray = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
 		foreach ($workingDaysArray as $key => $value) {
 			$days = '
-				<div class="day">
-					<label for="input-'.lcfirst($value).'_start"><span>'.$value.' start</span>
-						<input type="text" name="'.lcfirst($value).'_start" data-day="'.lcfirst($value).'_start" class="open-list-start" id="input-'.lcfirst($value).'_start" placeholder="08:00 AM" autocomplete="off">
-						<ul class="time-list-start" id="'.lcfirst($value).'_start">'.self::get_times().'</ul>
-					</label>
-					<label for="input-'.lcfirst($value).'_end"><span>'.$value.' end</span>
-						<input type="text" name="'.lcfirst($value).'_end" data-day="'.lcfirst($value).'_end" class="open-list-end" id="input-'.lcfirst($value).'_end" placeholder="08:00 AM" autocomplete="off">
-						<ul class="time-list-end" id="'.lcfirst($value).'_end">'.self::get_times().'</ul>
-					</label>
-				</div>';
+			<div class="day">
+			<label for="input-'.lcfirst($value).'_start"><span>'.$value.' start</span>
+			<input type="text" name="'.lcfirst($value).'_start" data-day="'.lcfirst($value).'_start" class="open-list-start" id="input-'.lcfirst($value).'_start" placeholder="08:00 AM" autocomplete="off">
+			<ul class="time-list-start" id="'.lcfirst($value).'_start">'.self::get_times().'</ul>
+			</label>
+			<label for="input-'.lcfirst($value).'_end"><span>'.$value.' end</span>
+			<input type="text" name="'.lcfirst($value).'_end" data-day="'.lcfirst($value).'_end" class="open-list-end" id="input-'.lcfirst($value).'_end" placeholder="08:00 AM" autocomplete="off">
+			<ul class="time-list-end" id="'.lcfirst($value).'_end">'.self::get_times().'</ul>
+			</label>
+			</div>';
 			$dayArray[$key] = $days;
 		}
 		return $dayArray;
@@ -167,6 +184,7 @@ trait SalonInfoTab
 			$output .= "<li data-value=\"{$time}\"{$sel}>" . date( 'h:i A', $current ) .'</li>';
 			$current = strtotime( $interval, $current );
 		}
+		$output .= '<li data-value="closed">Closed</li>';
 		return $output;
 	}
 
@@ -174,7 +192,7 @@ trait SalonInfoTab
 
 
 
-
+	
 
 
 

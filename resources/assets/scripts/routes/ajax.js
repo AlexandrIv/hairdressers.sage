@@ -220,12 +220,17 @@ jQuery(document).ready(function($){
 				var result = $.parseJSON(jsonDataForm);
 				//console.log(result);
 				ajax_get_upload_images();
+				ajax_get_workers_days();
 				$(".images").val("");
 				off_preloader_tab();
 			},
 		});
 	});
 
+	$('#images').on('change', function() {
+		on_preloader_tab();
+		$('#salon-form').submit();
+	});
 
 	function ajax_set_workers_days(){
 		var postId = $('.salon-info-tab').data('post-id');
@@ -248,11 +253,32 @@ jQuery(document).ready(function($){
 		});
 	}
 
+	function ajax_get_workers_days() {
+		var postId = $('.salon-info-tab').data('post-id');
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"post_id": postId,
+				"action": "get_workers_days",
+			},
+			type: 'POST',
+			success: function(dataTime) {
+				if( dataTime ) {
+					var days_times = JSON.parse(dataTime);
+					$.each(days_times, function( index, value ) {
+						$('[data-day="'+index+'_start"]').val(value.start);
+						$('[data-day="'+index+'_end"]').val(value.end);
+					});
+				}
+			},
+		});
+	}
 
 
 	$(document).ready(function(){
 		if( $('.personal-provider-section').html() !== undefined){
 			ajax_get_upload_images();
+			ajax_get_workers_days();
 		}
 	});
 

@@ -7,13 +7,13 @@
             <h3>Hello {!! $current_user['user_firstname'] !!}</h3>
             <ul class="nav nav-tabs">
               <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#tab1">Abonnement</a>
+                <a class="nav-link" data-toggle="tab" href="#tab1">Abonnement</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link salon-info-tab" data-post-id="{!! $get_salon_info['ID'] !!}" data-toggle="tab" href="#tab2">À propos du Salon</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#tab3">Ajouter des services</a>
+                <a class="nav-link active" data-toggle="tab" href="#tab3">Ajouter des services</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#tab4">Ajouter des employées</a>
@@ -27,14 +27,13 @@
             </ul>
 
             <div class="tab-content">
-              <div class="tab-pane container active" id="tab1">
+              <div class="tab-pane container" id="tab1">
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa quis autem eum molestiae sit, dolorum corporis vero fuga ut atque illo qui accusantium assumenda laborum praesentium dolore voluptate aperiam ad, blanditiis recusandae perferendis iusto beatae? Tenetur ab veniam fugiat, omnis corrupti hic eum quisquam. Voluptate, repellat explicabo iste est. Adipisci, atque! Sapiente placeat rerum ad magnam quidem, officiis excepturi explicabo itaque provident exercitationem porro autem ea dolores perspiciatis mollitia laborum! Tempore dolorum totam, placeat, quod vero ipsa qui facilis nulla earum eaque praesentium itaque. Dignissimos error modi esse repudiandae molestiae blanditiis sit nemo saepe, nobis numquam cumque quisquam tempore laboriosam ipsum sed accusantium impedit consequatur asperiores excepturi, totam quae dolorem quia beatae corporis. Repellendus, sed veritatis nisi praesentium dolore eius nam, similique aut autem vitae vero hic, fugit minus totam libero ut. Dolorum hic sapiente aspernatur amet, est velit fugit saepe eum non, minus esse vero excepturi quidem sequi ipsam quo. Officiis corrupti, hic quaerat nobis facere dolore atque molestias blanditiis itaque nam possimus vel eum corporis iure maiores saepe ratione suscipit facilis in obcaecati cumque culpa voluptate labore! Corporis magni ea ab expedita optio amet, itaque reiciendis minus tenetur, accusantium perferendis at, et iste. Voluptatum dolore eaque velit quas!</p>
               </div>
 
 
               <div class="tab-pane container fade" id="tab2">
                 <div class="salon-info">
-
                   <form id="salon-form">
                     <input type="hidden" name="action" value="salon_form">
                     <input type="hidden" name="post_id" value="{!! $get_salon_info['ID'] !!}">
@@ -59,7 +58,7 @@
                     <div class="row working-days">
                       <div class="col-12">
                         @foreach ($working_day as $element)
-                         {!! $element !!}
+                        {!! $element !!}
                         @endforeach
                       </div>
                     </div>
@@ -67,23 +66,64 @@
                       <input type="file" name="upload_attachment[]" class="images" id="images" size="50" multiple="multiple" />
                     </label>
                     <div class="row upload-images"></div>
+
+
                     <label class="salon-save-form">
                       <input type="submit" name="salon-save-form" class="button-salon-save-form" id="salon-save-form" value="Save" form="salon-form">
                     </label>
 
                   </form>
-                  
 
-                  
                   <div id="status"></div>
-
-
-
                 </div>
               </div>
 
 
-              <div class="tab-pane container fade" id="tab3">...</div>
+              <div class="tab-pane container active" id="tab3">
+                <div class="service-info">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-4">
+                        <form id="service-form">
+                          <label class="service-category" for="service-category"><span>Select service category:</span>
+                            <input type="text" name="service-category" id="service-category" class="open-service-category">
+                            <ul class="open-category-list">
+                              <li data-category-id="74">Femme</li>
+                              <li data-category-id="24">Homme</li>
+                              <li data-category-id="13">Technique</li>
+                              <li data-category-id="56">Enfant (jusqu`à 10 ans)</li>
+                            </ul>
+                          </label>
+                          <label class="service-name" for="service-name"><span>Input service name:</span>
+                            <input type="text" name="service-name" id="service-name">
+                          </label>
+                          
+                          <label class="service-duration" for="service-duration"><span>Select service category:</span>
+                            <input type="text" name="service-category" id="service-duration" class="open-service-duration">
+                            <ul class="open-duration-list">
+                              {!! $duration !!}
+                              {{-- <li data-duration-time="1h">Femme</li>
+                              <li data-duration-time="1:30">Homme</li>
+                              <li data-duration-time="2">Technique</li>
+                              <li data-duration-time="56">Enfant (jusqu`à 10 ans)</li> --}}
+                            </ul>
+                          </label>
+
+                          <label class="service-price" for="service-price"><span>Input service price:</span>
+                            <input type="text" name="service-price" id="service-price">
+                          </label>
+
+                        </form>
+                      </div>
+                      <div class="col-8">
+                        456
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
               <div class="tab-pane container fade" id="tab4">...</div>
               <div class="tab-pane container fade" id="tab5">...</div>
               <div class="tab-pane container fade" id="tab6">...</div>

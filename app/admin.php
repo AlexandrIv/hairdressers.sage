@@ -29,6 +29,7 @@ add_action('init', function(){
 			'name'               => 'Salons',
 			'singular_name'      => 'salons'
 		),
+		'menu_icon'          => 'dashicons-excerpt-view',
 		'public'             => true,
 		'publicly_queryable' => true,
 		'show_ui'            => true,
@@ -61,5 +62,43 @@ add_action('init', function(){
 		'hierarchical'          => true,
 		'show_admin_column'     => true,
 	) );
-});
 
+	register_post_type('services', array(
+		'labels'             => array(
+			'name'               => 'Services',
+			'singular_name'      => 'Services'
+		),
+		'menu_icon'          => 'dashicons-list-view',
+		'public'             => true,
+		'publicly_queryable' => true,
+		'show_ui'            => true,
+		'show_in_menu'       => true,
+		'query_var'          => true,
+		'rewrite'            => true,
+		'capability_type'    => 'post',
+		'has_archive'        => true,
+		'hierarchical'       => false,
+		/*'taxonomies'		 => array( 'categories_salon' ),*/
+		'menu_position'      => null,
+		'supports'           => array('title','editor','author','thumbnail','comments')
+	) );
+	register_taxonomy('categories-service', array('services'), array(
+		'label'                 => '', // определяется параметром $labels->name
+		'labels'                => array(
+			'name'              => 'Service category',
+			'singular_name'     => 'Service category',
+			'search_items'      => 'Search Services',
+			'all_items'         => 'All Services',
+			'view_item '        => 'View Service',
+			'parent_item'       => 'Parent Service',
+			'parent_item_colon' => 'Parent Service:',
+			'edit_item'         => 'Edit Service',
+			'update_item'       => 'Update Service',
+			'add_new_item'      => 'Add New Service Category',
+			'new_item_name'     => 'New Service Name',
+			'menu_name'         => 'Service categories',
+		),
+		'hierarchical'          => true,
+		'show_admin_column'     => true,
+	) );
+});
