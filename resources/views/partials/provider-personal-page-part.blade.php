@@ -85,6 +85,9 @@
                     <div class="row">
                       <div class="col-4">
                         <form id="service-form">
+
+
+
                           <label class="service-category" for="service-category"><span>Select service category:</span>
                             <input type="text" name="service-category" id="service-category" class="open-service-category">
                             <ul class="open-category-list">
@@ -98,16 +101,28 @@
                             <input type="text" name="service-name" id="service-name">
                           </label>
                           
-                          <label class="service-duration" for="service-duration"><span>Select service category:</span>
-                            <input type="text" name="service-category" id="service-duration" class="open-service-duration">
-                            <ul class="open-duration-list">
+
+
+                          <label class="service-duration" for="service-duration"><span>Select service category:</span></label>
+                          <div class="opening-box">
+                            <input type="text" name="service-category" id="service-duration" class="open-input">
+                            <ul class="open-list-menu">
                               {!! $duration !!}
-                              {{-- <li data-duration-time="1h">Femme</li>
-                              <li data-duration-time="1:30">Homme</li>
-                              <li data-duration-time="2">Technique</li>
-                              <li data-duration-time="56">Enfant (jusqu`à 10 ans)</li> --}}
                             </ul>
-                          </label>
+                          </div>
+                          
+
+
+                          <label class="service-duration" for="service-duration"><span>Select service category:</span></label>
+                          <div class="opening-box">
+                            <input type="text" name="service-category" id="service-duration" class="open-input">
+                            <ul class="open-list-menu">
+                              {!! $duration !!}
+                            </ul>
+                          </div>
+                          
+
+
 
                           <label class="service-price" for="service-price"><span>Input service price:</span>
                             <input type="text" name="service-price" id="service-price">

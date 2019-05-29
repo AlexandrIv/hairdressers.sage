@@ -183,6 +183,13 @@
 					}
 				}
 
+
+
+
+
+
+
+
 				.service-info {
 					#service-form {
 						label {
@@ -199,6 +206,39 @@
 							position: relative;
 							width: 100%;
 							input {
+								cursor: pointer;
+							}
+							ul {
+								width: 100%;
+								opacity: 0;
+								visibility: hidden;
+								border: 1px solid lightgray;
+								border-top: none;
+								height: auto;
+								overflow: overlay;
+								position: absolute;
+								z-index: 20;
+								background-color: #fff;
+								li {
+									cursor: pointer;
+									padding: 10px 15px;
+									color: #707070;
+									font-size: 13px;
+									&:hover {
+										background-color: #efefef;
+									}
+								}
+							}
+							.show {
+								opacity: 1;
+								visibility: visible;
+							}
+						}
+						.opening-box {
+							position: relative;
+							width: 100%;
+							input {
+								width: 100%;
 								cursor: pointer;
 							}
 							ul {

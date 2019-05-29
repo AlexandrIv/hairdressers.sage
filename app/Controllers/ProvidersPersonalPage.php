@@ -8,6 +8,7 @@ use Sober\Controller\Controller;
 class ProvidersPersonalPage extends Controller
 {
 	use \App\Controllers\Partials\SalonInfoTab;
+	use \App\Controllers\Partials\ServiceInfoTab;
 
 	private static $redux_demo;
 	public function __construct() {

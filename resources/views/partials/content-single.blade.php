@@ -160,6 +160,7 @@
   </article>
 </div>
 <div class="sidebar col-xl-4 col-lg-4 col-md-12 col-sm-12">
+  @if ($single_map_info)
   <div class="sidebar-box map-sidebar">
     <h3>Plan d'accès</h3>
     <div id="map-single">
@@ -168,6 +169,8 @@
       </script>
     </div>
   </div>
+  @endif
+  @if ($get_opening_times)
   <div class="sidebar-box opening-time">
     <h3>Horaires d'ouverture</h3>
     <table>
@@ -188,42 +191,8 @@
         </tr>
         @endif
         @endforeach
-
-
-        {{-- <tr>
-          <td>Lundi</td>
-          <td>Fermé</td>
-        </tr>
-        <tr>
-          <td>Mardi</td>
-          <td><span class="start">10:30</span>-<span class="end">18:00</span></td>
-        </tr>
-        <tr>
-          <td>Mercredi</td>
-          <td><span class="start">10:30</span>-<span class="end">18:00</span></td>
-        </tr>
-        <tr>
-          <td>Jeudi</td>
-          <td><span class="start">10:30</span>-<span class="end">18:00</span></td>
-        </tr>
-        <tr>
-          <td>Vendredi</td>
-          <td><span class="start">10:30</span>-<span class="end">18:00</span></td>
-        </tr>
-        <tr>
-          <td>Samedi</td>
-          <td><span class="start">10:30</span>-<span class="end">18:00</span></td>
-        </tr>
-        <tr>
-          <td>Dimanche</td>
-          <td>Fermé</td>
-        </tr> --}}
-
-
-
       </tbody>
     </table>
-
-
   </div>
+  @endif
 </div>
