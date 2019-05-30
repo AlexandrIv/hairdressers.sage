@@ -29,6 +29,10 @@ class ProvidersPersonalPage extends Controller
 
 		add_action('wp_ajax_get_workers_days', array($this, 'get_workers_days'));
 		add_action( 'wp_ajax_nopriv_get_workers_days', array($this, 'get_workers_days'));
+
+
+		add_action('wp_ajax_service_form', array($this, 'service_form'));
+		add_action( 'wp_ajax_nopriv_service_form', array($this, 'service_form'));
 	}
 	public function current_user() {
 		$user = wp_get_current_user();

@@ -141,7 +141,44 @@ export default {
 
 
 
-    $('.open-service-category').on('click', function(){
+    $('.category-input').on('click', function(){
+      $('.category-list').toggleClass('show');
+    });
+    $('.category-list li').on('click', function(){
+      $('.category-list').removeClass('show');
+      var cat_id = $(this).data('category-id');
+      var cat_name = $(this).text();
+      $('.category-input').val(cat_name);
+      $('.category-input').attr('data-category-id', cat_id);
+    });
+
+
+    $('.duration-input').on('click', function(){
+      $('.duration-list').toggleClass('show');
+    });
+    $('.duration-list li').on('click', function(){
+      $('.duration-list').removeClass('show');
+      var duratino = $(this).data('duration');
+      var times = $(this).text();
+      $('.duration-input').val(times);
+      $('.duration-input').attr('data-duration', duratino);
+    });
+
+    $('.custom-from-list li').on('click', function(){
+      /*$('input', this).prop("checked", true);*/
+      /*$("input", this).toggle("checked", true);*/
+     $("input", this).trigger('click').trigger('change');
+    });
+
+
+
+
+
+
+
+
+
+   /* $('.duration-input').on('click', function(){
       $('.open-category-list').toggleClass('show');
     });
     $('.open-category-list li').on('click', function(){
@@ -149,18 +186,11 @@ export default {
       var cat_name = $(this).text();
       $('.open-service-category').val(cat_name);
       $('.open-service-category').attr('category-id', cat_id);
-    });
-
-    /*$('.time-list-start li').on('click', function(){
-      var day = $(this).parent().attr('id');
-      var time = $(this).data('value');
-      $('#input-'+day).val(time);
-      $('#input-'+day).attr('placeholder', time);
     });*/
 
 
 
-    $('.opening-box').on('click', function(){
+    /*$('.opening-box').on('click', function(){
       $('.open-list-menu', this).toggleClass('show');
     });
     $('.open-list-menu li').on('click', function(){
@@ -174,7 +204,7 @@ export default {
       console.log($(this).parents('.open-list-menu').closest('.open-input'));
       $(this).parent('.open-list-menu').find('.open-input').val(name);
       $(this).parent('.open-list-menu').find('.open-input').attr('data-duration', duration);
-    });
+    });*/
 
 
 

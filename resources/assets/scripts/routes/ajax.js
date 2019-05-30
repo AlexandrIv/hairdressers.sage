@@ -39,7 +39,6 @@ jQuery(document).ready(function($){
 		$('.home,html').animate({scrollTop: top}, 1000);
 	}
 
-
 	jQuery(document).on('click', '.true_loadmore', function () {
 		$('.fa-spinner', this).addClass('fa-spin');
 		$.ajax({
@@ -63,29 +62,6 @@ jQuery(document).ready(function($){
 			},
 		});
 	});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	function initMapHome() {
 		var postsArray = JSON.parse(window.postJson);
 
@@ -193,10 +169,50 @@ jQuery(document).ready(function($){
 	});
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	function on_preloader_tab() {
 		$("body").css("cursor", "wait");
 		$('.tab-content').prepend('<div class="preloader_tab"></div>');
-		$(".preloader_tab").css({'opacity':'0.3', 'transition':'0.5s', 'background-color':'#fff'});
+		$(".preloader_tab").css({'opacity':'0.4', 'transition':'0.5s', 'background-color':'#fff'});
 	}
 
 	function off_preloader_tab() {
@@ -218,7 +234,6 @@ jQuery(document).ready(function($){
 			type: 'POST',
 			success: function(jsonDataForm) {
 				var result = $.parseJSON(jsonDataForm);
-				//console.log(result);
 				ajax_get_upload_images();
 				ajax_get_workers_days();
 				$(".images").val("");
@@ -231,7 +246,6 @@ jQuery(document).ready(function($){
 		on_preloader_tab();
 		$('#salon-form').submit();
 	});
-
 	function ajax_set_workers_days(){
 		var postId = $('.salon-info-tab').data('post-id');
 		var daysArray = {};
@@ -248,11 +262,37 @@ jQuery(document).ready(function($){
 			},
 			type: 'POST',
 			success: function(data) {
-				console.log(data);
 			},
 		});
 	}
 
+
+
+	
+
+
+
+
+	$(document).ready(function(){
+		if( $('.personal-provider-section').html() !== undefined){
+			ajax_get_upload_images();
+			ajax_get_workers_days();
+		}
+	});
+	function ajax_get_upload_images() {
+		var postId = $('.salon-info-tab').data('post-id');
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "get_upload_images",
+				"post_id": postId,
+			},
+			type: 'POST',
+			success: function(imageData) {
+				$('.upload-images').html(imageData);
+			},
+		});
+	}
 	function ajax_get_workers_days() {
 		var postId = $('.salon-info-tab').data('post-id');
 		$.ajax({
@@ -275,33 +315,12 @@ jQuery(document).ready(function($){
 	}
 
 
-	$(document).ready(function(){
-		if( $('.personal-provider-section').html() !== undefined){
-			ajax_get_upload_images();
-			ajax_get_workers_days();
-		}
-	});
 
-	function ajax_get_upload_images() {
-		var postId = $('.salon-info-tab').data('post-id');
-		$.ajax({
-			url: ajax['ajax_url'],
-			data: {
-				"action": "get_upload_images",
-				"post_id": postId,
-			},
-			type: 'POST',
-			success: function(imageData) {
-				$('.upload-images').html(imageData);
-			},
-		});
-	}
 
 	jQuery(document).on('click', '.upload-images .img-box .del-img', function () {
 		var deleteImgId = $(this).data('delete-img-id');
 		ajax_remove_gallery_image( deleteImgId );
 	});
-
 	function ajax_remove_gallery_image( deleteImgId ) {
 		on_preloader_tab();
 		$.ajax({
@@ -317,6 +336,66 @@ jQuery(document).ready(function($){
 			},
 		});
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	$('.add-new-service').on('click', function(e){
+		e.preventDefault();
+		on_preloader_tab();
+		var category = $('.category-input').data('category-id');
+		var name = $('.name-input').val();
+		var duration = $('.duration-input').data('duration');
+		var price = $('.price-input').val();
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "service_form",
+				"category": category,
+				"name": name,
+				"duration": duration,
+				"price": price,
+			},
+			type: 'POST',
+			success: function(serviceData) {
+				console.log(serviceData);
+				//var result = $.parseJSON(jsonDataForm);
+				off_preloader_tab();
+			},
+		});
+	});
 
 
 
