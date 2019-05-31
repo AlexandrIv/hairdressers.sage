@@ -30,9 +30,26 @@ class ProvidersPersonalPage extends Controller
 		add_action('wp_ajax_get_workers_days', array($this, 'get_workers_days'));
 		add_action( 'wp_ajax_nopriv_get_workers_days', array($this, 'get_workers_days'));
 
-
 		add_action('wp_ajax_service_form', array($this, 'service_form'));
 		add_action( 'wp_ajax_nopriv_service_form', array($this, 'service_form'));
+
+		add_action('wp_ajax_get_services', array($this, 'get_services'));
+		add_action( 'wp_ajax_nopriv_get_services', array($this, 'get_services'));
+
+		add_action('wp_ajax_remove_service', array($this, 'remove_service'));
+		add_action( 'wp_ajax_nopriv_remove_service', array($this, 'remove_service'));
+
+		add_action('wp_ajax_get_services_staff_list', array($this, 'get_services_staff_list'));
+		add_action( 'wp_ajax_nopriv_get_services_staff_list', array($this, 'get_services_staff_list'));
+
+		add_action('wp_ajax_add_new_staff', array($this, 'add_new_staff'));
+		add_action( 'wp_ajax_nopriv_add_new_staff', array($this, 'add_new_staff'));
+
+		add_action('wp_ajax_get_staff_table', array($this, 'get_staff_table'));
+		add_action( 'wp_ajax_nopriv_get_staff_table', array($this, 'get_staff_table'));
+
+		add_action('wp_ajax_remove_staff', array($this, 'remove_staff'));
+		add_action( 'wp_ajax_nopriv_remove_staff', array($this, 'remove_staff'));
 	}
 	public function current_user() {
 		$user = wp_get_current_user();

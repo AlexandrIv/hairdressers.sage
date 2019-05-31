@@ -277,6 +277,9 @@ jQuery(document).ready(function($){
 		if( $('.personal-provider-section').html() !== undefined){
 			ajax_get_upload_images();
 			ajax_get_workers_days();
+			get_services();
+			get_services_staff_list();
+			get_staff_table();
 		}
 	});
 	function ajax_get_upload_images() {
@@ -390,12 +393,225 @@ jQuery(document).ready(function($){
 			},
 			type: 'POST',
 			success: function(serviceData) {
-				console.log(serviceData);
-				//var result = $.parseJSON(jsonDataForm);
+				$('.category-input').val('');
+				$('.name-input').val('');
+				$('.duration-input').val('');
+				$('.price-input').val('');
+				get_services();
+				get_services_staff_list();
 				off_preloader_tab();
 			},
 		});
 	});
+
+
+
+	function get_services() {
+		on_preloader_tab();
+		var author_id = $('.service-tab').data('author-id');
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "get_services",
+				"author_id": author_id,
+			},
+			type: 'POST',
+			success: function(services_table) {
+				$('.services-data').html(services_table);
+				off_preloader_tab();
+			},
+		});
+	}
+
+	jQuery(document).on('click', '.remove-service', function() {
+		on_preloader_tab();
+		var remove_id = $(this).closest('tr').data('id');
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "remove_service",
+				"remove_id": remove_id,
+			},
+			type: 'POST',
+			success: function(removeServ) {
+				get_services();
+				get_services_staff_list();
+				off_preloader_tab();
+			},
+		});
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	function get_services_staff_list() {
+		on_preloader_tab();
+		var author_id = $('.service-tab').data('author-id');
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "get_services_staff_list",
+				"author_id": author_id,
+			},
+			type: 'POST',
+			success: function(services_staff_list) {
+				$('.custom-from-list').html(services_staff_list);
+				off_preloader_tab();
+			},
+		});
+	}
+
+	$('.add-new-staff').on('click', function(e){
+		e.preventDefault();
+		on_preloader_tab();
+		var staff_name = $('.staff-name-input').val();
+		var services_id = [];
+		$('.services-from-staff:checked').each(function() {
+			services_id.push($(this).data('service-id'));
+		});
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "add_new_staff",
+				"name": staff_name,
+				"services_id": services_id,
+			},
+			type: 'POST',
+			success: function(staffData) {
+				$('.services-from-staff').each(function() {
+					$(this).removeAttr('checked');
+				});
+				$('.staff-name-input').val('');
+				get_staff_table();
+				off_preloader_tab();
+			},
+		});
+	});
+	function get_staff_table() {
+		var author_id = $('.service-tab').data('author-id');
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "get_staff_table",
+				"author_id": author_id,
+			},
+			type: 'POST',
+			success: function(staff_data_table) {
+				$('.staff-table-body').html(staff_data_table);
+				off_preloader_tab();
+			},
+		});
+	}
+
+
+	jQuery(document).on('click', '.remove-staff', function() {
+		on_preloader_tab();
+		var remove_id = $(this).closest('tr').data('id');
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "remove_staff",
+				"remove_id": remove_id,
+			},
+			type: 'POST',
+			success: function(removeStaff) {
+				get_staff_table();
+				off_preloader_tab();
+			},
+		});
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	jQuery(document).on('click', '.select-service', function(e) {
+		e.preventDefault();
+		var service_name = $(this).data('service-name');
+		var service_id = $(this).data('service-id');
+		var salon_id = $(this).data('salon-id');
+		var author_id = $(this).data('author-id');
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "remove_staff",
+				"remove_id": remove_id,
+			},
+			type: 'POST',
+			success: function(removeStaff) {
+				window.location('first-booking?'+);
+			},
+		});
+
+		console.log(service_id);
+		console.log(service_name);
+		console.log(salon_id);
+		console.log(author_id);
+	});
+
 
 
 

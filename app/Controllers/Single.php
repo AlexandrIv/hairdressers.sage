@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Sober\Controller\Controller;
+use WP_Query;
 
 class Single extends Controller
 {
@@ -24,4 +25,34 @@ class Single extends Controller
 		$day_time_array = get_post_meta( get_the_ID(), 'workers_days', true );
 		return $day_time_array;
 	}
+
+
+	public function get_single_service() {
+		$serviceCategoryArray = array(
+			'type'      => 'services', 
+			'taxonomy'    => 'categories-service', 
+		);
+		$serviceCategorys = get_categories( $serviceCategoryArray );
+		$data_array = [];
+		foreach ($serviceCategorys as $key1 => $value) {
+			$mypost = array(
+				'post_type' => 'services',
+				'posts_per_page' => -1,
+				'tax_query' => array(
+					array(
+						'taxonomy' => 'categories-service',
+						'field' => 'term_id',
+						'terms' => $value->term_id,
+					),
+				),
+			);
+			$loop = new WP_Query( $mypost );
+			foreach ($loop->posts as $key2 => $post) {
+				$data_array[$value->name][$key2] = $post;
+			}
+		}
+		return $data_array;
+	}
+
+
 }

@@ -27,137 +27,25 @@
       </div>
       <span class="select-service-title">1. Choix de la prestation</span>
       <div class="services-table">
-        <span class="service-category">Femme</span>
-        <table>
-          <tbody>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court) Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-          </tbody>
-        </table>
-        <span class="service-category">Technique</span>
-        <table>
-          <tbody>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court) Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-          </tbody>
-        </table>
-        <span class="service-category">Homme</span>
-        <table>
-          <tbody>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court) Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-          </tbody>
-        </table>
-        <span class="service-category">Enfant (jusqu'à 10 ans)</span>
-        <table>
-          <tbody>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court) Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-            <tr>
-              <td><a href="#">Shampoing Coiffage (court)</a></td>
-              <td>30min</td>
-              <td>31€</td>
-              <td><a href="#" class="link-to">Choisir</a></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+
+       @foreach ($get_single_service as $key => $services)
+       <span class="service-category">{!! $key !!}</span>
+       <table>
+        <tbody>
+          @foreach ($services as $service)
+          <tr>
+            <td class="service-name"><a href="#" class="select-service" data-author-id="{!! get_the_author_meta('ID') !!}" data-salon-id="{!! get_the_ID() !!}" data-service-name="{{ $service->post_title }}" data-service-id="{!! $service->ID !!}">{{ $service->post_title }}</a></td>
+            <td class="service-duration">{!! date("H:i", mktime(0, 0, get_post_meta($service->ID, 'duration', true))); !!} h</td>
+            <td class="service-price">{!! get_post_meta($service->ID, 'price', true) !!} $</td>
+            <td class="service-link"><a href="#" class="link-to select-service" data-author-id="{!! get_the_author_meta('ID') !!}" data-salon-id="{!! get_the_ID() !!}" data-service-name="{{ $service->post_title }}" data-service-id="{!! $service->ID !!}">Choisir</a></td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+      @endforeach
     </div>
-  </article>
+  </div>
+</article>
 </div>
 <div class="sidebar col-xl-4 col-lg-4 col-md-12 col-sm-12">
   @if ($single_map_info)

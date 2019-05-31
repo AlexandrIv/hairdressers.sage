@@ -224,6 +224,13 @@
 									text-align: right;
 								}
 							}
+							.service-name {
+								width: 70%;
+							}
+							.service-duration, .service-price, .service-link {
+								width: 10%;
+								text-align: right;
+							}
 						}
 					}
 				}

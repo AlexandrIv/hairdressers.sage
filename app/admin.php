@@ -101,4 +101,22 @@ add_action('init', function(){
 		'hierarchical'          => true,
 		'show_admin_column'     => true,
 	) );
+	register_post_type('staff', array(
+		'labels'             => array(
+			'name'               => 'Staff',
+			'singular_name'      => 'staff'
+		),
+		'menu_icon'          => 'dashicons-groups',
+		'public'             => true,
+		'publicly_queryable' => true,
+		'show_ui'            => true,
+		'show_in_menu'       => true,
+		'query_var'          => true,
+		'rewrite'            => true,
+		'capability_type'    => 'post',
+		'has_archive'        => true,
+		'hierarchical'       => false,
+		'menu_position'      => null,
+		'supports'           => array('title','editor','author','thumbnail','comments')
+	) );
 });

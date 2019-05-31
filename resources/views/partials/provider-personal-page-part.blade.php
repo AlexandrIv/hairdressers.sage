@@ -13,7 +13,7 @@
                 <a class="nav-link salon-info-tab" data-post-id="{!! $get_salon_info['ID'] !!}" data-toggle="tab" href="#tab2">À propos du Salon</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#tab3">Ajouter des services</a>
+                <a class="nav-link active service-tab" data-author-id="{!! $get_salon_info['user-id'] !!}" data-toggle="tab" href="#tab3">Ajouter des services</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#tab4">Mes Réservations</a>
@@ -79,13 +79,10 @@
                             <div class="form-box service-category custom-form-select">
                               <label for="service-category">Select service category:</label>
                               <span>
-                                <input type="text" name="service-category" id="service-category" class="category-input" placeholder="Femme" autocomplete="off">
+                                <input type="text" name="service-category" id="service-category" class="category-input" placeholder="Femme" autocomplete="off" readonly>
                               </span>
                               <ul class="category-list">
-                                <li data-category-id="74">Femme</li>
-                                <li data-category-id="24">Homme</li>
-                                <li data-category-id="13">Technique</li>
-                                <li data-category-id="56">Enfant (jusqu`à 10 ans)</li>
+                                {!! $get_service_categories !!}
                               </ul>
                             </div>
                             <div class="form-box service-name custom-form-input">
@@ -95,7 +92,7 @@
                             <div class="form-box service-duration custom-form-select">
                               <label for="service-duration">Select service duration:</label>
                               <span>
-                                <input type="text" name="service-duration" id="service-duration" class="duration-input" placeholder="1:00" autocomplete="off">
+                                <input type="text" name="service-duration" id="service-duration" class="duration-input" placeholder="1:00" autocomplete="off" readonly>
                               </span>
                               <ul class="duration-list">
                                 {!! $duration !!}
@@ -121,36 +118,7 @@
                                   <th scope="col">Service price</th>
                                 </tr>
                               </thead>
-                              <tbody>
-                                <tr>
-                                  <th scope="row">1</th>
-                                  <td>Enfant (jusqu`à 10 ans)</td>
-                                  <td>Service 1</td>
-                                  <td>1:00</td>
-                                  <td>78$</td>
-                                </tr>
-                                <tr>
-                                  <th scope="row">2</th>
-                                  <td>Enfant (jusqu`à 10 ans)</td>
-                                  <td>Service 2</td>
-                                  <td>1:00</td>
-                                  <td>78$</td>
-                                </tr>
-                                <tr>
-                                  <th scope="row">3</th>
-                                  <td>Enfant (jusqu`à 10 ans)</td>
-                                  <td>Service 3</td>
-                                  <td>1:00</td>
-                                  <td>78$</td>
-                                </tr>
-                                <tr>
-                                  <th scope="row">4</th>
-                                  <td>Enfant (jusqu`à 10 ans)</td>
-                                  <td>Service 4</td>
-                                  <td>1:00</td>
-                                  <td>78$</td>
-                                </tr>
-                              </tbody>
+                              <tbody class="services-data"></tbody>
                             </table>
                           </div>
                         </div>
@@ -161,24 +129,10 @@
                           <form action="" id="staff-from">
                             <div class="form-box staff-name custom-form-input">
                               <label class="staff-name" for="staff-name">Input staff name:</label>
-                              <span><input type="text" name="staff-name" id="staff-name" placeholder="Staff name"></span>
+                              <span><input type="text" name="staff-name" id="staff-name" class="staff-name-input" placeholder="Staff name"></span>
                             </div>
                             <div class="form-box custom-from-list-block">
-                              <ul class="custom-from-list">
-                                <li><span>Service 1</span><input type="checkbox" name=""></li>
-                                <li><span>Service 2</span><input type="checkbox" name=""></li>
-                                <li><span>Service 3</span><input type="checkbox" name=""></li>
-                                <li><span>Service 4</span><input type="checkbox" name=""></li>
-                                <li><span>Service 5</span><input type="checkbox" name=""></li>
-                                <li><span>Service 6</span><input type="checkbox" name=""></li>
-                                <li><span>Service 7</span><input type="checkbox" name=""></li>
-                                <li><span>Service 8</span><input type="checkbox" name=""></li>
-                                <li><span>Service 9</span><input type="checkbox" name=""></li>
-                                <li><span>Service 10</span><input type="checkbox" name=""></li>
-                                <li><span>Service 11</span><input type="checkbox" name=""></li>
-                                <li><span>Service 12</span><input type="checkbox" name=""></li>
-                                <li><span>Service 13</span><input type="checkbox" name=""></li>
-                              </ul>
+                              <ul class="custom-from-list"></ul>
                             </div>
                             <a href="#" class="save add-new-staff">Add staff</a>
                           </form>
@@ -194,40 +148,7 @@
                                   <th>Services</th>
                                 </tr>
                               </thead>
-                              <tbody>
-                                <tr>
-                                  <th scope="row">1</th>
-                                  <td>Olya</td>
-                                  <td>
-                                    <span>Service 4</span>
-                                    <span>Service 2</span>
-                                    <span>Service 5</span>
-                                    <span>Service 8</span>
-                                    <span>Service 1</span>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <th scope="row">2</th>
-                                  <td>Diana</td>
-                                  <td>
-                                    <span>Service 4</span>
-                                    <span>Service 2</span>
-                                    <span>Service 8</span>
-                                    <span>Service 1</span>
-                                    <span>Service 9</span>
-                                    <span>Service 5</span>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <th scope="row">3</th>
-                                  <td>Valya</td>
-                                  <td>
-                                    <span>Service 4</span>
-                                    <span>Service 2</span>
-                                    <span>Service 5</span>
-                                  </td>
-                                </tr>
-                              </tbody>
+                              <tbody class="staff-table-body"></tbody>
                             </table>
                           </div>
                         </div>

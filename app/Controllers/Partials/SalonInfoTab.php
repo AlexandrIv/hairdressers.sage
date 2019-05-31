@@ -115,6 +115,7 @@ trait SalonInfoTab
 		$salonInfo = [];
 		foreach ($salonsPost as $salon) {
 			$salonInfo['ID'] = $salon->ID;
+			$salonInfo['user-id'] = $user->ID;
 			$salonInfo['name'] = $salon->post_title;
 			$salonInfo['description'] = $salon->post_content;
 			$salonInfo['address'] = get_post_meta( $salon->ID, 'address', true)['address'];

@@ -297,7 +297,6 @@
 									background-color: #fff;
 									li {
 										cursor: pointer;
-										margin-right: 20px;
 										padding: 10px 5px;
 										color: #707070;
 										font-size: 13px;
@@ -334,6 +333,35 @@
 
 					.service-table {
 						width: 100%;
+						table {
+							tbody {
+								tr {
+									th {
+										position: relative;
+										.remove {
+											position: absolute;
+											display: none;
+										}
+										.count {
+											position: absolute;
+										}
+									}
+									&:hover {
+										th {
+											.remove {
+												display: block;
+												cursor: pointer;
+												position: absolute;
+											}
+											.count {
+												position: absolute;
+												display: none;
+											}
+										}
+									}
+								}
+							} 
+						}
 					}
 					.staff-table {
 						table {
@@ -342,6 +370,29 @@
 									td {
 										span {
 											display: block;
+										}
+									}
+									th {
+										position: relative;
+										.remove {
+											position: absolute;
+											display: none;
+										}
+										.count {
+											position: absolute;
+										}
+									}
+									&:hover {
+										th {
+											.remove {
+												display: block;
+												cursor: pointer;
+												position: absolute;
+											}
+											.count {
+												position: absolute;
+												display: none;
+											}
 										}
 									}
 								}
