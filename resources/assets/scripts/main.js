@@ -1,6 +1,8 @@
 // import external dependencies
 import 'jquery';
 import 'slick-carousel/slick/slick.min';
+import 'selectric/src/jquery.selectric';
+import 'air-datepicker/src/js/air-datepicker';
 
 // Import everything from autoload
 import './autoload/**/*'

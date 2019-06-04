@@ -105,8 +105,74 @@ body {
 			}
 		}
 	}
-
+	.page-template {
+		.header {
+			position: static;
+			opacity: 1!important;
+		}
+		.wrapper {
+			.content {
+				background-color: #101214;
+			}
+		}
+	}
 
 
 
 	
+	@mixin normal() {
+		.step-count {
+			border: 2px solid #fff;
+			color: #fff;
+		}
+		.step-info {
+			.step-title {
+				color: #fff;
+			}
+		}
+	}
+	@mixin active() {
+		.step-count {
+			border: 2px solid #c09449;
+			color: #c09449;
+		}
+		.step-info {
+			.step-title {
+				color: #c09449;
+			}
+		}
+	}
+
+	.first-booking-step-section {
+		.first {
+			@include active();
+		}
+		.second {
+			@include normal();
+		}
+		.third {
+			@include normal();
+		}
+	}
+	.second-booking-step-section {
+		.first {
+			@include normal();
+		}
+		.second {
+			@include active();
+		}
+		.third {
+			@include normal();
+		}
+	}
+	.third-booking-step-section {
+		.first {
+			@include normal();
+		}
+		.second {
+			@include normal();
+		}
+		.third {
+			@include active();
+		}
+	}

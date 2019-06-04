@@ -216,7 +216,45 @@ export default {
 
 
 
+    $('.service-input').on('click', function(){
+      $('.service-name-list').toggleClass('show');
+      $(this).closest('span').find('i').toggleClass('icon-active');
+    });
+    $('.service-name-list li').on('click', function(){
+      $('.service-name-list').removeClass('show');
 
+      $(this).parent('.service-name-list').closest('span').find('i').removeClass('icon-active');
+
+      var service_id = $(this).data('service_id');
+      var service_name = $(this).text();
+      $('.service-input').val(service_name);
+      $('.service-input').attr('data-select-id', service_id);
+    });
+
+
+
+    $('select').selectric();
+    $('.select-date-input').datepicker();
+
+
+
+
+
+
+    $('.staff-input').on('click', function(){
+      $('.staff-name-list').toggleClass('show');
+      $(this).closest('span').find('i').toggleClass('icon-active');
+    });
+    $('.staff-name-list li').on('click', function(){
+      $('.staff-name-list').removeClass('show');
+
+      $(this).parent('.staff-name').closest('span').find('i').removeClass('icon-active');
+
+      var staff_id = $(this).data('service_id');
+      var staff_name = $(this).text();
+      $('.staff-input').val(staff_name);
+      $('.staff-input').attr('data-select-id', staff_id);
+    });
 
 
 

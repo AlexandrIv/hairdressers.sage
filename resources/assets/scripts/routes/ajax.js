@@ -590,27 +590,99 @@ jQuery(document).ready(function($){
 
 	jQuery(document).on('click', '.select-service', function(e) {
 		e.preventDefault();
-		var service_name = $(this).data('service-name');
 		var service_id = $(this).data('service-id');
 		var salon_id = $(this).data('salon-id');
 		var author_id = $(this).data('author-id');
+
+		localStorage.setItem('service_id', service_id);
+		localStorage.setItem('salon_id', salon_id);
+		localStorage.setItem('author_id', author_id);
+
+
+
+
+/*		document.cookie = "service_id="+service_id+"";
+		document.cookie = "salon_id="+salon_id+"";
+		document.cookie = "author_id="+author_id+"";*/
+		window.location = '/first-booking?sce='+service_id+'&stf='+salon_id+'&aut='+author_id;
+
+
+		/*var xhr = new XMLHttpRequest();
+		var params = 'service_name=' + encodeURIComponent(service_name) +
+		'&service_id=' + encodeURIComponent(service_id) + 
+		'&salon_id=' + encodeURIComponent(salon_id) +
+		'&author_id=' + encodeURIComponent(author_id);
+
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.onreadystatechange = function() {
+			window.location = '/first-booking';
+		}
+		xhr.send(params);*/
+
+		
+
+		/*console.log(service_id);
+		console.log(service_name);
+		console.log(salon_id);
+		console.log(author_id);*/
+	});
+
+
+
+
+	if ($("#first-booking-step").length) {
+		var service_name = localStorage.getItem('service_name');
+		var service_id = localStorage.getItem('service_id');
+		var salon_id = localStorage.getItem('salon_id');
+		var author_id = localStorage.getItem('author_id');
+		get_option_service( service_name, service_id, salon_id, author_id );
+		get_option_staff( service_name, service_id, salon_id, author_id );
+	}
+	function get_option_service() {
+		console.log("Services ajax");
 		$.ajax({
 			url: ajax['ajax_url'],
 			data: {
-				"action": "remove_staff",
-				"remove_id": remove_id,
+				"action": "get_option_service",
 			},
 			type: 'POST',
-			success: function(removeStaff) {
-				window.location('first-booking?'+);
+			success: function(option_service) {
+				$('.service-select').append(option_service);
 			},
 		});
+	}
+	function get_option_staff() {
+		console.log("Staff ajax");
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "get_option_staff",
+			},
+			type: 'POST',
+			success: function(option_staff) {
+				$('.staff-select').append(option_staff);
+			},
+		});
+	}
 
-		console.log(service_id);
-		console.log(service_name);
-		console.log(salon_id);
-		console.log(author_id);
+
+
+
+	$('.search-time-button').on('click', function() {
+
 	});
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

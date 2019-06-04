@@ -50,6 +50,7 @@ class ProvidersPersonalPage extends Controller
 
 		add_action('wp_ajax_remove_staff', array($this, 'remove_staff'));
 		add_action( 'wp_ajax_nopriv_remove_staff', array($this, 'remove_staff'));
+
 	}
 	public function current_user() {
 		$user = wp_get_current_user();

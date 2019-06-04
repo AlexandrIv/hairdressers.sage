@@ -7,6 +7,18 @@ use WP_Query;
 
 class Single extends Controller
 {
+	/*public function __construct() {
+		add_action('wp_ajax_select_service', array($this, 'select_service'));
+		add_action( 'wp_ajax_nopriv_select_service', array($this, 'select_service'));
+	}
+
+	public function select_service() {
+		if( isset($_POST['service_id']) ){
+			wp_redirect('first-booking');
+			wp_die();
+		}
+	}*/
+
 	public function address() {
 		return get_post_meta( get_the_ID(), 'address', true)['address'];
 	}

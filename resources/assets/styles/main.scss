@@ -13,6 +13,13 @@
 @import "~slick-carousel/slick/slick-theme";
 @import "~slick-carousel/slick/slick";
 @import "~@fortawesome/fontawesome-free/css/all";
+@import "~selectric/src/selectric";
+
+@import "~air-datepicker/src/sass/datepicker-config";
+@import "~air-datepicker/src/sass/cell";
+@import "~air-datepicker/src/sass/datepicker";
+@import "~air-datepicker/src/sass/navigation";
+@import "~air-datepicker/src/sass/timepicker";
 
 /** Import theme styles */
 @import "common/global";
@@ -36,3 +43,4 @@
 @import "layouts/register-partner";
 @import "layouts/login-page";
 @import "layouts/taxonomy-categories";
+@import "layouts/booking-step";

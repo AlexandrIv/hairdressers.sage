@@ -388,6 +388,12 @@
 												display: block;
 												cursor: pointer;
 												position: absolute;
+												transition: 0.3s;
+												color: red;
+												&:hover {
+													transition: 0.3s;
+													color: red;
+												}
 											}
 											.count {
 												position: absolute;
