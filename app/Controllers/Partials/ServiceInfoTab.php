@@ -60,8 +60,8 @@ trait ServiceInfoTab
 			$author_id = $_POST['author_id'];
 			$args = array(
 				'post_type' => 'services',
-				'author'	=> $author_id,
-				'order'		=> ASC,
+				'author'	=> get_current_user_id(),
+				'order'		=> ASC
 			);
 			$query = new WP_Query;
 			$posts = $query->query($args);
@@ -120,8 +120,8 @@ trait ServiceInfoTab
 			$author_id = $_POST['author_id'];
 			$args = array(
 				'post_type' => 'services',
-				'author'	=> $author_id,
-				'order'		=> ASC,
+				'author'	=> get_current_user_id(),
+				'order'		=> ASC
 			);
 			$query = new WP_Query;
 			$posts = $query->query($args);
@@ -154,29 +154,41 @@ trait ServiceInfoTab
 		if( isset($_POST['name']) || isset($_POST['services_id']) ){
 			$staff_name = $_POST['name'];
 			$services_id = $_POST['services_id'];
+			var_dump($staff_name);
+			var_dump($services_id);
 			$post_id = wp_insert_post(array('post_type' => 'staff', 'post_status' => 'publish', 'post_title' => $staff_name));
-			update_post_meta( $post_id, 'services_id', $services_id );
+			foreach ($services_id as $key => $service_id) {
+				add_post_meta( $service_id, 'staffs_id', $post_id, false );
+			}
 			wp_die();
 		}
 	}
 
 	public function get_staff_table() {
+		global $wpdb;
 		if( isset($_POST['author_id']) ) {
 			$args = array(
-				'post_type' => 'staff',
-				'author'	=> $author_id,
-				'order'		=> ASC,
+				'post_type' 		=> 'staff',
+				'author'			=> get_current_user_id(),
+				'order'				=> ASC,
+				'posts_per_page'	=> -1
 			);
 			$query = new WP_Query;
 			$posts = $query->query($args);
-			$staffs = [];
+			
 			if( $posts ) {
+				$staffs = [];
 				foreach ($posts as $key => $post) {
+					$services_name = [];
+					$services_id = $wpdb->get_results( 'SELECT * FROM `wp_postmeta` WHERE meta_value = '.$post->ID.'', ARRAY_A );
+					foreach ($services_id as $key_two => $value) {
+						$services_name[$key_two] = get_post($value['post_id'])->post_title;
+					}
 					$staffs[$key]['ID'] = $post->ID;
 					$staffs[$key]['post_title'] = $post->post_title;
-					$staffs[$key]['services_id'] = get_post_meta( $post->ID, 'services_id', true );
+					$staffs[$key]['services_name'] = $services_name;
 				}
-			}			
+			}
 			echo \App\template('partials.content-staff-table', compact('staffs'));
 			wp_die();
 		}
@@ -185,10 +197,14 @@ trait ServiceInfoTab
 
 
 	public function remove_staff() {
+		global $wpdb;
 		if( isset($_POST['remove_id']) ){
 			$post_id = $_POST['remove_id'];
-			wp_delete_post( $post_id, true );
-			delete_post_meta( $post_id, 'services_id' );
+			wp_delete_post($post_id, true);
+			$del_status = $wpdb->delete( 'wp_postmeta', array('meta_value' => $post_id) );
+			var_dump($del_status);
+			/*
+			delete_post_meta( $deleted->ID, 'staff_id', $post_id );*/
 			wp_die();
 		}
 	}

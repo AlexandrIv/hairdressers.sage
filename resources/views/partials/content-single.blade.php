@@ -7,7 +7,7 @@
         <span class="address"><i class="fas fa-map-marker-alt"></i><span>{!! $address !!}</span></span>
       </div>
       <div class="header-button">
-        <a href="#">Prendre rdv</a>
+        <a href="#" class="first-booking-link" data-author-id="{!! get_the_author_meta('ID') !!}">Prendre rdv</a>
       </div>
     </header>
     @if ( $single_slider )
@@ -27,7 +27,6 @@
       </div>
       <span class="select-service-title">1. Choix de la prestation</span>
       <div class="services-table">
-
        @foreach ($get_single_service as $key => $services)
        <span class="service-category">{!! $key !!}</span>
        <table>

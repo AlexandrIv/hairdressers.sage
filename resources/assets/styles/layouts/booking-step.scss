@@ -148,7 +148,13 @@
 				height: auto;
 				margin-bottom: 15px;
 			}
-			.selectric-select-box,  {
+			input {
+				width: 100%;
+				@media only screen and (max-width : 576px) {
+					margin-bottom: 15px;
+				}
+			}
+			.selectric-select-box {
 				width: 100%;
 				@media only screen and (max-width : 576px) {
 					margin-bottom: 15px;

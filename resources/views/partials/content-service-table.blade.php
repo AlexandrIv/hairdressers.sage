@@ -4,7 +4,7 @@
 	<th scope="row"><span class="remove remove-service"><i class="fas fa-trash-alt"></i></span><span class="count">{!! ($i++)+1 !!}</span></th>
 	<td>{!! $service['category']['name'] !!}</td>
 	<td>{!! $service['name'] !!}</td>
-	<td>{!! $service['duration'] !!}</td>
+	<td>{!! date("H:i", $service['duration']) !!}</td>
 	<td>{!! $service['price'] !!}$</td>
 </tr>
 @endforeach

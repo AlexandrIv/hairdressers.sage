@@ -40,6 +40,9 @@ class Single extends Controller
 
 
 	public function get_single_service() {
+		while (have_posts()) : the_post();
+			$author = get_the_author_meta('ID');
+		endwhile;
 		$serviceCategoryArray = array(
 			'type'      => 'services', 
 			'taxonomy'    => 'categories-service', 
@@ -50,6 +53,7 @@ class Single extends Controller
 			$mypost = array(
 				'post_type' => 'services',
 				'posts_per_page' => -1,
+				'author' => $author,
 				'tax_query' => array(
 					array(
 						'taxonomy' => 'categories-service',
@@ -65,6 +69,5 @@ class Single extends Controller
 		}
 		return $data_array;
 	}
-
 
 }

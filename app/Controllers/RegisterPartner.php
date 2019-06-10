@@ -38,17 +38,6 @@ class RegisterPartner extends Controller
 		}
 	}
 
-	private function create_user_pages( $salonName, $userId ) {
-		$pageArgs = array(
-			'post_type' 		=> 'salons',
-			'post_title'    	=> $salonName,
-			'post_author' 		=> $userId,
-			'post_status'   	=> 'private'
-		);
-		$userPageId = wp_insert_post( $pageArgs );
-		return $userPageId;
-	}
-
 	private function register_user( $result ) {
 		$userPass = self::generate_password();
 		self::add_user_role();
@@ -67,6 +56,19 @@ class RegisterPartner extends Controller
 		);
 		return $userDataArray;
 	}
+
+	private function create_user_pages( $salonName, $userId ) {
+		$pageArgs = array(
+			'post_type' 		=> 'salons',
+			'post_title'    	=> $salonName,
+			'post_author' 		=> $userId,
+			'post_status'   	=> 'private' // or publish
+		);
+		$userPageId = wp_insert_post( $pageArgs );
+		return $userPageId;
+	}
+
+	
 
 	private function add_user_role() {
 		add_role(
@@ -99,7 +101,7 @@ class RegisterPartner extends Controller
 	}
 
 	private function succes_register() {
-		$successText = self::$redux_demo['editor-text'];
+		$successText = self::$redux_demo['success-register-partner-text'];
 		return $successText;
 	}
 }	

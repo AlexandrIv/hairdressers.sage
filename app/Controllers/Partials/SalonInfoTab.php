@@ -6,23 +6,22 @@ use WP_Query;
 trait SalonInfoTab
 {
 	public function salon_form() {
-		if( isset($_POST['salon_name']) && isset($_POST['address']) && isset($_POST['description']) ){
+
+		if( isset($_POST['post_id']) || isset($_POST['salon_name']) || isset($_POST['address']) || isset($_POST['description']) || isset($_FILES['upload_attachment']) || isset($_POST['salon_category']) ){
 			$files = $_FILES['upload_attachment'];
 			$postId = $_POST['post_id'];
 			$saloFormData = array(
 				'salon_name' 		=> $_POST['salon_name'],
 				'address' 			=> $_POST['address'],
 				'description' 		=> $_POST['description'],
-				'upload_attachment' => $files,
+				'category' 			=> $_POST['salon_category'],
 			);
-
-			self::update_post( $saloFormData, $postId );
+			$saloFormData['address_data'] = $address_data;
+			$address_data = self::update_post( $saloFormData, $postId );
 			self::upload_gallery_images( $files, $postId );
-
 			echo json_encode( $saloFormData );
 			wp_die();
 		}
-
 	}
 	public function workers_days() {
 		if( isset($_POST['days_array']) && isset($_POST['post_id']) ) {
@@ -46,9 +45,37 @@ trait SalonInfoTab
 		$post['post_title'] = $saloFormData['salon_name'];
 		$post['post_content'] = $saloFormData['description'];
 		wp_update_post( wp_slash($post) );
+		$term = [];
+		foreach ($saloFormData['category'] as $key => $value) {
+			$term[$key] = get_term($value, 'categories-salon', ARRAY_A)['name'];
+		}
+		wp_set_object_terms( $postId, $term, 'categories-salon' );
+
 		$address = get_post_meta($postId, 'address', true);
-		$address['address'] = $saloFormData['address'];
-		update_post_meta($postId, 'address', $address);
+		if( empty($address) && !empty($saloFormData['address']) ) {			
+			$getLatLng = self::get_lat_lng( $saloFormData['address'] );
+			$address = array(
+				'address' => $saloFormData['address'],
+				'lat' => $getLatLng['lat'],
+				'lng' => $getLatLng['lng']
+			);
+			update_post_meta($postId, 'address', $address);		
+		}
+		if( empty($saloFormData['address']) ) {
+			delete_post_meta($postId, 'address');
+		}
+		return $address;
+	}
+
+	private function get_lat_lng( $address ) {
+		$googleApi = self::$redux_demo['google-api-key'];
+		$addressReplace = str_replace(" ", "+", $address);
+		$url = 'https://maps.googleapis.com/maps/api/geocode/json?address="'.$addressReplace.'"&key='.$googleApi;
+		$remote_get = wp_remote_get( $url );
+		$searchData = [];
+		$searchData['lat'] = json_decode($remote_get['body'])->results[0]->geometry->location->lat;
+		$searchData['lng'] = json_decode($remote_get['body'])->results[0]->geometry->location->lng;
+		return $searchData;
 	}
 
 	private function upload_gallery_images( $files, $postId ) {
@@ -114,11 +141,17 @@ trait SalonInfoTab
 		) );
 		$salonInfo = [];
 		foreach ($salonsPost as $salon) {
+
+			if( isset(get_post_meta( $salon->ID, 'address', true)['address'])) {
+				$address = get_post_meta( $salon->ID, 'address', true)['address'];
+			}else {
+				$address = '';
+			}
 			$salonInfo['ID'] = $salon->ID;
 			$salonInfo['user-id'] = $user->ID;
 			$salonInfo['name'] = $salon->post_title;
 			$salonInfo['description'] = $salon->post_content;
-			$salonInfo['address'] = get_post_meta( $salon->ID, 'address', true)['address'];
+			$salonInfo['address'] = $address;
 			$salonInfo['category'] = $terms;
 			$salonInfo['category_checked'] = get_the_terms($salon->ID, 'categories-salon');
 		}
@@ -162,11 +195,11 @@ trait SalonInfoTab
 			$days = '
 			<div class="day">
 			<label for="input-'.lcfirst($value).'_start"><span>'.$value.' start</span>
-			<input type="text" name="'.lcfirst($value).'_start" data-day="'.lcfirst($value).'_start" class="open-list-start" id="input-'.lcfirst($value).'_start" placeholder="08:00 AM" autocomplete="off">
+			<input type="text" name="'.lcfirst($value).'_start" data-day="'.lcfirst($value).'_start" class="open-list-start" id="input-'.lcfirst($value).'_start" placeholder="08:00 AM" autocomplete="off" readonly>
 			<ul class="time-list-start" id="'.lcfirst($value).'_start">'.self::get_times().'</ul>
 			</label>
 			<label for="input-'.lcfirst($value).'_end"><span>'.$value.' end</span>
-			<input type="text" name="'.lcfirst($value).'_end" data-day="'.lcfirst($value).'_end" class="open-list-end" id="input-'.lcfirst($value).'_end" placeholder="08:00 AM" autocomplete="off">
+			<input type="text" name="'.lcfirst($value).'_end" data-day="'.lcfirst($value).'_end" class="open-list-end" id="input-'.lcfirst($value).'_end" placeholder="08:00 AM" autocomplete="off" readonly>
 			<ul class="time-list-end" id="'.lcfirst($value).'_end">'.self::get_times().'</ul>
 			</label>
 			</div>';

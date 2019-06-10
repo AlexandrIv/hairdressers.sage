@@ -40,56 +40,28 @@
 			<div class="col-12">
 				<div class="booking-form">
 					<span class="form-title">Please choose your convenient time</span>
-					<h3>{!! $get_option_service !!}</h3>
 					<form action="">
-						@if ($get_option_service)
-						<select class="select-box select-custom service-select" placeholder="Services">
-							<option>Serv 1</option>
-							<option>Serv 2</option>
-							<option>Serv 3</option>
-							<option>Serv 4</option>
-							<option>Serv 5</option>
+						@if ( isset($_GET['sce']) && isset($_GET['stf']) && isset($_GET['aut']) )
+						<input type="text" name="service" class="service" data-service-id="{!! $get_service['ID'] !!}" value="{!! $get_service['name'] !!}" readonly>
+						<select class="select-box select-custom staff-select" placeholder="Staff">
+							{!! $get_option_staff !!}
 						</select>
 						@else
-						<input type="text" name="service" class="service" value="{!! $get_service !!}">
-						@endif
-						
-						<select class="select-box select-custom staff-select" placeholder="Staff">
-							<option>Staff 1</option>
-							<option>Staff 2</option>
-							<option>Staff 3</option>
-							<option>Staff 4</option>
-							<option>Staff 5</option>
+						<select class="select-box select-custom service-select" placeholder="Services">
+							{!! $get_option_service !!}
 						</select>
-						{{-- <div class="form-box service-name custom-form-select">
-							<span>
-								<input type="text" name="service-name" id="service-name" class="service-input" placeholder="Service" autocomplete="off" readonly>
-								<i class="fas fa-chevron-down"></i>
-							</span>
-							<ul class="service-name-list">
-								<li><a href="#">Serv 1</a></li>
-								<li><a href="#">Serv 2</a></li>
-								<li><a href="#">Serv 3</a></li>
-								<li><a href="#">Serv 4</a></li>
-							</ul>
-						</div>
-						<div class="form-box staff-name custom-form-select">
-							<span>
-								<input type="text" name="staff-name" id="staff- name" class="staff-input" placeholder="Staff" autocomplete="off" readonly>
-								<i class="fas fa-chevron-down"></i>
-							</span>
-							<ul class="staff-name-list">
-								<li><a href="#">Staff 1</a></li>
-								<li><a href="#">Staff 2</a></li>
-								<li><a href="#">Staff 3</a></li>
-								<li><a href="#">Staff 4</a></li>
-							</ul>
-						</div> --}}
+						<select class="select-box select-custom staff-select" placeholder="Staff"></select>
+						@endif
 						<div class="select-box date-select">
 							<input type="text" class="select-date-input" placeholder="Date" readonly />
 						</div>
 					</form>
-					<a href="#" class="search-time-button">Vérifier copy</a>
+					<a href="#" class="search-time-button" data-salon-id="{!! $_GET['stf'] !!}">Vérifier copy</a>
+				</div>
+				<div class="free-times">
+					<ul>
+						
+					</ul>
 				</div>
 			</div>
 		</div>

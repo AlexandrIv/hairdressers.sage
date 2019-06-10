@@ -38,7 +38,8 @@
                     <label class="box radio"><span>Sélectionnez le type de service:</span>
                       @foreach ($get_salon_info['category'] as $key => $category)
                       <label for="{!! $category->slug !!}">
-                        <input type="checkbox" name="salon-category[]" value="{!! $category->term_id !!}" id="{!! $category->slug !!}" @foreach ($get_salon_info['category_checked'] as $term) @if($term->slug == $category->slug){!! 'checked' !!}@endif @endforeach>
+                        <input type="checkbox" name="salon_category[]" value="{!! $category->term_id !!}" id="{!! $category->slug !!}" @if ($get_salon_info['category_checked'])
+                          @foreach ($get_salon_info['category_checked'] as $term) @if($term->slug == $category->slug){!! 'checked' !!}@endif @endforeach @endif>
                         <span>{!! $category->name !!}</span>
                       </label>
                       @endforeach
