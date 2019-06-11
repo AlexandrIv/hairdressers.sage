@@ -287,4 +287,32 @@
 				text-decoration: none;
 			}
 		}
+		.free-times {
+			display: none;
+			margin-top: 50px;
+			.list-times {
+				margin: 0;
+				padding: 0;
+				list-style-type: none;
+				li {
+					margin: 0;
+					padding: 0;
+					display: inline-block;
+					margin: 25px 0;
+					a {
+						padding: 10px 15px;
+						margin: 0 10px;
+						cursor: pointer;
+						background-color: #D5AA5A;
+						color: #ffffff;
+						border-radius: 3px;
+						transition: 0.3s;
+						&:hover {
+							background-color: #F6C468;
+							transition: 0.3s;	
+						}
+					}
+				}
+			}
+		}
 	}

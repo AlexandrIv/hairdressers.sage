@@ -535,69 +535,18 @@ jQuery(document).ready(function($){
 			},
 			type: 'POST',
 			success: function(removeStaff) {
-				console.log(removeStaff);
 				get_staff_table();
 				off_preloader_tab();
 			},
 		});
 	});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	jQuery(document).on('click', '.select-service', function(e) {
 		e.preventDefault();
 		var service_id = $(this).data('service-id');
 		var salon_id = $(this).data('salon-id');
 		var author_id = $(this).data('author-id');
+		localStorage.setItem('link_button', false);
 		window.location = '/first-booking?sce='+service_id+'&stf='+salon_id+'&aut='+author_id;
 	});
 
@@ -614,65 +563,6 @@ jQuery(document).ready(function($){
 		
 	});
 
-
-
-
-
-	/*if ($("#first-booking-step").length) {
-		var service_name = localStorage.getItem('service_name');
-		var service_id = localStorage.getItem('service_id');
-		var salon_id = localStorage.getItem('salon_id');
-		var author_id = localStorage.getItem('author_id');
-		get_option_service( service_name, service_id, salon_id, author_id );
-		get_option_staff( service_name, service_id, salon_id, author_id );
-	}
-	function get_option_service() {
-		$.ajax({
-			url: ajax['ajax_url'],
-			data: {
-				"action": "get_option_service",
-			},
-			type: 'POST',
-			success: function(option_service) {
-				$('.service-select').append(option_service);
-			},
-		});
-	}
-	function get_option_staff() {
-		$.ajax({
-			url: ajax['ajax_url'],
-			data: {
-				"action": "get_option_staff",
-			},
-			type: 'POST',
-			success: function(option_staff) {
-				$('.staff-select').append(option_staff);
-			},
-		});
-	}
-
-
-	$('.search-time-button').on('click', function(e) {
-		e.preventDefault();
-		var salon_id = $(this).data('salon-id');
-		var service_id = $('.service').data('service-id');
-		var select_date = $('.select-date-input').val();
-		$.ajax({
-			url: ajax['ajax_url'],
-			data: {
-				"action": "get_list_times",
-				"salon_id": salon_id,
-				"service_id": service_id,
-				"select_date": select_date
-			},
-			type: 'POST',
-			success: function(listTimes) {
-				$('.free-times > ul').html(listTimes);
-				console.log(listTimes);
-			},
-		});
-	});*/
-
 	$('.service-select').on('change', function(){
 		var select_service_id = $('option:selected').val();
 		$.ajax({
@@ -685,50 +575,108 @@ jQuery(document).ready(function($){
 			success: function(listStaff) {
 				$('.staff-select').html(listStaff);
 				$('select').selectric();
-				console.log(listStaff);
 			},
 		});
 	});
 
-
 	$('.search-time-button').on('click', function(e) {
 		e.preventDefault();
 		var link_button = localStorage.getItem('link_button');
-		if(link_button = true) {
-			console.log('Hello1');
+		if(link_button == 'true') {
 			var salon_id = localStorage.getItem('salon_id');
-			var service_id = $('.service').data('service-id');
+			var service_id = $('.service-select option:selected').val();
+			var staff_id = $('.staff-select option:selected').val();
+			var staff_name = $('.staff-select option:selected').text();
 			var select_date = $('.select-date-input').val();
 		} else {
-			console.log('Hello2');
 			var salon_id = $(this).data('salon-id');
-			var service_id = $('.staff-select option:selected').val();
+			var service_id = $('.service').data('service-id');
+			var staff_id = $('.staff-select option:selected').val();
+			var staff_name = $('.staff-select option:selected').text();
 			var select_date = $('.select-date-input').val();
 		}
-		console.log(link_button);
-		console.log(salon_id);
-		console.log(service_id);
-		console.log(select_date);
-
-
-
-
-		/*$.ajax({
+		$.ajax({
 			url: ajax['ajax_url'],
 			data: {
 				"action": "get_list_times",
 				"salon_id": salon_id,
 				"service_id": service_id,
+				"staff_id": staff_id,
 				"select_date": select_date
 			},
 			type: 'POST',
 			success: function(listTimes) {
-				$('.free-times > ul').html(listTimes);
-				console.log(listTimes);
+				var dataArray = JSON.parse(listTimes);
+				$('.free-times').show('slide');
+				$('.staff-name').text(staff_name);
+				$('.list-times').html(dataArray.times);
+
+				localStorage.setItem('salon_id', salon_id);
+				localStorage.setItem('service_id', service_id);
+				localStorage.setItem('staff_id', staff_id);
+				localStorage.setItem('select_date', select_date);
+
+				localStorage.setItem('start_time', dataArray.start_time);
+				localStorage.setItem('end_time', dataArray.end_time);
+				localStorage.setItem('interval', dataArray.interval);
+				localStorage.setItem('duration', dataArray.duration);
+
 			},
-		});*/
+		});
 	});
 
+	jQuery(document).on('click', '.free-times > ul > li > a', function(e) {
+		e.preventDefault();
+
+		var count = $(this).data('count');
+		var time = $(this).text();
+		localStorage.setItem('select_key', count);
+		localStorage.setItem('select_time', time);
+
+		var service_id = localStorage.getItem('service_id');
+		var staff_id = localStorage.getItem('staff_id');
+		var select_date = localStorage.getItem('select_date');
+		var time = time;
+		var duration = localStorage.getItem('duration');
+
+		window.location = '/second-booking?sce='+service_id+'&stf='+staff_id+'&drtn='+duration+'&dat='+select_date+'&time='+time;
+	});
+
+	jQuery(document).on('click', '.make-order', function(e) {
+		e.preventDefault();
+		var salon_id = localStorage.getItem('salon_id');
+		var service_id = localStorage.getItem('service_id');
+		var staff_id = localStorage.getItem('staff_id');
+		var select_date = localStorage.getItem('select_date');
+
+		var select_key = localStorage.getItem('select_key');
+
+		var start_time = localStorage.getItem('start_time');
+		var end_time = localStorage.getItem('end_time');
+		var interval = localStorage.getItem('interval');
+		var duration = localStorage.getItem('duration');
+
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "get_array_times",
+				"salon_id": salon_id,
+				"service_id": service_id,
+				"staff_id": staff_id,
+				"select_date": select_date,
+				"select_key": select_key,
+				"start_time": start_time,
+				"end_time": end_time,
+				"interval": interval,
+				"duration": duration
+			},
+			type: 'POST',
+			success: function(arrayTimes) {
+				console.log(arrayTimes);
+			},
+		});
+
+	});
 
 
 });

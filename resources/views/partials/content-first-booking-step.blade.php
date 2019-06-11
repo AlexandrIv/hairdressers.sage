@@ -59,9 +59,8 @@
 					<a href="#" class="search-time-button" data-salon-id="{!! $_GET['stf'] !!}">Vérifier copy</a>
 				</div>
 				<div class="free-times">
-					<ul>
-						
-					</ul>
+					<h3 class="staff-name">Olya</h3>
+					<ul class="list-times"></ul>
 				</div>
 			</div>
 		</div>

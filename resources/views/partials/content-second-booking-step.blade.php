@@ -38,5 +38,26 @@
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-12">
+				<div class="order-info">
+					<ul>
+						<li>Service: <span>{!! get_the_title($_GET['sce']) !!}</span></li>
+						<li>Staff: <span>{!! get_the_title($_GET['stf']) !!}</span></li>
+						<li>Date: <span>{!! $_GET['dat'] !!}</span></li>
+						<li>Time: <span>{!! $_GET['time'] !!}</span></li>
+						<li>Duration: <span>{!! $_GET['drtn'] !!}m</span></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<form action="">
+					
+				</form>
+				<a href="#" class="make-order">Make an order</a>
+			</div>
+		</div>
 	</div>
 </section>

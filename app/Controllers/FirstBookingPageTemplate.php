@@ -7,11 +7,12 @@ use WP_Query;
 
 class FirstBookingPageTemplate extends Controller
 {
-	
+	private static $wpdb;
 	public function __construct() {
+		global $wpdb;
+		self::$wpdb = $wpdb;
 		add_action('wp_ajax_get_list_times', array($this, 'get_list_times'));
 		add_action( 'wp_ajax_nopriv_get_list_times', array($this, 'get_list_times'));
-
 
 		add_action('wp_ajax_get_staff_options_ajax', array($this, 'get_staff_options_ajax'));
 		add_action( 'wp_ajax_nopriv_get_staff_options_ajax', array($this, 'get_staff_options_ajax'));
@@ -66,23 +67,15 @@ class FirstBookingPageTemplate extends Controller
 		}
 	}
 
-
-
-
-
-
 	public function get_list_times() {
-		if ( isset($_POST['salon_id']) && isset($_POST['service_id']) && isset($_POST['select_date']) ) {
+		if ( isset($_POST['salon_id']) && isset($_POST['service_id']) && isset($_POST['select_date']) && isset($_POST['staff_id']) ) {
 			$salon_id = $_POST['salon_id'];
 			$service_id = $_POST['service_id'];
+			$staff_id = $_POST['staff_id'];
 			$select_date = $_POST['select_date'];
-
-
-			/*var_dump($salon_id);
-			var_dump($service_id);
-			var_dump($select_date);*/
-
+			
 			$duration = get_post_meta($service_id, 'duration', true)/60;
+			$interval = '+'.$duration.' minutes';
 
 			$select_day = strtolower(strftime("%A", strtotime($select_date)));
 			$workers_days = get_post_meta($salon_id, 'workers_days', true);
@@ -96,25 +89,48 @@ class FirstBookingPageTemplate extends Controller
 			$start_time = substr($workers_days[$select_day]['start'], 0, -3);
 			$end_time = substr($workers_days[$select_day]['end'], 0, -3);
 
-			$times = self::get_times( $start_time, $end_time, $duration );
-			echo $times;
-
+			$get_times_db = self::$wpdb->get_row( "SELECT * FROM `wp_order_times_table` WHERE `id_staff` = '$staff_id' AND `date_staff` = '$select_date'", ARRAY_A);
+			
+			if( !$get_times_db ) {
+				$timesArray = self::time_array( $start_time, $end_time, $interval, $duration );
+				$times = self::building_list( $timesArray );
+			}else {
+				$get_times_array = unserialize($get_times_db['time_staff']);
+				$times = self::building_list( $get_times_array );
+			}
+			$returnArray['times'] = $times;
+			$returnArray['start_time'] = $start_time;
+			$returnArray['end_time'] = $end_time;
+			$returnArray['interval'] = $interval;
+			$returnArray['duration'] = $duration;
+			echo json_encode($returnArray);
 			wp_die();
-
 		}
 	}
-
-	private function get_times( $start_time = '08:00', $end_time = '17:00', $interval = '+30 minutes' ) {
-		$output = '';
+	public static function time_array( $start_time = '08:00', $end_time = '17:00', $interval = '+30 minutes', $duration ) {
+		$timesArray = [];
 		$start = strtotime( $start_time );
 		$end = strtotime( $end_time );
+		$end = strtotime( '-'.$duration.' minutes', $end );
 		while( $start <= $end ) {
-			$i++;
-			$time = date( 'H:i', $start );
-			$output .= '<li data-count="'.$i.'">'.date( 'H:i', $start ).'</li>';
+			$timesArray[] = array(
+				'time' 	 => date( 'H:i', $start ),
+				'status' => true
+			);
 			$start = strtotime( $interval, $start );
 		}
-		return $output;
+		return $timesArray;
+	}
+
+	public static function building_list( $timesArray ) {
+		$elem = '';
+		foreach ($timesArray as $key => $time) {
+			if( $time['status'] == false ){ 
+				continue;
+			}
+			$elem .= '<li><a class="times-link" data-count="'.$key.'">'.$time['time'].'</a></li>';
+		}
+		return $elem;
 	}
 
 }
