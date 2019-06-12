@@ -22,6 +22,7 @@
 @import "~air-datepicker/src/sass/timepicker";
 
 /** Import theme styles */
+@import "common/mixin";
 @import "common/global";
 @import "common/fonts";
 @import "components/buttons";
@@ -43,4 +44,6 @@
 @import "layouts/register-partner";
 @import "layouts/login-page";
 @import "layouts/taxonomy-categories";
-@import "layouts/booking-step";
+@import "layouts/first-booking-step";
+@import "layouts/second-booking-step";
+@import "layouts/third-booking-step";

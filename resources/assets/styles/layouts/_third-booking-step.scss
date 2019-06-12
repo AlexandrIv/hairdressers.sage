@@ -1,0 +1,17 @@
+.third-booking-step-section {
+	.step-block {
+		@include steps-block();
+	}
+	.retour-link {
+		@include retour-link();
+	}
+	.booking-section-title {
+		@include booking-section-title();
+	}
+	.order-block {
+		margin-bottom: 100px;
+		.order-box {
+			@include order-box();
+		}
+	}
+}
