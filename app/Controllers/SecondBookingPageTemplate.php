@@ -24,12 +24,10 @@ class SecondBookingPageTemplate extends Controller
 			$select_key = $_POST['select_key'];
 			$select_time = $_POST['time'];
 
-
 			$name = $_POST['name'];
 			$surname = $_POST['surname'];
 			$email = $_POST['email'];
 			$phone = $_POST['phone'];
-
 
 			$time = new FirstBookingPageTemplate;
 			$timesArray = $time->time_array( $start_time, $end_time, $interval, $duration );
@@ -105,10 +103,10 @@ class SecondBookingPageTemplate extends Controller
 	}
 
 	private function order_times_table() {
-		self::$wpdb;
+		$wpdb = self::$wpdb;
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		$table_name = self::$wpdb->get_blog_prefix() . 'order_times_table';
-		$charset_collate = "DEFAULT CHARACTER SET {self::$wpdb->charset} COLLATE {self::$wpdb->collate}";
+		$table_name = $wpdb->get_blog_prefix() . 'order_times_table';
+		$charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset} COLLATE {$wpdb->collate}";
 		$sql = "CREATE TABLE {$table_name} (
 		id  bigint(20) unsigned NOT NULL auto_increment,
 		id_salon varchar(255) NOT NULL default '',

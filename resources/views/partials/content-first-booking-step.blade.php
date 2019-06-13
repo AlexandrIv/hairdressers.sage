@@ -43,7 +43,7 @@
 					<form action="">
 						@if ( isset($_GET['sce']) && isset($_GET['stf']) && isset($_GET['aut']) )
 						<input type="text" name="service" class="service" data-service-id="{!! $get_service['ID'] !!}" value="{!! $get_service['name'] !!}" readonly>
-						<select class="select-box select-custom staff-select" placeholder="Staff">
+						<select class="select-box select-custom staff-select" placeholder="{!! $get_option_staff !!}">
 							{!! $get_option_staff !!}
 						</select>
 						@else
@@ -59,7 +59,7 @@
 					<a href="#" class="search-time-button" data-salon-id="{!! $_GET['stf'] !!}">Vérifier copy</a>
 				</div>
 				<div class="free-times">
-					<h3 class="staff-name">Olya</h3>
+					<h3 class="staff-name"></h3>
 					<ul class="list-times"></ul>
 				</div>
 			</div>

@@ -612,10 +612,20 @@ jQuery(document).ready(function($){
 				type: 'POST',
 				success: function(listTimes) {
 					var dataArray = JSON.parse(listTimes);
-					$('.free-times').show('slide');
-					$('.staff-name').text(staff_name);
-					$('.list-times').html(dataArray.times);
-
+					if( dataArray.status == 'passed' ) {
+						$('.list-times').hide();
+						$('.free-times').show('slide');
+						$('.staff-name').html('You can not make an order for this day!');
+					} else if( dataArray.status == 'closed' ) {
+						$('.list-times').hide();
+						$('.free-times').show('slide');
+						$('.staff-name').html('Salon does not work that day!');
+					} else {
+						$('.free-times').show('slide');
+						$('.list-times').show('slide');
+						$('.staff-name').text(staff_name);
+						$('.list-times').html(dataArray.times);
+					}
 					localStorage.setItem('salon_id', salon_id);
 					localStorage.setItem('service_id', service_id);
 					localStorage.setItem('staff_id', staff_id);
@@ -702,7 +712,8 @@ jQuery(document).ready(function($){
 			},
 			type: 'POST',
 			success: function(arrayTimes) {
-				window.location = '/third-booking?sce='+service_id+
+				console.log(arrayTimes);
+				/*window.location = '/third-booking?sce='+service_id+
 				'&stf='+staff_id+
 				'&drtn='+duration+
 				'&dat='+select_date+
@@ -710,7 +721,7 @@ jQuery(document).ready(function($){
 				'&nm='+name+
 				'&snm='+surname+
 				'&em='+email+
-				'&ph='+phone;
+				'&ph='+phone;*/
 			},
 		});
 

@@ -60,10 +60,12 @@ class FirstBookingPageTemplate extends Controller
 			$staffs_id = get_post_meta($_GET['sce'], 'staffs_id');
 			foreach ($staffs_id as $key => $value) {
 				if ($value) {
-					$staff_opt .= '<option value="'.$value.'">'.get_post($value)->post_title.'</option>';
+					$staff_option .= '<option value="'.$value.'">'.get_post($value)->post_title.'</option>';
+				} else {
+					
 				}
 			}
-			return $staff_opt;
+			return $staff_option;
 		}
 	}
 
@@ -79,45 +81,56 @@ class FirstBookingPageTemplate extends Controller
 
 			$select_day = strtolower(strftime("%A", strtotime($select_date)));
 			$workers_days = get_post_meta($salon_id, 'workers_days', true);
-			$workers_days = get_post_meta($salon_id, 'workers_days', true);
-
-			$select_date_workers_time = [];
-			foreach ($workers_days as $key => $value) {
-				$select_date_workers_time[$key] = $workers_days[$select_day];
-			}
-
+			
 			$start_time = substr($workers_days[$select_day]['start'], 0, -3);
 			$end_time = substr($workers_days[$select_day]['end'], 0, -3);
 
-			$get_times_db = self::$wpdb->get_row( "SELECT * FROM `wp_order_times_table` WHERE `id_staff` = '$staff_id' AND `date_staff` = '$select_date'", ARRAY_A);
-			
-			if( !$get_times_db ) {
-				$timesArray = self::time_array( $start_time, $end_time, $interval, $duration );
-				$times = self::building_list( $timesArray );
-			}else {
-				$get_times_array = unserialize($get_times_db['time_staff']);
-				$times = self::building_list( $get_times_array );
+			if( $workers_days[$select_day]['start'] == 'closed' || $workers_days[$select_day]['end'] == 'closed' ) {
+				$returnArray['status'] = 'closed';
+			} else {
+				$get_times_db = self::$wpdb->get_row( "SELECT * FROM `wp_order_times_table` WHERE `id_staff` = '$staff_id' AND `date_staff` = '$select_date'", ARRAY_A);
+				if( !$get_times_db ) {
+					$timesArray = self::time_array( $start_time, $end_time, $interval, $duration, $select_date );
+					$times = self::building_list( $timesArray );
+				}else {
+					$get_times_array = unserialize($get_times_db['time_staff']);
+					$times = self::building_list( $get_times_array );
+				}
+				if( $timesArray == false ) {
+					$returnArray['status'] = 'passed';
+				}else {
+					$returnArray['times'] = $times;
+				}
+				$returnArray['start_time'] = $start_time;
+				$returnArray['end_time'] = $end_time;
+				$returnArray['interval'] = $interval;
+				$returnArray['duration'] = $duration;
 			}
-			$returnArray['times'] = $times;
-			$returnArray['start_time'] = $start_time;
-			$returnArray['end_time'] = $end_time;
-			$returnArray['interval'] = $interval;
-			$returnArray['duration'] = $duration;
 			echo json_encode($returnArray);
 			wp_die();
 		}
 	}
-	public static function time_array( $start_time = '08:00', $end_time = '17:00', $interval = '+30 minutes', $duration ) {
+	public static function time_array( $start_time = '08:00', $end_time = '17:00', $interval = '+30 minutes', $duration, $select_date ) {
+		date_default_timezone_set('Europe/Kiev');
 		$timesArray = [];
-		$start = strtotime( $start_time );
-		$end = strtotime( $end_time );
-		$end = strtotime( '-'.$duration.' minutes', $end );
-		while( $start <= $end ) {
-			$timesArray[] = array(
-				'time' 	 => date( 'H:i', $start ),
-				'status' => true
-			);
-			$start = strtotime( $interval, $start );
+		if( strtotime($select_date) < strtotime(date('d.m.Y')) ) {
+			return false;
+		}else {
+			$start = strtotime( $start_time );
+			if( $select_date == date('d.m.Y') ) {
+				while ( $start <= time() ) {
+					$start = strtotime( '+'.$duration.' minutes', $start );
+				}
+			}
+			$end = strtotime( $end_time );
+			$end = strtotime( '-'.$duration.' minutes', $end );
+			while( $start <= $end ) {
+				$timesArray[] = array(
+					'time' 	 => date( 'H:i', $start ),
+					'status' => true
+				);
+				$start = strtotime( $interval, $start );
+			}
 		}
 		return $timesArray;
 	}
