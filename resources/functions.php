@@ -121,3 +121,12 @@ function get_post_term_by_id( $taxonomy = 'categories-salon' ) {
         echo '<a href="' . get_term_link( $termin ) . '">' . $termin->name . '</a>';
     }
 }
+
+
+function true_wp_admin_block() {
+    if (!current_user_can('administrator')) {
+        header('HTTP/1.0 404 Not Found');
+        exit();
+    }   
+}
+add_action('admin_menu', 'true_wp_admin_block');

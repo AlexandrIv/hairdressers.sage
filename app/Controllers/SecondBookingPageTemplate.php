@@ -17,12 +17,14 @@ class SecondBookingPageTemplate extends Controller
 
 	public function get_array_times() {
 		if( isset($_POST['start_time']) && isset($_POST['end_time']) && isset($_POST['interval']) && isset($_POST['duration']) && isset($_POST['select_key']) && isset($_POST['time']) ) {
+
 			$start_time = $_POST['start_time'];
 			$end_time = $_POST['end_time'];
 			$interval = $_POST['interval'];
 			$duration = $_POST['duration'];
 			$select_key = $_POST['select_key'];
 			$select_time = $_POST['time'];
+			$select_date = $_POST['select_date'];
 
 			$name = $_POST['name'];
 			$surname = $_POST['surname'];
@@ -30,7 +32,7 @@ class SecondBookingPageTemplate extends Controller
 			$phone = $_POST['phone'];
 
 			$time = new FirstBookingPageTemplate;
-			$timesArray = $time->time_array( $start_time, $end_time, $interval, $duration );
+			$timesArray = $time->time_array( $start_time, $end_time, $interval, $duration, $select_date );
 			$newTimesArray = self::new_time_array( $timesArray, $select_key );
 
 			$setDatabaseArray['salon_id'] = $_POST['salon_id'];
@@ -51,8 +53,27 @@ class SecondBookingPageTemplate extends Controller
 				'email' 		=> $email,
 				'phone' 		=> $phone
 			);
+
+
+
+			$userData = array(
+				'name' 		=> $name,
+				'surname' 	=> $surname,
+				'email'		=> $email,
+				'phone'		=> $phone
+			);
+			$orderArray = array(
+				'id_salon_order' 	=> $_POST['salon_id'],
+				'id_service_order' 	=> $_POST['service_id'],
+				'id_staff_order'	=> $_POST['staff_id'],
+				'date_order'		=> $_POST['select_date'],
+				'time_order'		=> $_POST['time'],
+				'user_data'			=> serialize( $userData )
+			);
+
 			$setTimesDB = self::set_times_database( $setDatabaseArray );
-			if( $setTimesDB ) {
+			$setOrderData = self::set_order_data( $orderArray );
+			if( $setTimesDB && $setOrderData ) {
 				$html = self::send_mail( $mail_data );
 				var_dump($html);
 			} else {
@@ -102,6 +123,14 @@ class SecondBookingPageTemplate extends Controller
 		return $status;
 	}
 
+	private function set_order_data( $orderArray ) {
+		$table_name = self::order_table();
+		if( $orderArray ) {
+			$status = self::$wpdb->insert( $table_name, $orderArray );
+			return $status;
+		}
+	}
+
 	private function order_times_table() {
 		$wpdb = self::$wpdb;
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -121,6 +150,27 @@ class SecondBookingPageTemplate extends Controller
 		return $table_name;
 	}
 
+	private function order_table() {
+		$wpdb = self::$wpdb;
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		$table_name = $wpdb->get_blog_prefix() . 'order_table';
+		$charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset} COLLATE {$wpdb->collate}";
+		$sql = "CREATE TABLE {$table_name} (
+		id  bigint(20) unsigned NOT NULL auto_increment,
+		id_salon_order varchar(255) NOT NULL default '',
+		id_service_order varchar(255) NOT NULL default '',
+		id_staff_order varchar(255) NOT NULL default '',
+		date_order varchar(255) NOT NULL default '',
+		time_order text NOT NULL default '',
+		user_data text NOT NULL default '',
+		PRIMARY KEY  (id)
+		)
+		{$charset_collate};";
+		dbDelta($sql);
+		return $table_name;
+	}
+
+	
 	private function send_mail( $mail_data ) {
 		$html = \App\template('emails/booking', compact('mail_data'));
 		add_filter( 'wp_mail_content_type', function($content_type){

@@ -28,10 +28,7 @@ trait LoginForm
 				'redirect_url'	=> $redirectUrl,
 			);
 			echo json_encode($returnData);
-
-			
 			wp_die();
 		}
 	}
-
 }

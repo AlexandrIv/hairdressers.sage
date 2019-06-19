@@ -127,3 +127,6 @@ add_action( 'pre_get_posts', 'custom_cpt_search');*/
   }
 }
 add_action('pre_get_posts','search_filter');*/
+
+
+

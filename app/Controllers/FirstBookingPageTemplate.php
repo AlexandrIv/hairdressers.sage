@@ -25,10 +25,11 @@ class FirstBookingPageTemplate extends Controller
 			$services = $query->query( array(
 				'post_type' 		=> 'services',
 				'author' 			=> $author,
-				'posts_per_page' 	=> -1
+				'posts_per_page' 	=> -1,
+				'order'				=> 'ASC'
 			) );
 			foreach( $services as $service ){
-				$opt .= '<option value="'.$service->ID.'">'.$service->post_title.'</option>';
+				$opt .= '<option selected value="'.$service->ID.'">'.$service->post_title.'</option>';
 			}
 			return $opt;
 		}

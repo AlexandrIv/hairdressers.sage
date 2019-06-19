@@ -41,9 +41,11 @@
 				<div class="booking-form">
 					<span class="form-title">Please choose your convenient time</span>
 					<form action="">
+
+
 						@if ( isset($_GET['sce']) && isset($_GET['stf']) && isset($_GET['aut']) )
 						<input type="text" name="service" class="service" data-service-id="{!! $get_service['ID'] !!}" value="{!! $get_service['name'] !!}" readonly>
-						<select class="select-box select-custom staff-select" placeholder="{!! $get_option_staff !!}">
+						<select class="select-box select-custom staff-select" placeholder="Staff">
 							{!! $get_option_staff !!}
 						</select>
 						@else
@@ -55,6 +57,9 @@
 						<div class="select-box date-select">
 							<input type="text" class="select-date-input" placeholder="Date" readonly />
 						</div>
+
+
+						
 					</form>
 					<a href="#" class="search-time-button" data-salon-id="{!! $_GET['stf'] !!}">Vérifier copy</a>
 				</div>

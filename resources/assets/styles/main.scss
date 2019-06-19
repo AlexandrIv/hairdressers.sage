@@ -13,13 +13,19 @@
 @import "~slick-carousel/slick/slick-theme";
 @import "~slick-carousel/slick/slick";
 @import "~@fortawesome/fontawesome-free/css/all";
-@import "~selectric/src/selectric";
+@import "~bootstrap-select/sass/bootstrap-select";
 
 @import "~air-datepicker/src/sass/datepicker-config";
 @import "~air-datepicker/src/sass/cell";
 @import "~air-datepicker/src/sass/datepicker";
 @import "~air-datepicker/src/sass/navigation";
 @import "~air-datepicker/src/sass/timepicker";
+
+@import '@fullcalendar/core/main';
+@import '@fullcalendar/daygrid/main';
+@import '@fullcalendar/timegrid/main';
+@import '@fullcalendar/list/main';
+
 
 /** Import theme styles */
 @import "common/mixin";

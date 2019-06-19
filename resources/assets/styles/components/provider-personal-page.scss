@@ -334,6 +334,39 @@
 					.service-table {
 						width: 100%;
 						table {
+							thead {
+								tr {
+									th {
+										a {
+											display: flex;
+											text-decoration: none;
+											color: #495057;
+											span {
+												margin-right: 5px;
+											}
+											i {
+												transition: 0.3s;
+											}
+											&:hover {
+												i {
+													color: #dd9933;
+													transition: 0.3s;
+												}
+											}
+										}
+										.arrow-up {
+											i {
+												transform: translateY(180);
+											}
+										}
+										.arrow-down {
+											i {
+												
+											}
+										}
+									}
+								}
+							}
 							tbody {
 								tr {
 									th {

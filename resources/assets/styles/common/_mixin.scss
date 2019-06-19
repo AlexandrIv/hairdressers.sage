@@ -1,1 +1,51 @@
 @import "../mixin/booking";
+
+
+
+@mixin selectpicker-style() {
+	width: 100%!important;
+	height: 100%;
+	.btn {
+		width: 100%;
+		height: 100%;
+		border-radius: 0;
+		outline: none;
+		box-shadow: none;
+		border: none;
+		background-color: #fff;
+		.filter-option {
+			.filter-option-inner {
+				.filter-option-inner-inner {
+					font-size: 13px;
+					color: #707070;
+				}
+			}
+		}
+	}
+	.dropdown-menu {
+		padding: 0;
+		margin: 0;
+		border: none;
+		border-radius: 0;
+		border-top: 1px solid #cccccc;
+		div {
+			ul {
+				li {
+					a {
+						padding: 0.45rem 1.5rem;
+						font-size: 13px;
+						color: #707070;
+						&:active {
+							color: #fff;
+							background-color: #808080;
+						}
+					}
+				}
+				.selected, .active {
+					color: #fff;
+					background-color: #808080;
+				}
+			}
+		}
+	}
+}

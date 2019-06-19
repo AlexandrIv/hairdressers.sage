@@ -1,8 +1,16 @@
 // import external dependencies
 import 'jquery';
+/*import '@fullcalendar/moment/main';
+import '@fullcalendar/core/main';
+import '@fullcalendar/daygrid/main';*/
 import 'slick-carousel/slick/slick.min';
-import 'selectric/src/jquery.selectric';
+import 'bootstrap-select/js/bootstrap-select';
 import 'air-datepicker/src/js/air-datepicker';
+
+
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+
 
 // Import everything from autoload
 import './autoload/**/*'

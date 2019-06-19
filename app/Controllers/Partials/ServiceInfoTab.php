@@ -5,6 +5,8 @@ use WP_Query;
 
 trait ServiceInfoTab
 {
+	private $arg = 'price';
+
 	public function duration() {
 		for ( $i = 0; $i < 3; $i++ ) :
 			for ( $j = 30; $j <= 60; $j += 30 ) :
@@ -46,22 +48,23 @@ trait ServiceInfoTab
 
 
 	private function set_services( $service_data ) {
-		$post_id = wp_insert_post(array('post_type' => 'services', 'post_status'   => 'publish', 'post_title' => $service_data['name']));
+		$post_id = wp_insert_post(array('post_type' => 'services', 'post_status' => 'publish', 'post_title' => $service_data['name']));
 		wp_set_post_terms($post_id, $service_data['category'], 'categories-service' );
 		update_post_meta($post_id, 'duration', $service_data['duration']);
 		update_post_meta($post_id, 'price', $service_data['price']);
 		return $post_id;
 	}
 
-
-
 	public function get_services() {
-		if( isset($_POST['author_id']) ) {
+		if( isset($_POST['author_id'] ) ) {
 			$author_id = $_POST['author_id'];
+			$order_type = $_POST['type'];
+			$sort_type = $_POST['sort'];
 			$args = array(
 				'post_type' => 'services',
 				'author'	=> get_current_user_id(),
-				'order'		=> ASC
+				'order'		=> DESC,
+				'orderby'	=> 'title'
 			);
 			$query = new WP_Query;
 			$posts = $query->query($args);
@@ -80,9 +83,61 @@ trait ServiceInfoTab
 			}else {
 				$services = false;
 			}
+
+			switch ($order_type) {
+				case 'category':
+					$this->arg = 'category';
+					if ( $sort_type == 'asc' ) {
+						usort( $services, [$this, "cmpCategoryASC"] );
+					} else {
+						usort( $services, [$this, "cmpCategoryDESC"] );
+					}
+				break;
+				case 'name' :
+					$this->arg = 'name';
+					if ( $sort_type == 'asc' ) {
+						usort( $services, [$this, "cmpASC"] );
+					} else {
+						usort( $services, [$this, "cmpDESC"] );
+					}
+				break;
+				case 'duration' :
+					$this->arg = 'duration';
+					if ( $sort_type == 'asc' ) {
+						usort( $services, [$this, "cmpASC"] );
+					} else {
+						usort( $services, [$this, "cmpDESC"] );
+					}
+				break;
+				case 'price' :
+					$this->arg = 'price';
+					if ( $sort_type == 'asc' ) {
+						usort( $services, [$this, "cmpASC"] );
+					} else {
+						usort( $services, [$this, "cmpDESC"] );
+					}
+				break;
+			}
+
 			echo \App\template('partials.content-service-table', compact('services'));
 			wp_die();
 		}
+	}
+
+	private function cmpASC($a, $b) {
+		return strcmp($a[$this->arg], $b[$this->arg]);
+	}
+
+	private function cmpDESC($a, $b) {
+		return strcmp($b[$this->arg], $a[$this->arg]);
+	}
+
+	private function cmpCategoryASC($a, $b) {
+		return strcmp($a[$this->arg]['name'], $b[$this->arg]['name']);
+	}
+
+	private function cmpCategoryDESC($a, $b) {
+		return strcmp($b[$this->arg]['name'], $a[$this->arg]['name']);
 	}
 
 	public function remove_service() {

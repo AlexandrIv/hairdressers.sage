@@ -113,10 +113,10 @@
                               <thead class="thead-light">
                                 <tr>
                                   <th scope="col">#</th>
-                                  <th scope="col">Category</th>
-                                  <th scope="col">Service name</th>
-                                  <th scope="col">Service duration</th>
-                                  <th scope="col">Service price</th>
+                                  <th scope="col"><a href="#" data-sort="asc" data-type="category" class="sort-service"><span>Category </span><i class="fas fa-sort-down"></i></a></th>
+                                  <th scope="col"><a href="#" data-sort="asc" data-type="name" class="sort-service"><span>Service name </span><i class="fas fa-sort-down"></i></a></th>
+                                  <th scope="col"><a href="#" data-sort="asc" data-type="duration" class="sort-service"><span>Service duration </span><i class="fas fa-sort-down"></i></a></th>
+                                  <th scope="col"><a href="#" data-sort="asc" data-type="price" class="sort-service"><span>Service price </span><i class="fas fa-sort-down"></i></a></th>
                                 </tr>
                               </thead>
                               <tbody class="services-data"></tbody>
@@ -158,7 +158,15 @@
                   </div>
                 </div>
               </div>
-              <div class="tab-pane container fade" id="tab4">...</div>
+              <div class="tab-pane container fade" id="tab4">
+                
+                <div id="calendar"></div>
+
+
+
+
+
+              </div>
               <div class="tab-pane container fade" id="tab5">...</div>
             </div>
           </div>
