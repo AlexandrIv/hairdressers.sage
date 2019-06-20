@@ -6,10 +6,6 @@
   version "5.8.1"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.8.1.tgz#cbafbfe8894c4e3e3c3a9da6774e249ac1f2da8b"
 
-"@fullcalendar/moment@^4.2.0":
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/@fullcalendar/moment/-/moment-4.2.0.tgz#5c3a90d05c36678b7aff812ba0de75639ea8217f"
-
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"

@@ -3,6 +3,16 @@
   		<div class="row">
   			<div class="col-12">
 
+
+
+
+          <pre>
+            @php
+              var_dump($test);
+            @endphp
+          </pre>
+
+
           <div class="partner-admin-page-block">
             <h3>Hello {!! $current_user['user_firstname'] !!}</h3>
             <ul class="nav nav-tabs">
@@ -16,7 +26,7 @@
                 <a class="nav-link active service-tab" data-author-id="{!! $get_salon_info['user-id'] !!}" data-toggle="tab" href="#tab3">Ajouter des services</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#tab4">Mes Réservations</a>
+                <a class="nav-link calendar-tab" data-toggle="tab" href="#tab4">Mes Réservations</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#tab5">Service de réservation</a>

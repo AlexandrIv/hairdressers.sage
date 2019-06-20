@@ -158,6 +158,7 @@ let webpackConfig = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
       Popper: 'popper.js/dist/umd/popper.js',
+      moment: 'moment',
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: config.enabled.optimize,

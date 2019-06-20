@@ -21,10 +21,10 @@
 @import "~air-datepicker/src/sass/navigation";
 @import "~air-datepicker/src/sass/timepicker";
 
-@import '@fullcalendar/core/main';
-@import '@fullcalendar/daygrid/main';
-@import '@fullcalendar/timegrid/main';
-@import '@fullcalendar/list/main';
+
+
+@import "~arrobefr-jquery-calendar/dist/css/jquery-calendar.min";
+
 
 
 /** Import theme styles */

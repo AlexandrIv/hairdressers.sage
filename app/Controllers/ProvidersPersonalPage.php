@@ -9,11 +9,14 @@ class ProvidersPersonalPage extends Controller
 {
 	use \App\Controllers\Partials\SalonInfoTab;
 	use \App\Controllers\Partials\ServiceInfoTab;
+	use \App\Controllers\Partials\EventCalendarTab;
 
 	private static $redux_demo;
+	private static $wpdb;
 	public function __construct() {
-		global $redux_demo;
+		global $redux_demo, $wpdb;
 		self::$redux_demo = $redux_demo;
+		self::$wpdb = $wpdb;
 
 		add_action('wp_ajax_salon_form', array($this, 'salon_form'));
 		add_action( 'wp_ajax_nopriv_salon_form', array($this, 'salon_form'));
@@ -50,6 +53,13 @@ class ProvidersPersonalPage extends Controller
 
 		add_action('wp_ajax_remove_staff', array($this, 'remove_staff'));
 		add_action( 'wp_ajax_nopriv_remove_staff', array($this, 'remove_staff'));
+
+		add_action('wp_ajax_get_working_time', array($this, 'get_working_time'));
+		add_action( 'wp_ajax_nopriv_get_working_time', array($this, 'get_working_time'));
+
+
+		add_action('wp_ajax_get_events', array($this, 'get_events'));
+		add_action( 'wp_ajax_nopriv_get_events', array($this, 'get_events'));
 
 	}
 	public function current_user() {

@@ -250,109 +250,112 @@ export default {
 
 
 
-    document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
-      var calendar = new Calendar(calendarEl, {
-        plugins: [ dayGridPlugin ]
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$('.staff-input').on('click', function(){
+  $('.staff-name-list').toggleClass('show');
+  $(this).closest('span').find('i').toggleClass('icon-active');
+});
+$('.staff-name-list li').on('click', function(){
+  $('.staff-name-list').removeClass('show');
+
+  $(this).parent('.staff-name').closest('span').find('i').removeClass('icon-active');
+
+  var staff_id = $(this).data('service_id');
+  var staff_name = $(this).text();
+  $('.staff-input').val(staff_name);
+  $('.staff-input').attr('data-select-id', staff_id);
+});
+
+
+
+
+
+
+
+function initMap() {
+  var postsArray = JSON.parse(window.postJsonCategory);
+  console.log(postsArray);
+  if ( postsArray ) {
+    var map = new google.maps.Map(
+      document.getElementById('mapCategory'), {
+        zoom: 12,
+        center: {
+          lat: parseFloat(postsArray[0].lat),
+          lng: parseFloat(postsArray[0].lng),
+        },
       });
-      calendar.render();
-    });
+    $.each(postsArray, function( index, value ) {
+      var iconDefault = '/wp-content/themes/hairdres/dist/images/marker-icon.png';
+      var marker = new google.maps.Marker({
+        position: {
+          lat: parseFloat(value.lat),
+          lng: parseFloat(value.lng),
+        },
+        icon: iconDefault,
+        map: map,
+        title: 'Uluru (Ayers Rock)',
+      });
+      var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '<img src="'+value.post_image+'" alt="" />'+
+      '</div>'+
+      '<h3 id="firstHeading" class="firstHeading"><a href="'+value.post_permalink+'">'+value.post_title+'</a></h3>'+
+      '<div id="bodyContent">'+
+      '<p></p>'+
+      '</div>'+
+      '</div>';
 
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString,
+      });
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
+      });
+    })
+  }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    
-
-
-
-
-    $('.staff-input').on('click', function(){
-      $('.staff-name-list').toggleClass('show');
-      $(this).closest('span').find('i').toggleClass('icon-active');
-    });
-    $('.staff-name-list li').on('click', function(){
-      $('.staff-name-list').removeClass('show');
-
-      $(this).parent('.staff-name').closest('span').find('i').removeClass('icon-active');
-
-      var staff_id = $(this).data('service_id');
-      var staff_name = $(this).text();
-      $('.staff-input').val(staff_name);
-      $('.staff-input').attr('data-select-id', staff_id);
-    });
-
-
-
-
-
-
-
-    function initMap() {
-      var postsArray = JSON.parse(window.postJsonCategory);
-      console.log(postsArray);
-      if ( postsArray ) {
-        var map = new google.maps.Map(
-          document.getElementById('mapCategory'), {
-            zoom: 12,
-            center: {
-              lat: parseFloat(postsArray[0].lat),
-              lng: parseFloat(postsArray[0].lng),
-            },
-          });
-        $.each(postsArray, function( index, value ) {
-          var iconDefault = '/wp-content/themes/hairdres/dist/images/marker-icon.png';
-          var marker = new google.maps.Marker({
-            position: {
-              lat: parseFloat(value.lat),
-              lng: parseFloat(value.lng),
-            },
-            icon: iconDefault,
-            map: map,
-            title: 'Uluru (Ayers Rock)',
-          });
-          var contentString = '<div id="content">'+
-          '<div id="siteNotice">'+
-          '<img src="'+value.post_image+'" alt="" />'+
-          '</div>'+
-          '<h3 id="firstHeading" class="firstHeading"><a href="'+value.post_permalink+'">'+value.post_title+'</a></h3>'+
-          '<div id="bodyContent">'+
-          '<p></p>'+
-          '</div>'+
-          '</div>';
-
-          var infowindow = new google.maps.InfoWindow({
-            content: contentString,
-          });
-          marker.addListener('click', function() {
-            infowindow.open(map, marker);
-          });
-        })
-      }
-    }
-
-    if(window.postJsonCategory != undefined) {
-      initMap();
-    }
-  },
+if(window.postJsonCategory != undefined) {
+  initMap();
+}
+},
 };

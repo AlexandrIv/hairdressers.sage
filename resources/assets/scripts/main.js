@@ -1,15 +1,16 @@
 // import external dependencies
 import 'jquery';
-/*import '@fullcalendar/moment/main';
-import '@fullcalendar/core/main';
-import '@fullcalendar/daygrid/main';*/
 import 'slick-carousel/slick/slick.min';
 import 'bootstrap-select/js/bootstrap-select';
 import 'air-datepicker/src/js/air-datepicker';
 
+import 'jquery-touchswipe/jquery.touchSwipe.min';
+import 'moment/min/moment-with-locales.min';
+import 'arrobefr-jquery-calendar/src/js/jquery-calendar';
 
-import { Calendar } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
+
+
+
 
 
 // Import everything from autoload
@@ -22,6 +23,8 @@ import home from './routes/home';
 import aboutUs from './routes/about';
 import ajax from './routes/ajax';
 import readmore from './custom/readmore.min';
+import moment from 'moment/moment';
+
 
 /** Populate Router instance with DOM routes */
 const routes = new Router({
@@ -35,6 +38,7 @@ const routes = new Router({
   ajax,
   // Readmore
   readmore,
+  moment,
 });
 
 // Load Events
