@@ -68,14 +68,15 @@ class SecondBookingPageTemplate extends Controller
 				'id_staff_order'	=> $_POST['staff_id'],
 				'date_order'		=> $_POST['select_date'],
 				'time_order'		=> $_POST['time'],
+				'duration_order'	=> $_POST['duration'],
 				'user_data'			=> serialize( $userData )
 			);
 
 			$setTimesDB = self::set_times_database( $setDatabaseArray );
 			$setOrderData = self::set_order_data( $orderArray );
 			if( $setTimesDB && $setOrderData ) {
-				$html = self::send_mail( $mail_data );
-				var_dump($html);
+				/*$html = self::send_mail( $mail_data );
+				var_dump($html);*/
 			} else {
 				var_dump($setTimesDB);
 			}
@@ -162,6 +163,7 @@ class SecondBookingPageTemplate extends Controller
 		id_staff_order varchar(255) NOT NULL default '',
 		date_order varchar(255) NOT NULL default '',
 		time_order text NOT NULL default '',
+		duration_order text NOT NULL default '',
 		user_data text NOT NULL default '',
 		PRIMARY KEY  (id)
 		)

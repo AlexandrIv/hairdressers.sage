@@ -2,17 +2,6 @@
   	<div class="container">
   		<div class="row">
   			<div class="col-12">
-
-
-
-
-          <pre>
-            @php
-              var_dump($test);
-            @endphp
-          </pre>
-
-
           <div class="partner-admin-page-block">
             <h3>Hello {!! $current_user['user_firstname'] !!}</h3>
             <ul class="nav nav-tabs">

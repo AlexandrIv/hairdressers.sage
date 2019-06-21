@@ -811,9 +811,6 @@ jQuery(document).ready(function($){
 		$(document).ready(function(){
 			moment.locale('en');
 			var now = moment();
-			console.log(now.startOf('week').add(9, 'h').format('X'));
-			console.log(now.startOf('week').add(10, 'h').format('X'));
-
 			var salon_id = $('.salon-info-tab').data('post-id');
 			$.ajax({
 				url: ajax['ajax_url'],
@@ -823,231 +820,39 @@ jQuery(document).ready(function($){
 				},
 				type: 'POST',
 				success: function( events ) {
-					console.log(events);
+					var eventsArray = JSON.parse(events);
+
+					var events = [];
+					eventsArray.forEach(function(item, i) {
+
+						var html = '';
+						$.each(item.userdata, function(i2, item2) {
+							html = html + '<p><span>'+item2.desc+': </span>'+item2.val+'</p>';
+						})
+
+						var obj = {
+							start: now.startOf('week').add(item.starts, 'h').format('X'),
+							end: now.startOf('week').add(item.ends, 'h').format('X'),
+							title: item.staff,
+							category: item.service,
+							content: html,
+						};
+						events.push(obj);
+					});
+					var calendar = $('#calendar').Calendar({
+						locale: 'en',
+						weekday: {
+							timeline: {
+								intervalMinutes: 30,
+								fromHour: max_min_time.min,
+								toHour: max_min_time.max,
+							}
+						},
+						events: events
+					}).init();
 				},
 			});
-
-
-
-
-			var events = [
-			{
-				start: now.startOf('week').add(9, 'h').format('X'),
-				end: now.startOf('week').add(10, 'h').format('X'),
-				title: '1',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Professionnal'
-			},
-			{
-				start: now.startOf('week').add(10, 'h').format('X'),
-				end: now.startOf('week').add(11, 'h').format('X'),
-				title: '2',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Professionnal'
-			},
-			{
-				start: now.startOf('week').add(11, 'h').format('X'),
-				end: now.startOf('week').add(12, 'h').format('X'),
-				title: '3',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Personnal'
-			},
-			{
-				start: now.startOf('week').add(1, 'days').add(9, 'h').format('X'),
-				end: now.startOf('week').add(1, 'days').add(10, 'h').format('X'),
-				title: '4',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Personnal'
-			},
-			{
-				start: now.startOf('week').add(1, 'days').add(9, 'h').add(30, 'm').format('X'),
-				end: now.startOf('week').add(1, 'days').add(10, 'h').add(30, 'm').format('X'),
-				title: '5',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Arrobe'
-			},
-			{
-				start: now.startOf('week').add(1, 'days').add(11, 'h').format('X'),
-				end: now.startOf('week').add(1, 'days').add(12, 'h').format('X'),
-				title: '6',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Another category'
-			},
-			{
-				start: now.startOf('week').add(2, 'days').add(9, 'h').format('X'),
-				end: now.startOf('week').add(2, 'days').add(10, 'h').format('X'),
-				title: '7',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Personnal'
-			},
-			{
-				start: now.startOf('week').add(2, 'days').add(9, 'h').add(30, 'm').format('X'),
-				end: now.startOf('week').add(2, 'days').add(10, 'h').add(30, 'm').format('X'),
-				title: '8',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Professionnal'
-			},
-			{
-				start: now.startOf('week').add(2, 'days').add(10, 'h').format('X'),
-				end: now.startOf('week').add(2, 'days').add(11, 'h').format('X'),
-				title: '9',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Personnal'
-			},
-			{
-				start: now.startOf('week').add(3, 'days').add(9, 'h').format('X'),
-				end: now.startOf('week').add(3, 'days').add(10, 'h').format('X'),
-				title: '10',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Professionnal'
-			},
-			{
-				start: now.startOf('week').add(3, 'days').add(9, 'h').add(15, 'm').format('X'),
-				end: now.startOf('week').add(3, 'days').add(10, 'h').add(15, 'm').format('X'),
-				title: '11',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Personnal'
-			},
-			{
-				start: now.startOf('week').add(3, 'days').add(9, 'h').add(30, 'm').format('X'),
-				end: now.startOf('week').add(3, 'days').add(10, 'h').add(30, 'm').format('X'),
-				title: '12',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Anything else'
-			},
-			{
-				start: now.startOf('week').add(4, 'days').add(9, 'h').format('X'),
-				end: now.startOf('week').add(4, 'days').add(12, 'h').format('X'),
-				title: '13',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Private'
-			},
-			{
-				start: now.startOf('week').add(4, 'days').add(9, 'h').add(30, 'm').format('X'),
-				end: now.startOf('week').add(4, 'days').add(10, 'h').format('X'),
-				title: '14',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'No more creative category name'
-			},
-			{
-				start: now.startOf('week').add(4, 'days').add(11, 'h').format('X'),
-				end: now.startOf('week').add(4, 'days').add(11, 'h').add(30, 'm').format('X'),
-				title: '15',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Professionnal'
-			},
-			{
-				start: now.startOf('week').add(5, 'days').add(10, 'h').format('X'),
-				end: now.startOf('week').add(5, 'days').add(12, 'h').format('X'),
-				title: '17',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Private'
-			},
-			{
-				start: now.startOf('week').add(5, 'days').add(9, 'h').add(30, 'm').format('X'),
-				end: now.startOf('week').add(5, 'days').add(10, 'h').add(30, 'm').format('X'),
-				title: '16',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Course'
-			},
-			{
-				start: now.startOf('week').add(5, 'days').add(11, 'h').add(30, 'm').format('X'),
-				end: now.startOf('week').add(5, 'days').add(12, 'h').add(30, 'm').format('X'),
-				title: '18',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'No more creative category name'
-			},
-			{
-				start: now.startOf('week').add(5, 'days').add(12, 'h').format('X'),
-				end: now.startOf('week').add(5, 'days').add(13, 'h').format('X'),
-				title: '19',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Another one'
-			},
-			{
-				start: now.startOf('week').add(5, 'days').add(12, 'h').add(15, 'm').format('X'),
-				end: now.startOf('week').add(5, 'days').add(13, 'h').format('X'),
-				title: '21',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'One again'
-			},
-			{
-				start: now.startOf('week').add(5, 'days').add(12, 'h').add(45, 'm').format('X'),
-				end: now.startOf('week').add(5, 'days').add(13, 'h').add(45, 'm').format('X'),
-				title: '22',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Encore'
-			},
-			{
-				start: now.startOf('week').add(5, 'days').add(13, 'h').add(45, 'm').format('X'),
-				end: now.startOf('week').add(5, 'days').add(14, 'h').format('X'),
-				title: '23',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Professionnal'
-			},
-			{
-				start: now.startOf('week').add(5, 'days').add(12, 'h').format('X'),
-				end: now.startOf('week').add(5, 'days').add(14, 'h').add(30, 'm').format('X'),
-				title: '20',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Private'
-			},
-			{
-				start: now.startOf('week').add(5, 'days').add(13, 'h').add(45, 'm').format('X'),
-				end: now.startOf('week').add(5, 'days').add(15, 'h').format('X'),
-				title: '27',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Encore'
-			},
-			{
-				start: now.startOf('week').add(5, 'days').add(14, 'h').add(30, 'm').format('X'),
-				end: now.startOf('week').add(5, 'days').add(15, 'h').format('X'),
-				title: '28',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Private'
-			},
-			{
-				start: now.startOf('week').add(6, 'days').add(9, 'h').format('X'),
-				end: now.startOf('week').add(6, 'days').add(11, 'h').format('X'),
-				title: '24',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Foo'
-			},
-			{
-				start: now.startOf('week').add(6, 'days').add(9, 'h').format('X'),
-				end: now.startOf('week').add(6, 'days').add(11, 'h').format('X'),
-				title: '25',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Bar'
-			},
-			{
-				start: now.startOf('week').add(6, 'days').add(9, 'h').format('X'),
-				end: now.startOf('week').add(6, 'days').add(11, 'h').format('X'),
-				title: '26',
-				content: 'Hello World! <br> <p>Foo Bar</p>',
-				category:'Baz'
-			},
-			];
-			var daynotes = [
-			{
-				time: now.startOf('week').add(15, 'h').add(30, 'm').format('X'),
-				title: 'Leo\'s holiday',
-				content: 'yo',
-				category: 'holiday'
-			}
-			];
-			var calendar = $('#calendar').Calendar({
-				locale: 'en',
-				weekday: {
-					timeline: {
-						intervalMinutes: 30,
-						fromHour: max_min_time.min,
-						toHour: max_min_time.max,
-					}
-				},
-				events: events,
-				daynotes: daynotes
-			}).init();
+		
 		});
 }
 
