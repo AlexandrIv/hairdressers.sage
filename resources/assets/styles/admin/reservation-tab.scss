@@ -1,0 +1,16 @@
+.reservation-tab-pane {
+	form {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		.select-box {
+			@include selectpicker-style();
+			&:first-child {
+				border-right: 1px solid #cccccc;
+			}
+			input {
+				width: 100%;
+			}
+		}
+	}
+}

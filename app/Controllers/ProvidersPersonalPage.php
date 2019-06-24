@@ -10,6 +10,7 @@ class ProvidersPersonalPage extends Controller
 	use \App\Controllers\Partials\SalonInfoTab;
 	use \App\Controllers\Partials\ServiceInfoTab;
 	use \App\Controllers\Partials\EventCalendarTab;
+	use \App\Controllers\Partials\ReservationTab;
 
 	private static $redux_demo;
 	private static $wpdb;

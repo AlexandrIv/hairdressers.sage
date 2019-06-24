@@ -30,6 +30,7 @@ trait EventCalendarTab
 			$salon_id = $_POST['salon_id'];
 			$get_orders = self::$wpdb->get_results( 'SELECT * FROM `wp_order_table` WHERE id_salon_order = '.$salon_id.' ', ARRAY_A );
 			$array_event = [];
+			$users_data = [];
 			foreach ($get_orders as $key => $order) {
 				$str_start = strtotime($order['time_order']);
 				$str_end = strtotime('+'.$order['duration_order'].'minutes', $str_start);
@@ -38,19 +39,6 @@ trait EventCalendarTab
 
 				$users_data = unserialize($order['user_data']);
 
-				$usersArray['val'][] = 'Name';
-				$usersArray['desc'][] = $users_data['name'];
-
-				$usersArray['val'][] = 'Surname';
-				$usersArray['desc'][] = $users_data['surname'];
-
-				$usersArray['val'][] = 'Email';
-				$usersArray['desc'][] = $users_data['email'];
-
-				$usersArray['val'][] = 'Phone';
-				$usersArray['desc'][] = $users_data['phone'];
-
-
 				$array_event[$key]['salon'] = get_the_title($order['id_salon_order']);
 				$array_event[$key]['service'] = get_the_title($order['id_service_order']);
 				$array_event[$key]['staff'] = get_the_title($order['id_staff_order']);
@@ -58,10 +46,13 @@ trait EventCalendarTab
 				$array_event[$key]['time'] = $order['time_order'];
 				$array_event[$key]['starts'] = (int)$start;
 				$array_event[$key]['ends'] = (int)$end;
-				$array_event[$key]['userdata'] = $usersArray;
+
+				$array_event[$key]['userdata']['Name'] = $users_data['name'];
+				$array_event[$key]['userdata']['Surname'] = $users_data['surname'];
+				$array_event[$key]['userdata']['Email'] = $users_data['email'];
+				$array_event[$key]['userdata']['Phone'] = $users_data['phone'];
 			}
-
-
+			
 			echo json_encode($array_event);
 			wp_die();
 		}

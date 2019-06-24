@@ -18,7 +18,7 @@
                 <a class="nav-link calendar-tab" data-toggle="tab" href="#tab4">Mes Réservations</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#tab5">Service de réservation</a>
+                <a class="nav-link reservation-tab" data-toggle="tab" href="#tab5">Service de réservation</a>
               </li>
             </ul>
 
@@ -38,7 +38,7 @@
                       @foreach ($get_salon_info['category'] as $key => $category)
                       <label for="{!! $category->slug !!}">
                         <input type="checkbox" name="salon_category[]" value="{!! $category->term_id !!}" id="{!! $category->slug !!}" @if ($get_salon_info['category_checked'])
-                          @foreach ($get_salon_info['category_checked'] as $term) @if($term->slug == $category->slug){!! 'checked' !!}@endif @endforeach @endif>
+                        @foreach ($get_salon_info['category_checked'] as $term) @if($term->slug == $category->slug){!! 'checked' !!}@endif @endforeach @endif>
                         <span>{!! $category->name !!}</span>
                       </label>
                       @endforeach
@@ -158,15 +158,21 @@
                 </div>
               </div>
               <div class="tab-pane container fade" id="tab4">
-                
                 <div id="calendar"></div>
-
-
-
-
-
               </div>
-              <div class="tab-pane container fade" id="tab5">...</div>
+              <div class="tab-pane container fade reservation-tab-pane" id="tab5">
+
+                <form action="">
+                  <select class="select-box select-custom service-select" placeholder="Services">
+                    {!! $get_services_opt !!}
+                  </select>
+                  <select class="select-box select-custom staff-select" placeholder="Staff"></select>
+                  <div class="select-box date-select">
+                    <input type="text" class="select-date-input" placeholder="Date" readonly />
+                  </div>
+                </form>
+                
+              </div>
             </div>
           </div>
 

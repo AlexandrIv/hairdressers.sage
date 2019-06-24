@@ -421,8 +421,6 @@ jQuery(document).ready(function($){
 			$(this).attr('data-sort', 'asc');
 			$(this).toggleClass('arrow-down');
 		}
-		/*console.log(type);
-		console.log(author_id);*/
 		$.ajax({
 			url: ajax['ajax_url'],
 			data: {
@@ -808,55 +806,89 @@ jQuery(document).ready(function($){
 
 
 	function calendar_load( max_min_time ) {
-		$(document).ready(function(){
-			moment.locale('en');
-			var now = moment();
-			var salon_id = $('.salon-info-tab').data('post-id');
-			$.ajax({
-				url: ajax['ajax_url'],
-				data: {
-					"action": "get_events",
-					"salon_id": salon_id
-				},
-				type: 'POST',
-				success: function( events ) {
-					var eventsArray = JSON.parse(events);
 
-					var events = [];
-					eventsArray.forEach(function(item, i) {
+		moment.locale('en');
+		var now = moment();
+		var salon_id = $('.salon-info-tab').data('post-id');
 
-						var html = '';
-						$.each(item.userdata, function(i2, item2) {
-							html = html + '<p><span>'+item2.desc+': </span>'+item2.val+'</p>';
-						})
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "get_events",
+				"salon_id": salon_id
+			},
+			type: 'POST',
+			success: function( getEvents ) {
+				var eventsArray = JSON.parse(getEvents);
+				
 
-						var obj = {
-							start: now.startOf('week').add(item.starts, 'h').format('X'),
-							end: now.startOf('week').add(item.ends, 'h').format('X'),
-							title: item.staff,
-							category: item.service,
-							content: html,
-						};
-						events.push(obj);
+				var event = [];
+				$.each(eventsArray, function(i, item){
+					var html = '';
+					$.each(item.userdata, function(i2, item2){
+						html += '<p><span>'+i2+': </span>'+item2+'</p>';
 					});
-					var calendar = $('#calendar').Calendar({
-						locale: 'en',
-						weekday: {
-							timeline: {
-								intervalMinutes: 30,
-								fromHour: max_min_time.min,
-								toHour: max_min_time.max,
-							}
-						},
-						events: events
-					}).init();
-				},
-			});
-		
+					var obj = {
+						start: now.startOf('week').add(item.starts, 'h').format('X'),
+						end: now.startOf('week').add(item.ends, 'h').format('X'),
+						title: item.staff,
+						category: item.service,
+						content: html,
+					};
+					event.push(obj);
+				})
+				var calendar = $('#calendar').Calendar({
+					locale: 'en',
+					weekday: {
+						timeline: {
+							intervalMinutes: 30,
+							fromHour: max_min_time.min,
+							toHour: max_min_time.max,
+						}
+					},
+					events: event
+				}).init();
+			},
 		});
-}
+
+	}
+	
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	$('.service-select').on('change', function(){
+		get_staff_select_option();
+	});
 
 
 
