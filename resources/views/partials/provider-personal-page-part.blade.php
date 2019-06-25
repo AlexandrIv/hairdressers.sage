@@ -24,154 +24,19 @@
 
             <div class="tab-content">
               <div class="tab-pane container" id="tab1">
-                {{-- TAB-1 --}}
+                @include('admin.tabs.order-tab-part')
               </div>
               <div class="tab-pane container fade" id="tab2">
-                <div class="salon-info">
-                  <form id="salon-form">
-                    <input type="hidden" name="action" value="salon_form">
-                    <input type="hidden" name="post_id" value="{!! $get_salon_info['ID'] !!}">
-                    <label class="box" for="salon-name"><span>Le nom du Salon:</span>
-                      <input type="text" name="salon_name" id="salon-name" value="{!! $get_salon_info['name'] !!}">
-                    </label>
-                    <label class="box radio"><span>Sélectionnez le type de service:</span>
-                      @foreach ($get_salon_info['category'] as $key => $category)
-                      <label for="{!! $category->slug !!}">
-                        <input type="checkbox" name="salon_category[]" value="{!! $category->term_id !!}" id="{!! $category->slug !!}" @if ($get_salon_info['category_checked'])
-                        @foreach ($get_salon_info['category_checked'] as $term) @if($term->slug == $category->slug){!! 'checked' !!}@endif @endforeach @endif>
-                        <span>{!! $category->name !!}</span>
-                      </label>
-                      @endforeach
-                    </label>
-                    <label class="box" for="address"><span>Votre adresse:</span>
-                      <input type="text" name="address" id="address" value="{!! $get_salon_info['address'] !!}">
-                    </label>
-                    <label class="box" for="description"><span>Décrivez votre salon (visible aux clients):</span>
-                      <textarea name="description" id="description" rows="10">{!! $get_salon_info['description'] !!}</textarea>
-                    </label>
-                    <label><span>Select working days:</span></label>
-                    <div class="row working-days">
-                      <div class="col-12">
-                        @foreach ($working_day as $element)
-                        {!! $element !!}
-                        @endforeach
-                      </div>
-                    </div>
-                    <label class="box" for="images"><span>Upload images of your salon:</span>
-                      <input type="file" name="upload_attachment[]" class="images" id="images" size="50" multiple="multiple" />
-                    </label>
-                    <div class="row upload-images"></div>
-                    <label class="salon-save-form">
-                      <input type="submit" name="salon-save-form" class="button-salon-save-form" id="salon-save-form" value="Save" form="salon-form">
-                    </label>
-                  </form>
-                  <div id="status"></div>
-                </div>
+                @include('admin.tabs.salon-info-tab-part')
               </div>
               <div class="tab-pane container active" id="tab3">
-                <div class="service-info">
-                  <div class="service-add-block">
-                    <div class="container">
-                      <div class="row pb-5">
-                        <div class="col-4">
-                          <h4>Add services</h4>
-                          <form id="service-form">
-                            <div class="form-box service-category custom-form-select">
-                              <label for="service-category">Select service category:</label>
-                              <span>
-                                <input type="text" name="service-category" id="service-category" class="category-input" placeholder="Femme" autocomplete="off" readonly>
-                              </span>
-                              <ul class="category-list">
-                                {!! $get_service_categories !!}
-                              </ul>
-                            </div>
-                            <div class="form-box service-name custom-form-input">
-                              <label class="service-name" for="service-name">Input service name:</label>
-                              <span><input type="text" name="service-name" id="service-name" class="name-input" placeholder="Name" autocomplete="off"></span>
-                            </div>
-                            <div class="form-box service-duration custom-form-select">
-                              <label for="service-duration">Select service duration:</label>
-                              <span>
-                                <input type="text" name="service-duration" id="service-duration" class="duration-input" placeholder="1:00" autocomplete="off" readonly>
-                              </span>
-                              <ul class="duration-list">
-                                {!! $duration !!}
-                              </ul>
-                            </div>
-                            <div class="form-box service-price custom-form-input">
-                              <label for="service-price">Input service price:</label>
-                              <span><input type="number" name="service-price" id="service-price" class="price-input" min="0" max="1000" placeholder="35$" autocomplete="off"></span>
-                            </div>
-                            <a class="save add-new-service">Add service</a>
-                          </form>
-                        </div>
-                        <div class="col-8">
-                          <h4>Created services</h4>
-                          <div class="service-table">
-                            <table class="table">
-                              <thead class="thead-light">
-                                <tr>
-                                  <th scope="col">#</th>
-                                  <th scope="col"><a href="#" data-sort="asc" data-type="category" class="sort-service"><span>Category </span><i class="fas fa-sort-down"></i></a></th>
-                                  <th scope="col"><a href="#" data-sort="asc" data-type="name" class="sort-service"><span>Service name </span><i class="fas fa-sort-down"></i></a></th>
-                                  <th scope="col"><a href="#" data-sort="asc" data-type="duration" class="sort-service"><span>Service duration </span><i class="fas fa-sort-down"></i></a></th>
-                                  <th scope="col"><a href="#" data-sort="asc" data-type="price" class="sort-service"><span>Service price </span><i class="fas fa-sort-down"></i></a></th>
-                                </tr>
-                              </thead>
-                              <tbody class="services-data"></tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-4">
-                          <h4>Add staff</h4>
-                          <form action="" id="staff-from">
-                            <div class="form-box staff-name custom-form-input">
-                              <label class="staff-name" for="staff-name">Input staff name:</label>
-                              <span><input type="text" name="staff-name" id="staff-name" class="staff-name-input" placeholder="Staff name"></span>
-                            </div>
-                            <div class="form-box custom-from-list-block">
-                              <ul class="custom-from-list"></ul>
-                            </div>
-                            <a href="#" class="save add-new-staff">Add staff</a>
-                          </form>
-                        </div>
-                        <div class="col-8">
-                          <h4>Created staff</h4>
-                          <div class="staff-table">
-                            <table class="table">
-                              <thead class="thead-light">
-                                <tr>
-                                  <th scope="col">#</th>
-                                  <th>Staff</th>
-                                  <th>Services</th>
-                                </tr>
-                              </thead>
-                              <tbody class="staff-table-body"></tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                @include('admin.tabs.staff-service-tab-part')
               </div>
               <div class="tab-pane container fade" id="tab4">
-                <div id="calendar"></div>
+                @include('admin.tabs.evant-calendar-tab-part')
               </div>
               <div class="tab-pane container fade reservation-tab-pane" id="tab5">
-
-                <form action="">
-                  <select class="select-box select-custom service-select" placeholder="Services">
-                    {!! $get_services_opt !!}
-                  </select>
-                  <select class="select-box select-custom staff-select" placeholder="Staff"></select>
-                  <div class="select-box date-select">
-                    <input type="text" class="select-date-input" placeholder="Date" readonly />
-                  </div>
-                </form>
-                
+                @include('admin.tabs.reservation-tab-part')                                
               </div>
             </div>
           </div>

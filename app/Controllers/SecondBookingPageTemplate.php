@@ -54,8 +54,6 @@ class SecondBookingPageTemplate extends Controller
 				'phone' 		=> $phone
 			);
 
-
-
 			$userData = array(
 				'name' 		=> $name,
 				'surname' 	=> $surname,
@@ -84,14 +82,14 @@ class SecondBookingPageTemplate extends Controller
 		}
 	}
 
-	private function new_time_array( $timesArray, $select_key ) {
+	public static function new_time_array( $timesArray, $select_key ) {
 		foreach ($timesArray as $key => $timeArray) {
 			$timesArray[$select_key]['status'] = false;
 		}
 		return $timesArray;
 	}
 
-	private function set_times_database( $setDatabaseArray ) {
+	public static function set_times_database( $setDatabaseArray ) {
 		$table_name = self::order_times_table();
 
 		$salon_id = $setDatabaseArray['salon_id'];
@@ -124,7 +122,7 @@ class SecondBookingPageTemplate extends Controller
 		return $status;
 	}
 
-	private function set_order_data( $orderArray ) {
+	public static function set_order_data( $orderArray ) {
 		$table_name = self::order_table();
 		if( $orderArray ) {
 			$status = self::$wpdb->insert( $table_name, $orderArray );
@@ -132,7 +130,7 @@ class SecondBookingPageTemplate extends Controller
 		}
 	}
 
-	private function order_times_table() {
+	public static function order_times_table() {
 		$wpdb = self::$wpdb;
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		$table_name = $wpdb->get_blog_prefix() . 'order_times_table';
@@ -151,7 +149,7 @@ class SecondBookingPageTemplate extends Controller
 		return $table_name;
 	}
 
-	private function order_table() {
+	public static function order_table() {
 		$wpdb = self::$wpdb;
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		$table_name = $wpdb->get_blog_prefix() . 'order_table';
@@ -173,7 +171,7 @@ class SecondBookingPageTemplate extends Controller
 	}
 
 	
-	private function send_mail( $mail_data ) {
+	public static function send_mail( $mail_data ) {
 		$html = \App\template('emails/booking', compact('mail_data'));
 		add_filter( 'wp_mail_content_type', function($content_type){
 			return "text/html";

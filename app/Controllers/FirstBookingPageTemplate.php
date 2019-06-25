@@ -76,41 +76,46 @@ class FirstBookingPageTemplate extends Controller
 			$service_id = $_POST['service_id'];
 			$staff_id = $_POST['staff_id'];
 			$select_date = $_POST['select_date'];
-			
-			$duration = get_post_meta($service_id, 'duration', true)/60;
-			$interval = '+'.$duration.' minutes';
-
-			$select_day = strtolower(strftime("%A", strtotime($select_date)));
-			$workers_days = get_post_meta($salon_id, 'workers_days', true);
-			
-			$start_time = substr($workers_days[$select_day]['start'], 0, -3);
-			$end_time = substr($workers_days[$select_day]['end'], 0, -3);
-
-			if( $workers_days[$select_day]['start'] == 'closed' || $workers_days[$select_day]['end'] == 'closed' ) {
-				$returnArray['status'] = 'closed';
-			} else {
-				$get_times_db = self::$wpdb->get_row( "SELECT * FROM `wp_order_times_table` WHERE `id_staff` = '$staff_id' AND `date_staff` = '$select_date'", ARRAY_A);
-				if( !$get_times_db ) {
-					$timesArray = self::time_array( $start_time, $end_time, $interval, $duration, $select_date );
-					$times = self::building_list( $timesArray );
-				}else {
-					$get_times_array = unserialize($get_times_db['time_staff']);
-					$times = self::building_list( $get_times_array );
-				}
-				if( $timesArray == false ) {
-					$returnArray['status'] = 'passed';
-				}else {
-					$returnArray['times'] = $times;
-				}
-				$returnArray['start_time'] = $start_time;
-				$returnArray['end_time'] = $end_time;
-				$returnArray['interval'] = $interval;
-				$returnArray['duration'] = $duration;
-			}
-			echo json_encode($returnArray);
+			$listArray = self::list_times( $salon_id, $service_id, $staff_id, $select_date );
+			echo json_encode($listArray); 
 			wp_die();
 		}
 	}
+
+	public static function list_times( $salon_id, $service_id, $staff_id, $select_date ) {
+		$duration = get_post_meta($service_id, 'duration', true)/60;
+		$interval = '+'.$duration.' minutes';
+
+		$select_day = strtolower(strftime("%A", strtotime($select_date)));
+		$workers_days = get_post_meta($salon_id, 'workers_days', true);
+
+		$start_time = substr($workers_days[$select_day]['start'], 0, -3);
+		$end_time = substr($workers_days[$select_day]['end'], 0, -3);
+
+		if( $workers_days[$select_day]['start'] == 'closed' || $workers_days[$select_day]['end'] == 'closed' ) {
+			$returnArray['status'] = 'closed';
+		} else {
+			$get_times_db = self::$wpdb->get_row( "SELECT * FROM `wp_order_times_table` WHERE `id_staff` = '$staff_id' AND `date_staff` = '$select_date'", ARRAY_A);
+			if( !$get_times_db ) {
+				$timesArray = self::time_array( $start_time, $end_time, $interval, $duration, $select_date );
+				$times = self::building_list( $timesArray );
+			}else {
+				$get_times_array = unserialize($get_times_db['time_staff']);
+				$times = self::building_list( $get_times_array );
+			}
+			if( $timesArray == false ) {
+				$returnArray['status'] = 'passed';
+			}else {
+				$returnArray['times'] = $times;
+			}
+			$returnArray['start_time'] = $start_time;
+			$returnArray['end_time'] = $end_time;
+			$returnArray['interval'] = $interval;
+			$returnArray['duration'] = $duration;
+		}
+		return $returnArray;
+	}
+
 	public static function time_array( $start_time = '08:00', $end_time = '17:00', $interval = '+30 minutes', $duration, $select_date ) {
 		date_default_timezone_set('Europe/Kiev');
 		$timesArray = [];

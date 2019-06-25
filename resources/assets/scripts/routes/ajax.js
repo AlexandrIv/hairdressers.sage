@@ -639,12 +639,6 @@ jQuery(document).ready(function($){
 			var staff_name = $('select.staff-select option:selected').text();
 			var select_date = $('.select-date-input').val();
 		}
-
-		console.log(salon_id);
-		console.log(service_id);
-		console.log(staff_id);
-		console.log(staff_name);
-		console.log(select_date);
 		if(select_date && service_id && staff_id) {
 
 			$('.service-select').css('border','none');
@@ -703,7 +697,13 @@ jQuery(document).ready(function($){
 		}
 	});
 
-	jQuery(document).on('click', '.free-times > ul > li > a', function(e) {
+
+
+
+
+
+
+	jQuery(document).on('click', '.free-times > .list-times > li > a', function(e) {
 		e.preventDefault();
 
 		var count = $(this).data('count');
@@ -881,19 +881,113 @@ jQuery(document).ready(function($){
 
 
 
-
-
-
-
-
 	$('.service-select').on('change', function(){
 		get_staff_select_option();
 	});
 
 
+	$('.select-date').datepicker({
+		onSelect: function( formattedDate, date, inst ) {
+			var staff_name = $('select.staff-select option:selected').text();
+			var staff_id = $('select.staff-select').val();
+			var service_id = $('select.service-select option:selected').val();
+			var salon_id = $('.salon-info-tab').data('post-id');
+			get_list_times( formattedDate, salon_id, service_id, staff_id, staff_name );
+		}
+	});
+	function get_list_times( select_date, salon_id, service_id, staff_id, staff_name ) {
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "get_list_times_reservation",
+				"salon_id": salon_id,
+				"service_id": service_id,
+				"staff_id": staff_id,
+				"select_date": select_date
+			},
+			type: 'POST',
+			success: function(listTimes) {
+				var listArray = JSON.parse(listTimes);
+				if( listArray.status == 'passed' ) {
+					$('.list-times-reserv').hide();
+					$('.free-times').show('slide');
+					$('.staff-name').html('You can not make an order for this day!');
+				} else if( listArray.status == 'closed' ) {
+					$('.list-times-reserv').hide();
+					$('.free-times').show('slide');
+					$('.staff-name').html('Salon does not work that day!');
+				} else {
+					$('.free-times').show('slide');
+					$('.list-times-reserv').show('slide');
+					$('.staff-name').text(staff_name);
+					$('.list-times-reserv').html(listArray.times);
+				}
+				localStorage.setItem('start_time', listArray.start_time);
+				localStorage.setItem('end_time', listArray.end_time);
+				localStorage.setItem('interval', listArray.interval);
+				localStorage.setItem('duration', listArray.duration);
+			},
+		});
+	}
+
+	jQuery(document).on('click', '.free-times > .list-times-reserv > li > a', function() {
+		var select_key = $(this).data('count');
+		var time = $(this).text();
+		localStorage.setItem('select_key', select_key);
+		localStorage.setItem('select_time', time);
+		$('.free-times').hide('slide');
+		$('.user-info-reserv').show('slide');
+	})
 
 
 
+
+	jQuery(document).on('click', '.make-order-reserv', function(e) {
+		e.preventDefault();
+
+		var salon_id = $('.salon-info-tab').data('post-id');
+		var service_id = $('select.service-select option:selected').val();
+		var staff_id = $('select.staff-select').val();
+		var select_date = $('.select-date-input').val();
+		var time = localStorage.getItem('select_time');
+
+		var select_key = localStorage.getItem('select_key');
+		var start_time = localStorage.getItem('start_time');
+		var end_time = localStorage.getItem('end_time');
+		var interval = localStorage.getItem('interval');
+		var duration = localStorage.getItem('duration');
+
+		var name = $('.name').val();
+		var surname = $('.surname').val();
+		var email = $('.email').val();
+		var phone = $('.phone').val();
+
+		$.ajax({
+			url: ajax['ajax_url'],
+			data: {
+				"action": "get_array_times",
+				"salon_id": salon_id,
+				"service_id": service_id,
+				"staff_id": staff_id,
+				"select_date": select_date,
+				"select_key": select_key,
+				"start_time": start_time,
+				"end_time": end_time,
+				"interval": interval,
+				"duration": duration,
+				"time": time,
+				"name": name,
+				"surname": surname,
+				"email": email,
+				"phone": phone
+			},
+			type: 'POST',
+			success: function(Data) {
+				$('.order-info').show('slide');
+				$('.order-info').html(Data);
+			},
+		});
+	});
 
 
 

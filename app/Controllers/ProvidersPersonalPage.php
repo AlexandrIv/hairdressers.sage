@@ -62,6 +62,13 @@ class ProvidersPersonalPage extends Controller
 		add_action('wp_ajax_get_events', array($this, 'get_events'));
 		add_action( 'wp_ajax_nopriv_get_events', array($this, 'get_events'));
 
+
+		add_action('wp_ajax_get_list_times_reservation', array($this, 'get_list_times_reservation'));
+		add_action( 'wp_ajax_nopriv_get_list_times_reservation', array($this, 'get_list_times_reservation'));
+
+		add_action('wp_ajax_reservation_order', array($this, 'reservation_order'));
+		add_action( 'wp_ajax_nopriv_reservation_order', array($this, 'reservation_order'));
+
 	}
 	public function current_user() {
 		$user = wp_get_current_user();
