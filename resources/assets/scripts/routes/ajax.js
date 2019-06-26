@@ -675,12 +675,7 @@ jQuery(document).ready(function($){
 					localStorage.setItem('service_id', service_id);
 					localStorage.setItem('staff_id', staff_id);
 					localStorage.setItem('select_date', select_date);
-
-					localStorage.setItem('start_time', dataArray.start_time);
-					localStorage.setItem('end_time', dataArray.end_time);
-					localStorage.setItem('interval', dataArray.interval);
 					localStorage.setItem('duration', dataArray.duration);
-
 				},
 			});
 		}else {
@@ -716,25 +711,20 @@ jQuery(document).ready(function($){
 		var select_date = localStorage.getItem('select_date');
 		var time = time;
 		var duration = localStorage.getItem('duration');
-
 		window.location = '/second-booking?sce='+service_id+'&stf='+staff_id+'&drtn='+duration+'&dat='+select_date+'&time='+time;
 	});
 
 
 
 
-	jQuery(document).on('click', '.make-order', function(e) {
+	jQuery(document).on('click', '.make-order-booking', function(e) {
 		e.preventDefault();
 		var salon_id = localStorage.getItem('salon_id');
 		var service_id = localStorage.getItem('service_id');
 		var staff_id = localStorage.getItem('staff_id');
 		var select_date = localStorage.getItem('select_date');
-		var time = localStorage.getItem('select_time');
-		
+		var select_time = localStorage.getItem('select_time');
 		var select_key = localStorage.getItem('select_key');
-		var start_time = localStorage.getItem('start_time');
-		var end_time = localStorage.getItem('end_time');
-		var interval = localStorage.getItem('interval');
 		var duration = localStorage.getItem('duration');
 
 		var name = $('.name').val();
@@ -745,17 +735,13 @@ jQuery(document).ready(function($){
 		$.ajax({
 			url: ajax['ajax_url'],
 			data: {
-				"action": "get_array_times",
+				"action": "booking_reservation",
 				"salon_id": salon_id,
 				"service_id": service_id,
 				"staff_id": staff_id,
 				"select_date": select_date,
 				"select_key": select_key,
-				"start_time": start_time,
-				"end_time": end_time,
-				"interval": interval,
-				"duration": duration,
-				"time": time,
+				"select_time": select_time,
 				"name": name,
 				"surname": surname,
 				"email": email,
@@ -767,7 +753,7 @@ jQuery(document).ready(function($){
 				'&stf='+staff_id+
 				'&drtn='+duration+
 				'&dat='+select_date+
-				'&time='+time+
+				'&time='+select_time+
 				'&nm='+name+
 				'&snm='+surname+
 				'&em='+email+
@@ -922,9 +908,6 @@ jQuery(document).ready(function($){
 					$('.staff-name').text(staff_name);
 					$('.list-times-reserv').html(listArray.times);
 				}
-				localStorage.setItem('start_time', listArray.start_time);
-				localStorage.setItem('end_time', listArray.end_time);
-				localStorage.setItem('interval', listArray.interval);
 				localStorage.setItem('duration', listArray.duration);
 			},
 		});
@@ -949,13 +932,9 @@ jQuery(document).ready(function($){
 		var service_id = $('select.service-select option:selected').val();
 		var staff_id = $('select.staff-select').val();
 		var select_date = $('.select-date-input').val();
-		var time = localStorage.getItem('select_time');
-
-		var select_key = localStorage.getItem('select_key');
-		var start_time = localStorage.getItem('start_time');
-		var end_time = localStorage.getItem('end_time');
-		var interval = localStorage.getItem('interval');
 		var duration = localStorage.getItem('duration');
+		var select_key = localStorage.getItem('select_key');
+		var select_time = localStorage.getItem('select_time');
 
 		var name = $('.name').val();
 		var surname = $('.surname').val();
@@ -965,17 +944,13 @@ jQuery(document).ready(function($){
 		$.ajax({
 			url: ajax['ajax_url'],
 			data: {
-				"action": "get_array_times",
+				"action": "reservation_order",
 				"salon_id": salon_id,
 				"service_id": service_id,
 				"staff_id": staff_id,
 				"select_date": select_date,
 				"select_key": select_key,
-				"start_time": start_time,
-				"end_time": end_time,
-				"interval": interval,
-				"duration": duration,
-				"time": time,
+				"select_time": select_time,
 				"name": name,
 				"surname": surname,
 				"email": email,

@@ -84,7 +84,7 @@
 				}
 			}
 		}
-		.make-order {
+		.make-order-reserv {
 			display: inline-block;
 			width: 100%;
 			height: auto;
@@ -104,6 +104,31 @@
 		}
 		.order-info {
 			display: none;
+			.reservation-info {
+				display: flex;
+				margin-bottom: 30px;
+				.info-box {
+					margin-right: 80px;
+					h3 {
+						font-size: 24px;
+						color: #000;
+					}
+					ul {
+						list-style-type: none;
+						margin: 0;
+						padding: 0;
+						li {
+							margin: 5px 0;
+							padding: 0;
+							font-size: 14px;
+							color: #808080;
+							span {
+								font-weight: 700;
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

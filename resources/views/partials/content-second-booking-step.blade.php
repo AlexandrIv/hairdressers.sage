@@ -80,7 +80,7 @@
 							</label>
 						</div>
 					</form>
-					<a href="#" class="make-order">Make an order</a>
+					<a href="#" class="make-order-booking">Make an order</a>
 				</div>
 			</div>
 		</div>

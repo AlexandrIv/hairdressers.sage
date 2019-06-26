@@ -2,20 +2,21 @@
 	<div class="info-box">
 		<h3>Détails de l'horaire</h3>
 		<ul>
-			<li>Service: <span>{!! $orderData['service_name'] !!}</span></li>
-			<li>Staff: <span>{!! $orderData['staff_name'] !!}</span></li>
-			<li>Date: <span>{!! $orderData['date'] !!}</span></li>
-			<li>Time: <span>{!! $orderData['time'] !!}</span></li>
-			<li>Duration: <span>{!! $orderData['duration'] !!}</span></li>
+			<li>Salon: <span>{!! $orders['salon_name'] !!}</span></li>
+			<li>Service: <span>{!! $orders['service_name'] !!}</span></li>
+			<li>Staff: <span>{!! $orders['staff_name'] !!}</span></li>
+			<li>Date: <span>{!! $orders['date'] !!}</span></li>
+			<li>Time: <span>{!! $orders['time'] !!}</span></li>
+			<li>Duration: <span>{!! $orders['duration'] !!}m</span></li>
 		</ul>
 	</div>
 	<div class="info-box">
 		<h3>Détails de l'horaire</h3>
 		<ul>
-			<li>Nom: <span>{!! $userData['name'] !!}</span></li>
-			<li>Prénom: <span>{!! $userData['surname'] !!}</span></li>
-			<li>Téléphone: <span>{!! $userData['email'] !!}</span></li>
-			<li>E-mail: <span>{!! $userData['phone'] !!}</span></li>
+			<li>Nom: <span>{!! $orders['name'] !!}</span></li>
+			<li>Prénom: <span>{!! $orders['surname'] !!}</span></li>
+			<li>Téléphone: <span>{!! $orders['email'] !!}</span></li>
+			<li>E-mail: <span>{!! $orders['phone'] !!}</span></li>
 		</ul>
 	</div>
 </div>
