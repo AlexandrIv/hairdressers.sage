@@ -87,7 +87,7 @@
     "jquery": "^3.3.1",
     "jquery-touchswipe": "^1.6.19",
     "moment": "^2.24.0",
-    "npm": "^6.9.0",
+    "npm": "^6.13.4",
     "popper.js": "^1.14.7",
     "selectric": "^1.13.0",
     "slick-carousel": "^1.8.1"
