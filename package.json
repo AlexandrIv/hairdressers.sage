@@ -37,7 +37,7 @@
     "node": ">= 8.0.0"
   },
   "devDependencies": {
-    "ajv": "^6.10.0",
+    "ajv": "^6.12.3",
     "ajv-keywords": "^3.4.0",
     "autoprefixer": "~8.2.0",
     "browser-sync": "~2.24.7",
